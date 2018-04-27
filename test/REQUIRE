@@ -1,0 +1,13 @@
+julia 0.6
+
+PowerModels 0.5
+GasModels 0.2
+
+Logging
+
+Ipopt
+Pajarito
+Cbc
+AmplNLWriter
+CoinOptServices
+GLPKMathProgInterface

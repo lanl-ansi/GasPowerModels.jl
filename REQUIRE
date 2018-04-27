@@ -1,0 +1,11 @@
+julia 0.6
+JSON
+MathProgBase 0.5.4
+JuMP 0.14.0
+Compat
+
+PowerModels 0.5
+GasModels 0.2
+InfrastructureModels
+
+Compat

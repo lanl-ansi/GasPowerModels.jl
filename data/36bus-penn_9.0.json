@@ -1,0 +1,382 @@
+
+
+{
+  "power_ne_weight": 1,
+  "name": "36 Bus New England",
+  "gas_price_weight": 365,
+  "gen": {
+    "24": {
+      "junction": 66,
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
+      "index": 24
+    },
+    "2157": {
+      "junction": 87,
+      "heat_rate": [
+        0,
+        0.192,
+        0
+      ],
+      "index": 2157
+    },
+    "171": {
+      "junction": 100,
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
+      "index": 171
+    },
+    "2010": {
+      "junction": 14,
+      "heat_rate": [
+        0,
+        0.192,
+        0
+      ],
+      "index": 2010
+    },
+    "101": {
+      "junction": 31,
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
+      "index": 101
+    },
+    "2101": {
+      "junction": 31,
+      "heat_rate": [
+        0,
+        0.192,
+        0
+      ],
+      "index": 2101
+    },
+    "2052": {
+      "junction": 64,
+      "heat_rate": [
+        0,
+        0.192,
+        0
+      ],
+      "index": 2052
+    },
+    "136": {
+      "junction": 82,
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
+      "index": 136
+    },
+    "2045": {
+      "junction": 66,
+      "heat_rate": [
+        0,
+        0.192,
+        0
+      ],
+      "index": 2045
+    },
+    "80": {
+      "junction": 19,
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
+      "index": 80
+    },
+    "59": {
+      "junction": 93,
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
+      "index": 59
+    },
+    "31": {
+      "junction": 62,
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
+      "index": 31
+    },
+    "185": {
+      "junction": 48,
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
+      "index": 185
+    },
+    "2164": {
+      "junction": 86,
+      "heat_rate": [
+        0,
+        0.192,
+        0
+      ],
+      "index": 2164
+    },
+    "108": {
+      "junction": 21,
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
+      "index": 108
+    },
+    "122": {
+      "junction": 44,
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
+      "index": 122
+    },
+    "2017": {
+      "junction": 71,
+      "heat_rate": [
+        0,
+        0.192,
+        0
+      ],
+      "index": 2017
+    },
+    "52": {
+      "junction": 64,
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
+      "index": 52
+    },
+    "157": {
+      "junction": 87,
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
+      "index": 157
+    },
+    "2094": {
+      "junction": 91,
+      "heat_rate": [
+        0,
+        0.192,
+        0
+      ],
+      "index": 2094
+    },
+    "143": {
+      "junction": 82,
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
+      "index": 143
+    },
+    "2066": {
+      "junction": 34,
+      "heat_rate": [
+        0,
+        0.192,
+        0
+      ],
+      "index": 2066
+    },
+    "45": {
+      "junction": 66,
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
+      "index": 45
+    },
+    "129": {
+      "junction": 76,
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
+      "index": 129
+    },
+    "164": {
+      "junction": 86,
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
+      "index": 164
+    },
+    "94": {
+      "junction": 91,
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
+      "index": 94
+    },
+    "2059": {
+      "junction": 93,
+      "heat_rate": [
+        0,
+        0.192,
+        0
+      ],
+      "index": 2059
+    },
+    "66": {
+      "junction": 34,
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
+      "index": 66
+    },
+    "17": {
+      "junction": 71,
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
+      "index": 17
+    },
+    "10": {
+      "junction": 14,
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
+      "index": 10
+    },
+    "2024": {
+      "junction": 66,
+      "heat_rate": [
+        0,
+        0.192,
+        0
+      ],
+      "index": 2024
+    },
+    "2031": {
+      "junction": 62,
+      "heat_rate": [
+        0,
+        0.192,
+        0
+      ],
+      "index": 2031
+    },
+    "2003": {
+      "junction": 29,
+      "heat_rate": [
+        0,
+        0.192,
+        0
+      ],
+      "index": 2003
+    },
+    "3": {
+      "junction": 29,
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
+      "index": 3
+    }
+  },
+  "gas_ne_weight": 1,
+  "power_opf_weight": 365,
+  "comment": "Conversion is mmBTU\/h",
+  "price_zone": {
+    "1": {
+      "junctions": [
+        14,
+        19,
+        21,
+        34,
+        62,
+        64,
+        66,
+        71,
+        86,
+        87,
+        91,
+        93
+      ],
+      "cost_q": [
+        92.844,
+        5446.3,
+        0
+      ],
+      "cost_p": [
+        2.0e-8,
+        -0.0064,
+        0
+      ],
+      "fixed_cost_q": 0,
+      "min_cost": 450,
+      "base_q": 124.6053,
+      "base_p": 500,
+      "constant_p": 175,
+      "comment": "Transco Zone 6 Non New York",
+      "index": 1
+    },
+    "2": {
+      "junctions": [
+        29,
+        31,
+        44,
+        48,
+        76,
+        82,
+        100
+      ],
+      "cost_q": [
+        0.004,
+        1001.9,
+        0
+      ],
+      "cost_p": [
+        0,
+        5.0e-5,
+        794.37
+      ],
+      "fixed_cost_q": 0,
+      "min_cost": 530,
+      "base_q": 72.11,
+      "base_p": 500,
+      "constant_p": 600,
+      "comment": "Transco Leidy Zone",
+      "index": 2
+    }
+  }
+}
+
