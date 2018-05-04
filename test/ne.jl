@@ -1,6 +1,6 @@
 function check_voltage_status_ne(sol)
     for (idx,val) in sol["bus"]
-        @test val["vm"] >= 0.8 && val["vm"] <= 1.2 
+        @test val["vm"] >= 0.94 && val["vm"] <= 1.06 
     end
 end
 
@@ -16,7 +16,7 @@ end
 @testset "test qp ne" begin
     @testset "IEEE 14 Belgian NE case" begin
         normalization = .0001
-        result = GasGridModels.run_ne("../test/data/belgian-ieee14-ne.json", "../test/data/case14-ne.json", "../test/data/belgian-ne.json", QPGasGridModel, SOCWRPowerModel, MISOCPGasModel, pajarito_glpk_solver; obj_normalization=normalization)
+        result = GasGridModels.run_ne("../test/data/case14-ne.json", "../test/data/belgian-ne.json", SOCWRPowerModel, MISOCPGasModel, pajarito_glpk_solver; obj_normalization=normalization)
         @test result["status"] == :LocalOptimal || result["status"] == :Optimal
         @test isapprox(result["objective"], 222991605.4 * normalization; atol = 1.0) 
         check_voltage_status_ne(result["solution"])

@@ -3,8 +3,8 @@ export run_ne
 export run_ne_popf
 
 " entry point for running gas and electric power expansion planning only "
-function run_ne(coupling_file, power_file, gas_file, model_constructor, power_model_constructor, gas_model_constructor, solver; solution_builder=get_ne_solution, kwargs...)
-    return run_generic_model(coupling_file, power_file, gas_file, model_constructor, power_model_constructor, gas_model_constructor, solver, post_ne; solution_builder=solution_builder, kwargs...)     
+function run_ne(power_file, gas_file, power_model_constructor, gas_model_constructor, solver; solution_builder=get_ne_solution, kwargs...)
+    return run_generic_model(power_file, gas_file, power_model_constructor, gas_model_constructor, solver, post_ne; solution_builder=solution_builder, kwargs...)     
 end
 
 "Post all the constraints associated with expansion planning in electric power"
@@ -100,7 +100,7 @@ function post_nels{G}(gm::GenericGasModel{G})
 end
 
 # construct the gas flow feasbility problem with demand being the cost model
-function post_ne{T,P,G}(ggm::GenericGasGridModel{T}, pm::GenericPowerModel{P}, gm::GenericGasModel{G}; kwargs...)
+function post_ne{P,G}(pm::GenericPowerModel{P}, gm::GenericGasModel{G}; kwargs...)
     kwargs = Dict(kwargs)
     gas_ne_weight    = haskey(kwargs, :gas_ne_weight)      ? kwargs[:gas_ne_weight] : 1.0 
     power_ne_weight  = haskey(kwargs, :power_ne_weight)    ? kwargs[:power_ne_weight] : 1.0 
@@ -113,15 +113,15 @@ function post_ne{T,P,G}(ggm::GenericGasGridModel{T}, pm::GenericPowerModel{P}, g
     post_nels(gm)
     
     ## Gas-Grid related parts of the problem formulation
-    for i in GasModels.ids(gm, :junction)
-       c = constraint_heat_rate_curve(ggm, pm, gm, i)
+    for i in GasModels.ids(gm, :consumer)
+       c = constraint_heat_rate_curve(pm, gm, i)
     end
         
     ### Object function minimizes demand and pressure cost
-    objective_min_ne_cost(ggm, pm, gm; gas_ne_weight = gas_ne_weight, power_ne_weight = power_ne_weight, normalization =  obj_normalization)     
+    objective_min_ne_cost(pm, gm; gas_ne_weight = gas_ne_weight, power_ne_weight = power_ne_weight, normalization =  obj_normalization)     
 end
 
-function get_ne_solution{T, P, G}(ggm::GenericGasGridModel{T}, pm::GenericPowerModel{P}, gm::GenericGasModel{G})
+function get_ne_solution{P, G}(pm::GenericPowerModel{P}, gm::GenericGasModel{G})
     sol = Dict{AbstractString,Any}()
     PowerModels.add_bus_voltage_setpoint(sol, pm)
     PowerModels.add_generator_power_setpoint(sol, pm)

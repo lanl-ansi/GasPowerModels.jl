@@ -5,24 +5,24 @@
     
   },
   "bus": {
-    "80031": {
+    "80121": {
       "zone": 1,
-      "bus_i": 80031,
-      "name": "Hawthorne",
+      "bus_i": 80121,
+      "name": "Longwood",
       "bus_type": 2,
-      "qd": -6.8122,
+      "qd": -4.40629,
       "gs": 0,
       "bs": 0,
       "vmax": 1.1,
       "area": 1,
       "vmin": 0.95,
-      "index": 80031,
-      "latitude": 44.308936,
-      "va": 0.018776950224656,
-      "longitude": -80.481141,
+      "index": 80121,
+      "latitude": 42.839955,
+      "va": 0.018908722583181,
+      "longitude": -81.584225,
       "vm": 1,
       "base_kv": 500,
-      "pd": 26.80086
+      "pd": 19.42106
     },
     "79584": {
       "zone": 1,
@@ -119,24 +119,24 @@
       "base_kv": 500,
       "pd": 106.6021
     },
-    "74347": {
+    "74341": {
       "zone": 1,
-      "bus_i": 74347,
-      "name": "Ramapo",
+      "bus_i": 74341,
+      "name": "Millwood",
       "bus_type": 2,
-      "qd": -6.69099,
+      "qd": 1.48482,
       "gs": 0,
       "bs": 0,
       "vmax": 1.05,
       "area": 1,
       "vmin": 0.95,
-      "index": 74347,
-      "latitude": 41.131742,
-      "va": 0.017933607130092,
-      "longitude": -74.142467,
+      "index": 74341,
+      "latitude": 41.191325,
+      "va": 0.017584366746768,
+      "longitude": -73.799727,
       "vm": 1,
       "base_kv": 345,
-      "pd": 19.96066
+      "pd": 4.63143
     },
     "71786": {
       "zone": 1,
@@ -157,24 +157,24 @@
       "base_kv": 345,
       "pd": 75.73594
     },
-    "74341": {
+    "74347": {
       "zone": 1,
-      "bus_i": 74341,
-      "name": "Millwood",
+      "bus_i": 74347,
+      "name": "Ramapo",
       "bus_type": 2,
-      "qd": 1.48482,
+      "qd": -6.69099,
       "gs": 0,
       "bs": 0,
       "vmax": 1.05,
       "area": 1,
       "vmin": 0.95,
-      "index": 74341,
-      "latitude": 41.191325,
-      "va": 0.017584366746768,
-      "longitude": -73.799727,
+      "index": 74347,
+      "latitude": 41.131742,
+      "va": 0.017933607130092,
+      "longitude": -74.142467,
       "vm": 1,
       "base_kv": 345,
-      "pd": 4.63143
+      "pd": 19.96066
     },
     "79578": {
       "zone": 1,
@@ -670,24 +670,24 @@
       "base_kv": 138,
       "pd": 48.55083
     },
-    "80121": {
+    "80031": {
       "zone": 1,
-      "bus_i": 80121,
-      "name": "Longwood",
+      "bus_i": 80031,
+      "name": "Hawthorne",
       "bus_type": 2,
-      "qd": -4.40629,
+      "qd": -6.8122,
       "gs": 0,
       "bs": 0,
       "vmax": 1.1,
       "area": 1,
       "vmin": 0.95,
-      "index": 80121,
-      "latitude": 42.839955,
-      "va": 0.018908722583181,
-      "longitude": -81.584225,
+      "index": 80031,
+      "latitude": 44.308936,
+      "va": 0.018776950224656,
+      "longitude": -80.481141,
       "vm": 1,
       "base_kv": 500,
-      "pd": 19.42106
+      "pd": 26.80086
     }
   },
   "name": "Ilic 36 Bus",
@@ -815,29 +815,28 @@
       "apf": 0,
       "pmin": 0
     },
-    "3": {
+    "30": {
       "qc1max": 0,
       "pg": 0,
       "qc2max": 0,
       "ramp_agc": 0,
       "qg": 0,
-      "gen_bus": 1,
-      "pmax": 394.01,
+      "gen_bus": 71797,
+      "pmax": 18.3906,
       "ramp_10": 0,
-      "comment": "single_cycle",
       "mbase": 100,
       "vg": 0,
-      "fuel_type": "Gas",
+      "fuel_type": "Nuclear",
       "pc2": 0,
-      "index": 3,
+      "index": 30,
       "cost": [
         0,
-        0,
+        36000,
         0
       ],
-      "qmax": 10.536,
+      "qmax": 2.3832,
       "gen_status": 1,
-      "qmin": -373.749,
+      "qmin": -13.2231,
       "qc1min": 0,
       "qc2min": 0,
       "pc1": 0,
@@ -859,6 +858,11 @@
       "mbase": 100,
       "vg": 0,
       "fuel_type": "Gas",
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
       "pc2": 0,
       "index": 101,
       "cost": [
@@ -873,6 +877,7 @@
       "qc2min": 0,
       "pc1": 0,
       "ramp_q": 0,
+      "consumer": 31,
       "ramp_30": 0,
       "apf": 0,
       "pmin": 0
@@ -920,6 +925,11 @@
       "mbase": 100,
       "vg": 0,
       "fuel_type": "Gas",
+      "heat_rate": [
+        0,
+        0.192,
+        0
+      ],
       "pc2": 0,
       "index": 2052,
       "cost": [
@@ -934,6 +944,7 @@
       "qc2min": 0,
       "pc1": 0,
       "ramp_q": 0,
+      "consumer": 64,
       "ramp_30": 0,
       "apf": 0,
       "pmin": 0
@@ -981,6 +992,11 @@
       "mbase": 100,
       "vg": 0,
       "fuel_type": "Gas",
+      "heat_rate": [
+        0,
+        0.192,
+        0
+      ],
       "pc2": 0,
       "index": 2045,
       "cost": [
@@ -995,6 +1011,7 @@
       "qc2min": 0,
       "pc1": 0,
       "ramp_q": 0,
+      "consumer": 66,
       "ramp_30": 0,
       "apf": 0,
       "pmin": 0
@@ -1042,6 +1059,11 @@
       "mbase": 100,
       "vg": 0,
       "fuel_type": "Gas",
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
       "pc2": 0,
       "index": 52,
       "cost": [
@@ -1056,6 +1078,7 @@
       "qc2min": 0,
       "pc1": 0,
       "ramp_q": 0,
+      "consumer": 64,
       "ramp_30": 0,
       "apf": 0,
       "pmin": 0
@@ -1103,6 +1126,11 @@
       "mbase": 100,
       "vg": 0,
       "fuel_type": "Gas",
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
       "pc2": 0,
       "index": 10,
       "cost": [
@@ -1117,6 +1145,7 @@
       "qc2min": 0,
       "pc1": 0,
       "ramp_q": 0,
+      "consumer": 14,
       "ramp_30": 0,
       "apf": 0,
       "pmin": 0
@@ -1164,6 +1193,11 @@
       "mbase": 100,
       "vg": 0,
       "fuel_type": "Gas",
+      "heat_rate": [
+        0,
+        0.192,
+        0
+      ],
       "pc2": 0,
       "index": 2003,
       "cost": [
@@ -1178,6 +1212,7 @@
       "qc2min": 0,
       "pc1": 0,
       "ramp_q": 0,
+      "consumer": 29,
       "ramp_30": 0,
       "apf": 0,
       "pmin": 0
@@ -1195,6 +1230,11 @@
       "mbase": 100,
       "vg": 0,
       "fuel_type": "Gas",
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
       "pc2": 0,
       "index": 24,
       "cost": [
@@ -1209,6 +1249,7 @@
       "qc2min": 0,
       "pc1": 0,
       "ramp_q": 0,
+      "consumer": 66,
       "ramp_30": 0,
       "apf": 0,
       "pmin": 0
@@ -1406,6 +1447,11 @@
       "mbase": 100,
       "vg": 0,
       "fuel_type": "Gas",
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
       "pc2": 0,
       "index": 59,
       "cost": [
@@ -1420,6 +1466,7 @@
       "qc2min": 0,
       "pc1": 0,
       "ramp_q": 0,
+      "consumer": 93,
       "ramp_30": 0,
       "apf": 0,
       "pmin": 0
@@ -1467,6 +1514,11 @@
       "mbase": 100,
       "vg": 0,
       "fuel_type": "Gas",
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
       "pc2": 0,
       "index": 31,
       "cost": [
@@ -1481,6 +1533,7 @@
       "qc2min": 0,
       "pc1": 0,
       "ramp_q": 0,
+      "consumer": 62,
       "ramp_30": 0,
       "apf": 0,
       "pmin": 0
@@ -1528,6 +1581,11 @@
       "mbase": 100,
       "vg": 0,
       "fuel_type": "Gas",
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
       "pc2": 0,
       "index": 122,
       "cost": [
@@ -1542,6 +1600,7 @@
       "qc2min": 0,
       "pc1": 0,
       "ramp_q": 0,
+      "consumer": 44,
       "ramp_30": 0,
       "apf": 0,
       "pmin": 0
@@ -1680,6 +1739,11 @@
       "mbase": 100,
       "vg": 0,
       "fuel_type": "Gas",
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
       "pc2": 0,
       "index": 143,
       "cost": [
@@ -1694,6 +1758,7 @@
       "qc2min": 0,
       "pc1": 0,
       "ramp_q": 0,
+      "consumer": 82,
       "ramp_30": 0,
       "apf": 0,
       "pmin": 0
@@ -1741,6 +1806,11 @@
       "mbase": 100,
       "vg": 0,
       "fuel_type": "Gas",
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
       "pc2": 0,
       "index": 129,
       "cost": [
@@ -1755,6 +1825,7 @@
       "qc2min": 0,
       "pc1": 0,
       "ramp_q": 0,
+      "consumer": 76,
       "ramp_30": 0,
       "apf": 0,
       "pmin": 0
@@ -1802,6 +1873,11 @@
       "mbase": 100,
       "vg": 0,
       "fuel_type": "Gas",
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
       "pc2": 0,
       "index": 164,
       "cost": [
@@ -1816,6 +1892,7 @@
       "qc2min": 0,
       "pc1": 0,
       "ramp_q": 0,
+      "consumer": 86,
       "ramp_30": 0,
       "apf": 0,
       "pmin": 0
@@ -1833,6 +1910,11 @@
       "mbase": 100,
       "vg": 0,
       "fuel_type": "Gas",
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
       "pc2": 0,
       "index": 94,
       "cost": [
@@ -1847,6 +1929,7 @@
       "qc2min": 0,
       "pc1": 0,
       "ramp_q": 0,
+      "consumer": 91,
       "ramp_30": 0,
       "apf": 0,
       "pmin": 0
@@ -1864,6 +1947,11 @@
       "mbase": 100,
       "vg": 0,
       "fuel_type": "Gas",
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
       "pc2": 0,
       "index": 17,
       "cost": [
@@ -1878,6 +1966,7 @@
       "qc2min": 0,
       "pc1": 0,
       "ramp_q": 0,
+      "consumer": 71,
       "ramp_30": 0,
       "apf": 0,
       "pmin": 0
@@ -1985,6 +2074,11 @@
       "mbase": 100,
       "vg": 0,
       "fuel_type": "Gas",
+      "heat_rate": [
+        0,
+        0.192,
+        0
+      ],
       "pc2": 0,
       "index": 2031,
       "cost": [
@@ -1999,6 +2093,7 @@
       "qc2min": 0,
       "pc1": 0,
       "ramp_q": 0,
+      "consumer": 62,
       "ramp_30": 0,
       "apf": 0,
       "pmin": 0
@@ -2076,6 +2171,11 @@
       "mbase": 100,
       "vg": 0,
       "fuel_type": "Gas",
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
       "pc2": 0,
       "index": 80,
       "cost": [
@@ -2090,6 +2190,7 @@
       "qc2min": 0,
       "pc1": 0,
       "ramp_q": 0,
+      "consumer": 19,
       "ramp_30": 0,
       "apf": 0,
       "pmin": 0
@@ -2107,6 +2208,11 @@
       "mbase": 100,
       "vg": 0,
       "fuel_type": "Gas",
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
       "pc2": 0,
       "index": 185,
       "cost": [
@@ -2121,6 +2227,7 @@
       "qc2min": 0,
       "pc1": 0,
       "ramp_q": 0,
+      "consumer": 48,
       "ramp_30": 0,
       "apf": 0,
       "pmin": 0
@@ -2138,6 +2245,11 @@
       "mbase": 100,
       "vg": 0,
       "fuel_type": "Gas",
+      "heat_rate": [
+        0,
+        0.192,
+        0
+      ],
       "pc2": 0,
       "index": 2017,
       "cost": [
@@ -2152,6 +2264,7 @@
       "qc2min": 0,
       "pc1": 0,
       "ramp_q": 0,
+      "consumer": 71,
       "ramp_30": 0,
       "apf": 0,
       "pmin": 0
@@ -2169,6 +2282,11 @@
       "mbase": 100,
       "vg": 0,
       "fuel_type": "Gas",
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
       "pc2": 0,
       "index": 157,
       "cost": [
@@ -2183,6 +2301,7 @@
       "qc2min": 0,
       "pc1": 0,
       "ramp_q": 0,
+      "consumer": 87,
       "ramp_30": 0,
       "apf": 0,
       "pmin": 0
@@ -2320,6 +2439,11 @@
       "mbase": 100,
       "vg": 0,
       "fuel_type": "Gas",
+      "heat_rate": [
+        0,
+        0.192,
+        0
+      ],
       "pc2": 0,
       "index": 2059,
       "cost": [
@@ -2334,6 +2458,7 @@
       "qc2min": 0,
       "pc1": 0,
       "ramp_q": 0,
+      "consumer": 93,
       "ramp_30": 0,
       "apf": 0,
       "pmin": 0
@@ -2472,6 +2597,11 @@
       "mbase": 100,
       "vg": 0,
       "fuel_type": "Gas",
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
       "pc2": 0,
       "index": 171,
       "cost": [
@@ -2486,6 +2616,7 @@
       "qc2min": 0,
       "pc1": 0,
       "ramp_q": 0,
+      "consumer": 100,
       "ramp_30": 0,
       "apf": 0,
       "pmin": 0
@@ -2564,6 +2695,11 @@
       "mbase": 100,
       "vg": 0,
       "fuel_type": "Gas",
+      "heat_rate": [
+        0,
+        0.192,
+        0
+      ],
       "pc2": 0,
       "index": 2157,
       "cost": [
@@ -2578,6 +2714,7 @@
       "qc2min": 0,
       "pc1": 0,
       "ramp_q": 0,
+      "consumer": 87,
       "ramp_30": 0,
       "apf": 0,
       "pmin": 0
@@ -2595,6 +2732,11 @@
       "mbase": 100,
       "vg": 0,
       "fuel_type": "Gas",
+      "heat_rate": [
+        0,
+        0.192,
+        0
+      ],
       "pc2": 0,
       "index": 2010,
       "cost": [
@@ -2609,6 +2751,7 @@
       "qc2min": 0,
       "pc1": 0,
       "ramp_q": 0,
+      "consumer": 14,
       "ramp_30": 0,
       "apf": 0,
       "pmin": 0
@@ -2716,6 +2859,11 @@
       "mbase": 100,
       "vg": 0,
       "fuel_type": "Gas",
+      "heat_rate": [
+        0,
+        0.192,
+        0
+      ],
       "pc2": 0,
       "index": 2101,
       "cost": [
@@ -2730,6 +2878,7 @@
       "qc2min": 0,
       "pc1": 0,
       "ramp_q": 0,
+      "consumer": 31,
       "ramp_30": 0,
       "apf": 0,
       "pmin": 0
@@ -2777,6 +2926,11 @@
       "mbase": 100,
       "vg": 0,
       "fuel_type": "Gas",
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
       "pc2": 0,
       "index": 136,
       "cost": [
@@ -2791,6 +2945,7 @@
       "qc2min": 0,
       "pc1": 0,
       "ramp_q": 0,
+      "consumer": 82,
       "ramp_30": 0,
       "apf": 0,
       "pmin": 0
@@ -2929,6 +3084,11 @@
       "mbase": 100,
       "vg": 0,
       "fuel_type": "Gas",
+      "heat_rate": [
+        0,
+        0.192,
+        0
+      ],
       "pc2": 0,
       "index": 2164,
       "cost": [
@@ -2943,6 +3103,7 @@
       "qc2min": 0,
       "pc1": 0,
       "ramp_q": 0,
+      "consumer": 86,
       "ramp_30": 0,
       "apf": 0,
       "pmin": 0
@@ -2960,6 +3121,11 @@
       "mbase": 100,
       "vg": 0,
       "fuel_type": "Gas",
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
       "pc2": 0,
       "index": 108,
       "cost": [
@@ -2974,6 +3140,7 @@
       "qc2min": 0,
       "pc1": 0,
       "ramp_q": 0,
+      "consumer": 21,
       "ramp_30": 0,
       "apf": 0,
       "pmin": 0
@@ -3111,6 +3278,11 @@
       "mbase": 100,
       "vg": 0,
       "fuel_type": "Gas",
+      "heat_rate": [
+        0,
+        0.192,
+        0
+      ],
       "pc2": 0,
       "index": 2094,
       "cost": [
@@ -3125,6 +3297,7 @@
       "qc2min": 0,
       "pc1": 0,
       "ramp_q": 0,
+      "consumer": 91,
       "ramp_30": 0,
       "apf": 0,
       "pmin": 0
@@ -3173,6 +3346,11 @@
       "mbase": 100,
       "vg": 0,
       "fuel_type": "Gas",
+      "heat_rate": [
+        0,
+        0.192,
+        0
+      ],
       "pc2": 0,
       "index": 2066,
       "cost": [
@@ -3187,6 +3365,7 @@
       "qc2min": 0,
       "pc1": 0,
       "ramp_q": 0,
+      "consumer": 34,
       "ramp_30": 0,
       "apf": 0,
       "pmin": 0
@@ -3204,6 +3383,11 @@
       "mbase": 100,
       "vg": 0,
       "fuel_type": "Gas",
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
       "pc2": 0,
       "index": 45,
       "cost": [
@@ -3218,6 +3402,7 @@
       "qc2min": 0,
       "pc1": 0,
       "ramp_q": 0,
+      "consumer": 66,
       "ramp_30": 0,
       "apf": 0,
       "pmin": 0
@@ -3266,6 +3451,11 @@
       "mbase": 100,
       "vg": 0,
       "fuel_type": "Gas",
+      "heat_rate": [
+        0,
+        0.48,
+        0
+      ],
       "pc2": 0,
       "index": 66,
       "cost": [
@@ -3280,6 +3470,7 @@
       "qc2min": 0,
       "pc1": 0,
       "ramp_q": 0,
+      "consumer": 34,
       "ramp_30": 0,
       "apf": 0,
       "pmin": 0
@@ -3327,6 +3518,11 @@
       "mbase": 100,
       "vg": 0,
       "fuel_type": "Gas",
+      "heat_rate": [
+        0,
+        0.192,
+        0
+      ],
       "pc2": 0,
       "index": 2024,
       "cost": [
@@ -3341,6 +3537,7 @@
       "qc2min": 0,
       "pc1": 0,
       "ramp_q": 0,
+      "consumer": 66,
       "ramp_30": 0,
       "apf": 0,
       "pmin": 0
@@ -3436,32 +3633,39 @@
       "apf": 0,
       "pmin": 0
     },
-    "30": {
+    "3": {
       "qc1max": 0,
       "pg": 0,
       "qc2max": 0,
       "ramp_agc": 0,
       "qg": 0,
-      "gen_bus": 71797,
-      "pmax": 18.3906,
+      "gen_bus": 1,
+      "pmax": 394.01,
       "ramp_10": 0,
+      "comment": "single_cycle",
       "mbase": 100,
       "vg": 0,
-      "fuel_type": "Nuclear",
-      "pc2": 0,
-      "index": 30,
-      "cost": [
+      "fuel_type": "Gas",
+      "heat_rate": [
         0,
-        36000,
+        0.48,
         0
       ],
-      "qmax": 2.3832,
+      "pc2": 0,
+      "index": 3,
+      "cost": [
+        0,
+        0,
+        0
+      ],
+      "qmax": 10.536,
       "gen_status": 1,
-      "qmin": -13.2231,
+      "qmin": -373.749,
       "qc1min": 0,
       "qc2min": 0,
       "pc1": 0,
       "ramp_q": 0,
+      "consumer": 29,
       "ramp_30": 0,
       "apf": 0,
       "pmin": 0
@@ -3621,19 +3825,19 @@
       "angmax": 0.482347907,
       "tap": 1
     },
-    "3": {
-      "br_r": 0.0055,
+    "30": {
+      "br_r": 0.18515,
       "rate_a": 9999999.99,
       "shift": 0,
       "br_b": 0,
       "rate_b": 9999999.99,
-      "length": 136.55224617686,
-      "br_x": 0.05877,
+      "length": 154.10456060913,
+      "br_x": 1.671,
       "rate_c": 9999999.99,
-      "f_bus": 5028,
+      "f_bus": 74344,
       "br_status": 1,
-      "t_bus": 1,
-      "index": 3,
+      "t_bus": 72926,
+      "index": 30,
       "angmin": -0.482347907,
       "angmax": 0.482347907,
       "tap": 1
@@ -5508,19 +5712,19 @@
       "angmax": 0.482347907,
       "tap": 1
     },
-    "30": {
-      "br_r": 0.18515,
+    "3": {
+      "br_r": 0.0055,
       "rate_a": 9999999.99,
       "shift": 0,
       "br_b": 0,
       "rate_b": 9999999.99,
-      "length": 154.10456060913,
-      "br_x": 1.671,
+      "length": 136.55224617686,
+      "br_x": 0.05877,
       "rate_c": 9999999.99,
-      "f_bus": 74344,
+      "f_bus": 5028,
       "br_status": 1,
-      "t_bus": 72926,
-      "index": 30,
+      "t_bus": 1,
+      "index": 3,
       "angmin": -0.482347907,
       "angmax": 0.482347907,
       "tap": 1

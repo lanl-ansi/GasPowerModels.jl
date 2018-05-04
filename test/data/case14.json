@@ -30,12 +30,7 @@
       "ramp_q": 0,
       "ramp_30": 0,
       "apf": 0,
-      "pmin": 0,
-      "cost": [
-        100,
-        4000,
-        0
-      ]      
+      "pmin": 0
     },
     "1": {
       "qc1max": 0,
@@ -44,7 +39,7 @@
       "ramp_agc": 0,
       "qg": -0.169,
       "gen_bus": 1,
-      "pmax": 0,
+      "pmax": 3.324,
       "ramp_10": 0,
       "mbase": 100,
       "vg": 1.06,
@@ -59,12 +54,7 @@
       "ramp_q": 0,
       "ramp_30": 0,
       "apf": 0,
-      "pmin": 0,
-      "cost": [
-        430.292599,
-        2000,
-        0
-      ]
+      "pmin": 0
     },
     "5": {
       "qc1max": 0,
@@ -73,7 +63,7 @@
       "ramp_agc": 0,
       "qg": 0.174,
       "gen_bus": 8,
-      "pmax": 0,
+      "pmax": 1,
       "ramp_10": 0,
       "mbase": 100,
       "vg": 1.09,
@@ -88,19 +78,14 @@
       "ramp_q": 0,
       "ramp_30": 0,
       "apf": 0,
-      "pmin": 0,
-      "cost": [
-        100,
-        4000,
-        0
-      ]      
+      "pmin": 0
     },
     "2": {
       "qc1max": 0,
-      "consumer": 4,
+        "consumer": 4,
       "heat_rate": [
         0,
-        4.75,
+        0.48,
         0
       ],
       "pg": 0.4,
@@ -108,13 +93,13 @@
       "ramp_agc": 0,
       "qg": 0.424,
       "gen_bus": 2,
-      "pmax": 2.8,
+      "pmax": 1.4,
       "ramp_10": 0,
       "mbase": 100,
       "vg": 1.045,
       "pc2": 0,
       "index": 2,
-      "qmax": 1,
+      "qmax": 0.5,
       "gen_status": 1,
       "qmin": -0.4,
       "qc1min": 0,
@@ -123,33 +108,28 @@
       "ramp_q": 0,
       "ramp_30": 0,
       "apf": 0,
-      "pmin": 0,
-      "cost": [
-        2500,
-        2000,
-        0
-      ]      
+      "pmin": 0
     },
     "3": {
-      "qc1max": 0,
-      "consumer": 12,
+     "consumer": 12,
       "heat_rate": [
         0,
-        0.2052,
+        0.48,
         0
       ],
+      "qc1max": 0,
       "pg": 0,
       "qc2max": 0,
       "ramp_agc": 0,
       "qg": 0.234,
       "gen_bus": 3,
-      "pmax": 2,
+      "pmax": 1,
       "ramp_10": 0,
       "mbase": 100,
       "vg": 1.01,
       "pc2": 0,
       "index": 3,
-      "qmax": 0.8,
+      "qmax": 0.4,
       "gen_status": 1,
       "qmin": 0,
       "qc1min": 0,
@@ -158,12 +138,7 @@
       "ramp_q": 0,
       "ramp_30": 0,
       "apf": 0,
-      "pmin": 0,
-      "cost": [
-        100,
-        4000,
-        0
-      ]      
+      "pmin": 0
     }
   },
   "branch": {
@@ -185,7 +160,7 @@
     },
     "1": {
       "br_r": 0.01938,
-      "rate_a": 0.01,
+      "rate_a": 18.046048863044,
       "shift": 0,
       "br_b": 0.0528,
       "rate_b": 0,
@@ -488,355 +463,75 @@
       "tap": 1
     }
   },
-  "ne_branch": {
-    "24": {
-      "br_r": 0.05811,
-      "rate_a": 6.0522846782856,
-      "shift": 0,
-      "br_b": 0.034,
-      "rate_b": 0,
-      "br_x": 0.17632,
-      "rate_c": 0,
-      "f_bus": 2,
-      "br_status": 1,
-      "t_bus": 4,
-      "index": 24,
-      "angmin": -1.0471975511966,
-      "angmax": 1.0471975511966,
-      "tap": 1,
-      "construction_cost": 7226588.437
+  "gencost": [
+    {
+      "cost": [
+        430.292599,
+        2000,
+        0
+      ],
+      "model": 2,
+      "shutdown": 0,
+      "startup": 0,
+      "index": 1,
+      "ncost": 3
     },
-    "29": {
-      "br_r": 0,
-      "rate_a": 2.0202092847639,
-      "shift": 0,
-      "br_b": 0,
-      "rate_b": 0,
-      "br_x": 0.55618,
-      "rate_c": 0,
-      "f_bus": 4,
-      "br_status": 1,
-      "t_bus": 9,
-      "index": 29,
-      "angmin": -1.0471975511966,
-      "angmax": 1.0471975511966,
-      "tap": 0.969,
-      "construction_cost": 7226588.437
+    {
+      "cost": [
+        2500,
+        2000,
+        0
+      ],
+      "model": 2,
+      "shutdown": 0,
+      "startup": 0,
+      "index": 2,
+      "ncost": 3
     },
-    "32": {
-      "br_r": 0.12291,
-      "rate_a": 3.959047886582,
-      "shift": 0,
-      "br_b": 0,
-      "rate_b": 0,
-      "br_x": 0.25581,
-      "rate_c": 0,
-      "f_bus": 6,
-      "br_status": 1,
-      "t_bus": 12,
-      "index": 32,
-      "angmin": -1.0471975511966,
-      "angmax": 1.0471975511966,
-      "tap": 1,
-      "construction_cost": 7226588.437
+    {
+      "cost": [
+        100,
+        4000,
+        0
+      ],
+      "model": 2,
+      "shutdown": 0,
+      "startup": 0,
+      "index": 3,
+      "ncost": 3
     },
-    "25": {
-      "br_r": 0.05695,
-      "rate_a": 6.1409399712457,
-      "shift": 0,
-      "br_b": 0.0346,
-      "rate_b": 0,
-      "br_x": 0.17388,
-      "rate_c": 0,
-      "f_bus": 2,
-      "br_status": 1,
-      "t_bus": 5,
-      "index": 25,
-      "angmin": -1.0471975511966,
-      "angmax": 1.0471975511966,
-      "tap": 1,
-      "construction_cost": 7226588.437
+    {
+      "cost": [
+        100,
+        4000,
+        0
+      ],
+      "model": 2,
+      "shutdown": 0,
+      "startup": 0,
+      "index": 4,
+      "ncost": 3
     },
-    "23": {
-      "br_r": 0.04699,
-      "rate_a": 5.5221806597677,
-      "shift": 0,
-      "br_b": 0.0438,
-      "rate_b": 0,
-      "br_x": 0.19797,
-      "rate_c": 0,
-      "f_bus": 2,
-      "br_status": 1,
-      "t_bus": 3,
-      "index": 23,
-      "angmin": -1.0471975511966,
-      "angmax": 1.0471975511966,
-      "tap": 1,
-      "construction_cost": 7226588.437
-    },
-    "22": {
-      "br_r": 0.05403,
-      "rate_a": 4.8960542688691,
-      "shift": 0,
-      "br_b": 0.0492,
-      "rate_b": 0,
-      "br_x": 0.22304,
-      "rate_c": 0,
-      "f_bus": 1,
-      "br_status": 1,
-      "t_bus": 5,
-      "index": 22,
-      "angmin": -1.0471975511966,
-      "angmax": 1.0471975511966,
-      "tap": 1,
-      "construction_cost": 7226588.437
-    },
-    "35": {
-      "br_r": 0,
-      "rate_a": 10.213616943914,
-      "shift": 0,
-      "br_b": 0,
-      "rate_b": 0,
-      "br_x": 0.11001,
-      "rate_c": 0,
-      "f_bus": 7,
-      "br_status": 1,
-      "t_bus": 9,
-      "index": 35,
-      "angmin": -1.0471975511966,
-      "angmax": 1.0471975511966,
-      "tap": 1,
-      "construction_cost": 7226588.437
-    },
-    "27": {
-      "br_r": 0.01335,
-      "rate_a": 25.434914322395,
-      "shift": 0,
-      "br_b": 0,
-      "rate_b": 0,
-      "br_x": 0.04211,
-      "rate_c": 0,
-      "f_bus": 4,
-      "br_status": 1,
-      "t_bus": 5,
-      "index": 27,
-      "angmin": -1.0471975511966,
-      "angmax": 1.0471975511966,
-      "tap": 1,
-      "construction_cost": 7226588.437
-    },
-    "31": {
-      "br_r": 0.09498,
-      "rate_a": 5.0976756758135,
-      "shift": 0,
-      "br_b": 0,
-      "rate_b": 0,
-      "br_x": 0.1989,
-      "rate_c": 0,
-      "f_bus": 6,
-      "br_status": 1,
-      "t_bus": 11,
-      "index": 31,
-      "angmin": -1.0471975511966,
-      "angmax": 1.0471975511966,
-      "tap": 1,
-      "construction_cost": 7226588.437
-    },
-    "33": {
-      "br_r": 0.06615,
-      "rate_a": 7.6904633623738,
-      "shift": 0,
-      "br_b": 0,
-      "rate_b": 0,
-      "br_x": 0.13027,
-      "rate_c": 0,
-      "f_bus": 6,
-      "br_status": 1,
-      "t_bus": 13,
-      "index": 33,
-      "angmin": -1.0471975511966,
-      "angmax": 1.0471975511966,
-      "tap": 1,
-      "construction_cost": 7226588.437
-    },
-    "28": {
-      "br_r": 0,
-      "rate_a": 5.3729915837796,
-      "shift": 0,
-      "br_b": 0,
-      "rate_b": 0,
-      "br_x": 0.20912,
-      "rate_c": 0,
-      "f_bus": 4,
-      "br_status": 1,
-      "t_bus": 7,
-      "index": 28,
-      "angmin": -1.0471975511966,
-      "angmax": 1.0471975511966,
-      "tap": 0.978,
-      "construction_cost": 7226588.437
-    },
-    "39": {
-      "br_r": 0.22092,
-      "rate_a": 3.7714539264144,
-      "shift": 0,
-      "br_b": 0,
-      "rate_b": 0,
-      "br_x": 0.19988,
-      "rate_c": 0,
-      "f_bus": 12,
-      "br_status": 1,
-      "t_bus": 13,
-      "index": 39,
-      "angmin": -1.0471975511966,
-      "angmax": 1.0471975511966,
-      "tap": 1,
-      "construction_cost": 7226588.437
-    },
-    "40": {
-      "br_r": 0.17093,
-      "rate_a": 2.8978886960651,
-      "shift": 0,
-      "br_b": 0,
-      "rate_b": 0,
-      "br_x": 0.34802,
-      "rate_c": 0,
-      "f_bus": 13,
-      "br_status": 1,
-      "t_bus": 14,
-      "index": 40,
-      "angmin": -1.0471975511966,
-      "angmax": 1.0471975511966,
-      "tap": 1,
-      "construction_cost": 7226588.437
-    },
-    "21": {
-      "br_r": 0.01938,
-      "rate_a": 18.046048863044,
-      "shift": 0,
-      "br_b": 0.0528,
-      "rate_b": 0,
-      "br_x": 0.05917,
-      "rate_c": 0,
-      "f_bus": 1,
-      "br_status": 1,
-      "t_bus": 2,
-      "index": 21,
-      "angmin": -1.0471975511966,
-      "angmax": 1.0471975511966,
-      "tap": 1,
-      "construction_cost": 7226588.437
-    },
-    "38": {
-      "br_r": 0.08205,
-      "rate_a": 5.3796439241179,
-      "shift": 0,
-      "br_b": 0,
-      "rate_b": 0,
-      "br_x": 0.19207,
-      "rate_c": 0,
-      "f_bus": 10,
-      "br_status": 1,
-      "t_bus": 11,
-      "index": 38,
-      "angmin": -1.0471975511966,
-      "angmax": 1.0471975511966,
-      "tap": 1,
-      "construction_cost": 7226588.437
-    },
-    "34": {
-      "br_r": 0,
-      "rate_a": 6.3786545557763,
-      "shift": 0,
-      "br_b": 0,
-      "rate_b": 0,
-      "br_x": 0.17615,
-      "rate_c": 0,
-      "f_bus": 7,
-      "br_status": 1,
-      "t_bus": 8,
-      "index": 34,
-      "angmin": -1.0471975511966,
-      "angmax": 1.0471975511966,
-      "tap": 1,
-      "construction_cost": 7226588.437
-    },
-    "36": {
-      "br_r": 0.03181,
-      "rate_a": 12.444466590366,
-      "shift": 0,
-      "br_b": 0,
-      "rate_b": 0,
-      "br_x": 0.0845,
-      "rate_c": 0,
-      "f_bus": 9,
-      "br_status": 1,
-      "t_bus": 10,
-      "index": 36,
-      "angmin": -1.0471975511966,
-      "angmax": 1.0471975511966,
-      "tap": 1,
-      "construction_cost": 7226588.437
-    },
-    "26": {
-      "br_r": 0.06701,
-      "rate_a": 6.116864888794,
-      "shift": 0,
-      "br_b": 0.0128,
-      "rate_b": 0,
-      "br_x": 0.17103,
-      "rate_c": 0,
-      "f_bus": 3,
-      "br_status": 1,
-      "t_bus": 4,
-      "index": 26,
-      "angmin": -1.0471975511966,
-      "angmax": 1.0471975511966,
-      "tap": 1,
-      "construction_cost": 7226588.437
-    },
-    "37": {
-      "br_r": 0.12711,
-      "rate_a": 3.7607780425253,
-      "shift": 0,
-      "br_b": 0,
-      "rate_b": 0,
-      "br_x": 0.27038,
-      "rate_c": 0,
-      "f_bus": 9,
-      "br_status": 1,
-      "t_bus": 14,
-      "index": 37,
-      "angmin": -1.0471975511966,
-      "angmax": 1.0471975511966,
-      "tap": 1,
-      "construction_cost": 7226588.437
-    },
-    "30": {
-      "br_r": 0,
-      "rate_a": 4.4583763193397,
-      "shift": 0,
-      "br_b": 0,
-      "rate_b": 0,
-      "br_x": 0.25202,
-      "rate_c": 0,
-      "f_bus": 5,
-      "br_status": 1,
-      "t_bus": 6,
-      "index": 30,
-      "angmin": -1.0471975511966,
-      "angmax": 1.0471975511966,
-      "tap": 0.932,
-      "construction_cost": 7226588.437
+    {
+      "cost": [
+        100,
+        4000,
+        0
+      ],
+      "model": 2,
+      "shutdown": 0,
+      "startup": 0,
+      "index": 5,
+      "ncost": 3
     }
-  },
+  ],
   "version": "'2'",
   "bus": {
     "4": {
       "zone": 1,
       "bus_i": 4,
       "bus_type": 1,
-      "qd": -0.078,
+      "qd": -0.039,
       "gs": 0,
       "bs": 0,
       "vmax": 1.06,
@@ -846,7 +541,7 @@
       "va": -0.18029251173101,
       "vm": 1.019,
       "base_kv": 0,
-      "pd": 0.956
+      "pd": 0.478
     },
     "1": {
       "zone": 1,
@@ -868,7 +563,7 @@
       "zone": 1,
       "bus_i": 12,
       "bus_type": 1,
-      "qd": 0.032,
+      "qd": 0.016,
       "gs": 0,
       "bs": 0,
       "vmax": 1.06,
@@ -878,13 +573,13 @@
       "va": -0.26302111827555,
       "vm": 1.055,
       "base_kv": 0,
-      "pd": 0.122
+      "pd": 0.061
     },
     "2": {
       "zone": 1,
       "bus_i": 2,
       "bus_type": 2,
-      "qd": 0.254,
+      "qd": 0.127,
       "gs": 0,
       "bs": 0,
       "vmax": 1.06,
@@ -894,13 +589,13 @@
       "va": -0.086917396749318,
       "vm": 1.045,
       "base_kv": 0,
-      "pd": 0.434
+      "pd": 0.217
     },
     "6": {
       "zone": 1,
       "bus_i": 6,
       "bus_type": 2,
-      "qd": 0.15,
+      "qd": 0.075,
       "gs": 0,
       "bs": 0,
       "vmax": 1.06,
@@ -910,13 +605,13 @@
       "va": -0.24818581963359,
       "vm": 1.07,
       "base_kv": 0,
-      "pd": 0.224
+      "pd": 0.112
     },
     "11": {
       "zone": 1,
       "bus_i": 11,
       "bus_type": 1,
-      "qd": 0.036,
+      "qd": 0.018,
       "gs": 0,
       "bs": 0,
       "vmax": 1.06,
@@ -926,13 +621,13 @@
       "va": -0.25813419636996,
       "vm": 1.057,
       "base_kv": 0,
-      "pd": 0.07
+      "pd": 0.035
     },
     "13": {
       "zone": 1,
       "bus_i": 13,
       "bus_type": 1,
-      "qd": 0.116,
+      "qd": 0.058,
       "gs": 0,
       "bs": 0,
       "vmax": 1.06,
@@ -942,13 +637,13 @@
       "va": -0.26459191460234,
       "vm": 1.05,
       "base_kv": 0,
-      "pd": 0.27
+      "pd": 0.135
     },
     "5": {
       "zone": 1,
       "bus_i": 5,
       "bus_type": 1,
-      "qd": 0.032,
+      "qd": 0.016,
       "gs": 0,
       "bs": 0,
       "vmax": 1.06,
@@ -958,13 +653,13 @@
       "va": -0.1532399083251,
       "vm": 1.02,
       "base_kv": 0,
-      "pd": 0.152
+      "pd": 0.076
     },
     "14": {
       "zone": 1,
       "bus_i": 14,
       "bus_type": 1,
-      "qd": 0.1,
+      "qd": 0.05,
       "gs": 0,
       "bs": 0,
       "vmax": 1.06,
@@ -974,7 +669,7 @@
       "va": -0.27995081201989,
       "vm": 1.036,
       "base_kv": 0,
-      "pd": 0.298
+      "pd": 0.149
     },
     "7": {
       "zone": 1,
@@ -1012,7 +707,7 @@
       "zone": 1,
       "bus_i": 10,
       "bus_type": 1,
-      "qd": 0.116,
+      "qd": 0.058,
       "gs": 0,
       "bs": 0,
       "vmax": 1.06,
@@ -1022,13 +717,13 @@
       "va": -0.26354471705114,
       "vm": 1.051,
       "base_kv": 0,
-      "pd": 0.18
+      "pd": 0.09
     },
     "9": {
       "zone": 1,
       "bus_i": 9,
       "bus_type": 1,
-      "qd": 0.332,
+      "qd": 0.166,
       "gs": 0,
       "bs": 0.19,
       "vmax": 1.06,
@@ -1038,13 +733,13 @@
       "va": -0.26075219024795,
       "vm": 1.056,
       "base_kv": 0,
-      "pd": 0.59
+      "pd": 0.295
     },
     "3": {
       "zone": 1,
       "bus_i": 3,
       "bus_type": 2,
-      "qd": 0.38,
+      "qd": 0.19,
       "gs": 0,
       "bs": 0,
       "vmax": 1.06,
@@ -1054,7 +749,7 @@
       "va": -0.22200588085368,
       "vm": 1.01,
       "base_kv": 0,
-      "pd": 1.884
+      "pd": 0.942
     }
   },
   "per_unit": true

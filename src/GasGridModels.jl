@@ -20,6 +20,7 @@ include("core/variable.jl")
 include("core/constraint.jl")
 include("core/objective.jl")
 include("core/solution.jl")
+include("core/data.jl")
 
 include("form/qp.jl")
 include("form/nlp.jl")

@@ -3,12 +3,12 @@
 export run_gpf
 
 " entry point into running the gas grid flow feasability problem"
-function run_gpf(coupling_file, power_file, gas_file, model_constructor, power_model_constructor, gas_model_constructor, solver; kwargs...)
-    return run_generic_model(coupling_file, power_file, gas_file, model_constructor, power_model_constructor, gas_model_constructor, solver, post_gpf; kwargs...) 
+function run_gpf(power_file, gas_file, power_model_constructor, gas_model_constructor, solver; kwargs...)
+    return run_generic_model(power_file, gas_file, power_model_constructor, gas_model_constructor, solver, post_gpf; kwargs...) 
 end
 
 " construct the gas grid flow feasbility problem" 
-function post_gpf{T,P,G}(ggm::GenericGasGridModel{T}, pm::GenericPowerModel{P}, gm::GenericGasModel{G})
+function post_gpf{P,G}(pm::GenericPowerModel{P}, gm::GenericGasModel{G})
     
     ## Power only related variables and constraints
     post_gpf(pm)
@@ -17,12 +17,12 @@ function post_gpf{T,P,G}(ggm::GenericGasGridModel{T}, pm::GenericPowerModel{P}, 
     post_gpf(gm)
     
     ## Gas-Grid related parts of the problem formulation
-    for i in GasModels.ids(gm, :junction)
-       c = constraint_heat_rate_curve(ggm, pm, gm, i)
+    for i in GasModels.ids(gm, :consumer)
+       c = constraint_heat_rate_curve(pm, gm, i)
     end
     
     ### The objective is nothing
-    @objective(ggm.model, Max, 0) 
+    @objective(gm.model, Max, 0) 
     
 end
 

@@ -1,6 +1,73 @@
 
 
 {
+
+  "price_zone": {
+    "1": {
+      "junctions": [
+        14,
+        19,
+        21,
+        34,
+        62,
+        64,
+        66,
+        71,
+        86,
+        87,
+        91,
+        93
+      ],
+      "cost_q": [
+        47.446,
+        -3714.3,
+        0
+      ],
+      "cost_p": [
+        2.0e-8,
+        -0.0064,
+        0
+      ],
+      "fixed_cost_q": 0,
+      "min_cost": 450,
+      "base_q": 124.6053,
+      "base_p": 500,
+      "constant_p": 175,
+      "comment": "Transco Zone 6 Non New York",
+      "index": 1
+    },
+    "2": {
+      "junctions": [
+        29,
+        31,
+        44,
+        48,
+        76,
+        82,
+        100
+      ],
+      "cost_q": [
+        0.0097,
+        980.97,
+        0
+      ],
+      "cost_p": [
+        0,
+        5.0e-5,
+        794.37
+      ],
+      "fixed_cost_q": 0,
+      "min_cost": 530,
+      "base_q": 72.11,
+      "base_p": 500,
+      "constant_p": 600,
+      "comment": "Transco Leidy Zone",
+      "index": 2
+    }
+  },
+
+
+
   "ne_connection": {
     "10083": {
       "length": 5.7590703242088,
