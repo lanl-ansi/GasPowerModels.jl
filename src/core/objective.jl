@@ -38,7 +38,7 @@ function objective_min_ne_opf_cost{T, P, G}(ggm::GenericGasGridModel{T}, pm::Gen
     return obj
 end
 
-" function for congestion costs based on expansion costs only "
+" function for expansion costs only "
 # This is the objective function for the expansion only results in the HICCS paper
 function objective_min_ne_cost{T, P, G}(ggm::GenericGasGridModel{T}, pm::GenericPowerModel{P},gm::GenericGasModel{G}; gas_ne_weight = 1.0, power_ne_weight = 1.0, normalization = 1.0)
     zp = gm.var[:nw][gm.cnw][:zp] 

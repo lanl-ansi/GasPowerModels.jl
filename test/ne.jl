@@ -18,9 +18,7 @@ end
         normalization = .0001
         result = GasGridModels.run_ne("../test/data/belgian-ieee14-ne.json", "../test/data/case14-ne.json", "../test/data/belgian-ne.json", QPGasGridModel, SOCWRPowerModel, MISOCPGasModel, pajarito_glpk_solver; obj_normalization=normalization)
         @test result["status"] == :LocalOptimal || result["status"] == :Optimal
-        value =  222991605.4 * normalization 
-        println(value)
-        @test isapprox(result["objective"], value; atol = 1.0) 
+        @test isapprox(result["objective"], 222991605.4 * normalization; atol = 1.0) 
         check_voltage_status_ne(result["solution"])
         check_pressure_status_ne(result["solution"])                    
     end      

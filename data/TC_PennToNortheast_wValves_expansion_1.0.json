@@ -1,8 +1,8 @@
 
 
 {
+  "multinetwork": false,   
   "ne_connection": {
-    "multinetwork": false,   
     "10083": {
       "length": 5.7590703242088,
       "f_junction": 64,

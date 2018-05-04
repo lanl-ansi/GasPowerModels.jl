@@ -6,11 +6,17 @@ function run_ne_opf(coupling_file, power_file, gas_file, model_constructor, powe
 end
 
 " Construct the gas flow feasbility problem with demand being the cost model"
-function post_ne_opf{T,P,G}(ggm::GenericGasGridModel{T}, pm::GenericPowerModel{P}, gm::GenericGasModel{G})
-    gas_ne_weight    = haskey(ggm.data, "gas_ne_weight") ? ggm.data["gas_ne_weight"] : 1.0 
-    power_ne_weight  = haskey(ggm.data, "power_ne_weight") ? ggm.data["power_ne_weight"] : 1.0
-    power_opf_weight = haskey(ggm.data, "power_opf_weight") ? ggm.data["power_opf_weight"] : 1.0 
-    gas_price_weight = haskey(ggm.data, "gas_price_weight") ? ggm.data["gas_price_weight"] : 1.0
+function post_ne_opf{T,P,G}(ggm::GenericGasGridModel{T}, pm::GenericPowerModel{P}, gm::GenericGasModel{G}; kwargs...)
+    kwargs = Dict(kwargs)    
+    gas_ne_weight    = haskey(kwargs, :gas_ne_weight)      ? kwargs[:gas_ne_weight] : 1.0 
+    power_ne_weight  = haskey(kwargs, :power_ne_weight)    ? kwargs[:power_ne_weight] : 1.0 
+    power_opf_weight = haskey(kwargs, :power_opf_weight)   ? kwargs[:power_opf_weight] : 1.0 
+    gas_price_weight = haskey(kwargs, :gas_price_weight)   ? kwargs[:gas_price_weight] : 1.0 
+    
+    #gas_ne_weight    = haskey(ggm.data, "gas_ne_weight") ? ggm.data["gas_ne_weight"] : 1.0 
+    #power_ne_weight  = haskey(ggm.data, "power_ne_weight") ? ggm.data["power_ne_weight"] : 1.0
+#    power_opf_weight = haskey(ggm.data, "power_opf_weight") ? ggm.data["power_opf_weight"] : 1.0 
+#    gas_price_weight = haskey(ggm.data, "gas_price_weight") ? ggm.data["gas_price_weight"] : 1.0
       
     ## Power only related variables and constraints
     post_tnep(pm)

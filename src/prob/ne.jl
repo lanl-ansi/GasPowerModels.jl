@@ -102,13 +102,10 @@ end
 # construct the gas flow feasbility problem with demand being the cost model
 function post_ne{T,P,G}(ggm::GenericGasGridModel{T}, pm::GenericPowerModel{P}, gm::GenericGasModel{G}; kwargs...)
     kwargs = Dict(kwargs)
-    gas_ne_weight    = haskey(ggm.data, "gas_ne_weight") ? ggm.data["gas_ne_weight"] : 1.0 
-    power_ne_weight  = haskey(ggm.data, "power_ne_weight") ? ggm.data["power_ne_weight"] : 1.0
-      
-    obj_normalization = haskey(kwargs, :obj_normalization) ? kwargs[:obj_normalization] : 1.0  
-    println(kwargs)
-      
-        
+    gas_ne_weight    = haskey(kwargs, :gas_ne_weight)      ? kwargs[:gas_ne_weight] : 1.0 
+    power_ne_weight  = haskey(kwargs, :power_ne_weight)    ? kwargs[:power_ne_weight] : 1.0 
+    obj_normalization = haskey(kwargs, :obj_normalization) ? kwargs[:obj_normalization] : 1.0
+                
     ## Power only related variables and constraints
     post_tnep(pm)
   
