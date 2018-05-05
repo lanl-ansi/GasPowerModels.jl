@@ -23,10 +23,10 @@ function objective_min_ne_opf_cost{P, G}(pm::GenericPowerModel{P},gm::GenericGas
     p_cost = gm.var[:nw][n][:p_cost]
     
     for (i, price_zone) in gm.ref[:nw][n][:price_zone]
-        constraint_zone_demand(gm, price_zone)        
-        constraint_zone_demand_price(gm, price_zone)
-        constraint_zone_pressure(gm, price_zone)
-        constraint_pressure_price(gm, price_zone)        
+        constraint_zone_demand(gm, i)        
+        constraint_zone_demand_price(gm, i)
+        constraint_zone_pressure(gm, i)
+        constraint_pressure_price(gm, i)        
     end      
     
     obj = @objective(gm.model, Min, 

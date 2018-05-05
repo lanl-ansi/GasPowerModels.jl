@@ -1,6 +1,6 @@
 julia 0.6
 
-PowerModels 0.5
+PowerModels 0.5 0.6
 GasModels 0.2
 
 Logging
