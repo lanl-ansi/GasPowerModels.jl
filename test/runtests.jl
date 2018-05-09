@@ -24,6 +24,7 @@ pajarito_cbc_solver = PajaritoSolver(mip_solver=cbc_solver, cont_solver=ipopt_so
 misocp_solver = pajarito_cbc_solver
 minlp_solver = couenne_solver   
 
-include("gpf.jl")
 include("ne.jl")
+include("data.jl")
+include("gpf.jl")
 

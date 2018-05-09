@@ -8,7 +8,7 @@ function add_junction_generators(pm::GenericPowerModel, gm::GenericGasModel)
         
         # assumes that network numbers are linked between power and gas...
         for (i, gen) in PowerModels.ref(pm, k, :gen)
-            if haskey(gen, "consumer")
+            if haskey(gen, "consumer") && haskey(GasModels.ref(gm, k, :consumer), gen["consumer"])  
                 consumer = gen["consumer"]
                 push!(GasModels.ref(gm, k, :consumer, consumer)["gens"], i)                      
             end  

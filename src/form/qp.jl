@@ -22,7 +22,7 @@ function constraint_heat_rate_curve{P, G <: GasModels.AbstractMISOCPForms}(pm::G
 
     is_linear = true;
     for i in generators
-        if pm.ref[:nw][n][:gen][i]["heat_rate"][1] != 0
+        if heat_rates[i][1] != 0
             is_linear = false
         end
     end
@@ -32,4 +32,5 @@ function constraint_heat_rate_curve{P, G <: GasModels.AbstractMISOCPForms}(pm::G
     else    
         gm.con[:nw][n][:heat_rate_curve][j] = @constraint(gm.model, ql >= constant * sum( heat_rates[i][1] == 0.0 ? 0 : heat_rates[i][1]*pg[i]^2 for i in generators) + sum( heat_rates[i][2]*pg[i] for i in generators) + sum( heat_rates[i][3] for i in generators))      
     end
+    
  end

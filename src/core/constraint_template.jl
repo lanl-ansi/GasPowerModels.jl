@@ -22,7 +22,8 @@ function constraint_heat_rate_curve{P, G <: GasModels.AbstractMISOCPForms}(pm::G
     constant = ((24.0 * pm.data["baseMVA"]) / 1026.0)
     heat_rates = Dict{Int, Any}()   
     for i in generators
-        heat_rates[i] = pm.ref[:nw][n][:gen][i]["heat_rate"]  
+        heat_rates[i] = [pm.ref[:nw][n][:gen][i]["heat_rate_quad_coeff"], pm.ref[:nw][n][:gen][i]["heat_rate_linear_coeff"], pm.ref[:nw][n][:gen][i]["heat_rate_constant_coeff"]  ]    
+#        heat_rates[i] = pm.ref[:nw][n][:gen][i]["heat_rate"]  
     end
     qlmin = consumer["qlmin"]
     qlmax = consumer["qlmax"]

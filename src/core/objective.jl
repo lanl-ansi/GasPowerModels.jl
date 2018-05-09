@@ -53,7 +53,6 @@ function objective_min_ne_cost{P, G}(pm::GenericPowerModel{P},gm::GenericGasMode
       + gas_ne_weight    * normalization * sum(gm.ref[:nw][n][:ne_connection][i]["construction_cost"] * zc[i] for i in keys(gm.ref[:nw][n][:ne_compressor]))
       + power_ne_weight  * normalization * sum( branches[i]["construction_cost"]*line_ne[i] for (i,branch) in branches)
     )  
-    
 end
 
 
