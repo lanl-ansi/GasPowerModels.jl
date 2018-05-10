@@ -15,7 +15,7 @@ end
 
 @testset "test qp ne" begin
     @testset "IEEE 14 Belgian NE case" begin
-        normalization = .0001
+        normalization = .000001
         result = GasGridModels.run_ne("../test/data/case14-ne.m", "../test/data/belgian-ne.json", SOCWRPowerModel, MISOCPGasModel, pajarito_glpk_solver; obj_normalization=normalization)
         @test result["status"] == :LocalOptimal || result["status"] == :Optimal
 #        println(result["objective"])            
