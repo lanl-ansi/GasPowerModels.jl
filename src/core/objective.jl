@@ -36,7 +36,12 @@ function objective_min_ne_opf_cost{P, G}(pm::GenericPowerModel{P},gm::GenericGas
       power_opf_weight * sum(gen["cost"][1]*pg[i]^2 + gen["cost"][2]*pg[i] + gen["cost"][3] for (i,gen) in pm.ref[:nw][n][:gen]) + 
       gas_price_weight * sum(zone_cost[i] for i in keys(gm.ref[:nw][n][:price_zone])) +
       gas_price_weight * sum(gm.ref[:nw][n][:price_zone][i]["constant_p"] * p_cost[i] for i in keys(gm.ref[:nw][n][:price_zone]))  
-    )            
+    )                
+    
+#    for (i,gen) in pm.ref[:nw][n][:gen]
+ #       println(gen["cost"])
+      
+ #   end
 end
 
 " function for expansion costs only "
