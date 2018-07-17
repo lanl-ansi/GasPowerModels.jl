@@ -1,6 +1,12 @@
 using PowerModels
 using GasModels
 using GasGridModels
+using Memento
+
+# Suppress warnings during testing.
+setlevel!(getlogger(InfrastructureModels), "error")
+setlevel!(getlogger(PowerModels), "error")
+setlevel!(getlogger(GasModels), "error")
 
 using Logging
 
