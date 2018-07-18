@@ -19,17 +19,17 @@ end
         result = GasGridModels.run_ne("../test/data/case14-ne.m", "../test/data/belgian-ne.json", SOCWRPowerModel, MISOCPGasModel, misocp_solver; obj_normalization=normalization)
         @test result["status"] == :LocalOptimal || result["status"] == :Optimal
         println(result["objective"] / normalization)
-        
-        if misocp_solver == pajarito_glpk_solver                 
+
+        if misocp_solver == pajarito_glpk_solver
             @test isapprox(result["objective"], 222991605.4 * normalization; atol = 1.0)
-        elseif misocp_solver == pajarito_cbc_solver       
-            @test isapprox(result["objective"], 4.616444760136424e9 * normalization; atol = 1.0)         
-        else      
+        elseif misocp_solver == pajarito_cbc_solver
+            @test isapprox(result["objective"], 4.616444760136424e9 * normalization; atol = 1.0)
+        else
             @test isapprox(result["objective"], 222991605.4 * normalization; atol = 1.0)
-        end  
+        end
         check_voltage_status_ne(result["solution"])
-        check_pressure_status_ne(result["solution"])                    
-    end      
+        check_pressure_status_ne(result["solution"])
+    end
 end
 
 

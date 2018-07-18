@@ -102,21 +102,21 @@ end
 # construct the gas flow feasbility problem with demand being the cost model
 function post_ne{P,G}(pm::GenericPowerModel{P}, gm::GenericGasModel{G}; kwargs...)
     kwargs = Dict(kwargs)
-    gas_ne_weight    = haskey(kwargs, :gas_ne_weight)      ? kwargs[:gas_ne_weight] : 1.0 
-    power_ne_weight  = haskey(kwargs, :power_ne_weight)    ? kwargs[:power_ne_weight] : 1.0 
+    gas_ne_weight     = haskey(kwargs, :gas_ne_weight)     ? kwargs[:gas_ne_weight] : 1.0
+    power_ne_weight   = haskey(kwargs, :power_ne_weight)   ? kwargs[:power_ne_weight] : 1.0
     obj_normalization = haskey(kwargs, :obj_normalization) ? kwargs[:obj_normalization] : 1.0
-                
+
     ## Power only related variables and constraints
     post_tnep(pm)
-  
+
     #### Gas only related variables and constraints
     post_nels(gm)
-    
+
     ## Gas-Grid related parts of the problem formulation
     for i in GasModels.ids(gm, :consumer)
        c = constraint_heat_rate_curve(pm, gm, i)
     end
-        
+
     ### Object function minimizes demand and pressure cost
     objective_min_ne_cost(pm, gm; gas_ne_weight = gas_ne_weight, power_ne_weight = power_ne_weight, normalization =  obj_normalization)     
 end
@@ -126,14 +126,14 @@ function get_ne_solution{P, G}(pm::GenericPowerModel{P}, gm::GenericGasModel{G})
     PowerModels.add_bus_voltage_setpoint(sol, pm)
     PowerModels.add_generator_power_setpoint(sol, pm)
     PowerModels.add_branch_flow_setpoint(sol, pm)
-    GasModels.add_junction_pressure_setpoint(sol, gm) 
+    GasModels.add_junction_pressure_setpoint(sol, gm)
     GasModels.add_connection_ne(sol, gm)
     GasModels.add_load_setpoint(sol, gm)
-    GasModels.add_production_setpoint(sol, gm)    
+    GasModels.add_production_setpoint(sol, gm)
     GasModels.add_direction_setpoint(sol, gm)
     GasModels.add_direction_ne_setpoint(sol,gm)
-    GasModels.add_valve_setpoint(sol, gm)            
-    PowerModels.add_branch_ne_setpoint(sol, pm)  
+    GasModels.add_valve_setpoint(sol, gm)
+    PowerModels.add_branch_ne_setpoint(sol, pm)
     return sol
 end
 
