@@ -20,9 +20,9 @@ end
         @test result["status"] == :LocalOptimal || result["status"] == :Optimal
         println(result["objective"] / normalization)
 
-        if misocp_solver == pajarito_glpk_solver
+        if misocp_solver == pavito_glpk_solver
             @test isapprox(result["objective"], 222991605.4 * normalization; atol = 1.0)
-        elseif misocp_solver == pajarito_cbc_solver
+        elseif misocp_solver == pavito_cbc_solver
             @test isapprox(result["objective"], 4.616444760136424e9 * normalization; atol = 1.0)
         else
             @test isapprox(result["objective"], 222991605.4 * normalization; atol = 1.0)

@@ -25,16 +25,16 @@ constraint_zone_pressure(gm::GenericGasModel, i::Int) = constraint_zone_pressure
 
 
 #### Constraints with Templates #####
-
+### NEEDS CONVERSION FROM VOLUME TO FLUX   ############################
 function constraint_zone_demand{G}(gm::GenericGasModel{G}, n::Int, i, loads)
-    ql = gm.var[:nw][n][:ql]         
+    fl = gm.var[:nw][n][:fl]         
     zone_ql = gm.var[:nw][n][:zone_ql]     
       
     if !haskey(gm.con[:nw][n], :zone_demand)
         gm.con[:nw][n][:zone_demand] = Dict{Int,ConstraintRef}()
     end    
         
-    gm.con[:nw][n][:zone_demand][i] = @constraint(gm.model, zone_ql[i] == sum(ql[j] for j in loads))
+    gm.con[:nw][n][:zone_demand][i] = @constraint(gm.model, zone_ql[i] == sum(fl[j] for j in loads))
 end
 
 " constraints associated with bounding the demand zone prices 

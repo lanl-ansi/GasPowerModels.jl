@@ -25,10 +25,10 @@ function constraint_heat_rate_curve{P, G <: GasModels.AbstractMISOCPForms}(pm::G
         heat_rates[i] = [pm.ref[:nw][n][:gen][i]["heat_rate_quad_coeff"], pm.ref[:nw][n][:gen][i]["heat_rate_linear_coeff"], pm.ref[:nw][n][:gen][i]["heat_rate_constant_coeff"]  ]    
       #  heat_rates[i] = pm.ref[:nw][n][:gen][i]["heat_rate"]  
     end
-    qlmin = consumer["qlmin"]
-    qlmax = consumer["qlmax"]
+    flmin = GasModels.calc_flmin(gm.data, consumer)
+    flmax = GasModels.calc_flmax(gm.data, consumer)
     
-    constraint_heat_rate_curve(pm, gm, n, j, generators, heat_rates, constant, qlmin, qlmax)
+    constraint_heat_rate_curve(pm, gm, n, j, generators, heat_rates, constant, flmin, flmax)
 end
 constraint_heat_rate_curve(pm::GenericPowerModel, gm::GenericGasModel, k::Int) = constraint_heat_rate_curve(pm, gm, gm.cnw, k)
 

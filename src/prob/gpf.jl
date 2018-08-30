@@ -75,20 +75,19 @@ end
 
 "Post the gas flow variables and constraints"
 function post_gpf{G}(gm::GenericGasModel{G})
-
+    GasModels.variable_flow(gm)  
     GasModels.variable_pressure_sqr(gm)
-    GasModels.variable_flux(gm)
-    GasModels.variable_connection_direction(gm)
     GasModels.variable_valve_operation(gm)
-    GasModels.variable_load(gm)
-    GasModels.variable_production(gm)
-  
+    GasModels.variable_load_mass_flow(gm)
+    GasModels.variable_production_mass_flow(gm)
+        
+                
     for i in [collect(GasModels.ids(gm,:pipe)); collect(GasModels.ids(gm,:resistor))] 
         GasModels.constraint_pipe_flow(gm, i) 
     end
     
     for i in GasModels.ids(gm, :junction)
-        GasModels.constraint_junction_flow_ls(gm, i)      
+        GasModels.constraint_junction_mass_flow_ls(gm, i)      
     end
     
     for i in GasModels.ids(gm, :short_pipe)
@@ -105,5 +104,7 @@ function post_gpf{G}(gm::GenericGasModel{G})
     
     for i in GasModels.ids(gm, :control_valve) 
         GasModels.constraint_control_valve_flow(gm, i) 
-    end    
+    end
+    
+        
 end

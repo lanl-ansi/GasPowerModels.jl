@@ -48,21 +48,20 @@ end
 
 "Post all the constraints and variables associated with expansion planning in gas networks"
 function post_nels{G}(gm::GenericGasModel{G})
-    GasModels.variable_pressure_sqr(gm)                # variable \pi in the TPS paper
-    GasModels.variable_flux(gm)                        # variable x in the TPS paper
-    GasModels.variable_flux_ne(gm)                     # variable x in the TPS paper 
-    GasModels.variable_connection_direction(gm)        # direction variable (needed for the disjunctive form of constraint 12 in TPS paper)
-    GasModels.variable_connection_direction_ne(gm)     # direction variable (needed for the disjunctive form of constraint 12 in TPS paper)
-    GasModels.variable_valve_operation(gm)             # on/off variable for valves (implict in TPS paper)
-    GasModels.variable_load(gm)                        # variable d in the TPS paper  
-    GasModels.variable_production(gm)                  # variable s in the TPS paper
+    GasModels.variable_flow(gm) # variable x in the TPS paper         
+    GasModels.variable_pressure_sqr(gm)  # variable \pi in the TPS paper
+    GasModels.variable_valve_operation(gm)
+    GasModels.variable_load_mass_flow(gm)  # variable d in the TPS paper
+    GasModels.variable_production_mass_flow(gm)  # variable s in the TPS paper
     
     # expansion variables
-    GasModels.variable_pipe_ne(gm)                     # variable z in the TPS paper
-    GasModels.variable_compressor_ne(gm)               # variable z in the TPS paper (note there were no new compressor options)
+    GasModels.variable_pipe_ne(gm)
+    GasModels.variable_compressor_ne(gm)
+
+    GasModels.variable_flow_ne(gm)  # variable x in the TPS paper  
     
     for i in GasModels.ids(gm, :junction)
-        GasModels.constraint_junction_flow_ne_ls(gm, i) 
+        GasModels.constraint_junction_mass_flow_ne_ls(gm, i) 
     end
 
     for i in [collect(GasModels.ids(gm,:pipe)); collect(GasModels.ids(gm,:resistor))] 
@@ -94,8 +93,9 @@ function post_nels{G}(gm::GenericGasModel{G})
     end
     
     for i in GasModels.ids(gm, :control_valve) 
-         GasModels.constraint_control_valve_flow(gm, i)       
+        GasModels.constraint_control_valve_flow(gm, i)       
     end
+    
         
 end
 
@@ -128,8 +128,10 @@ function get_ne_solution{P, G}(pm::GenericPowerModel{P}, gm::GenericGasModel{G})
     PowerModels.add_branch_flow_setpoint(sol, pm)
     GasModels.add_junction_pressure_setpoint(sol, gm)
     GasModels.add_connection_ne(sol, gm)
-    GasModels.add_load_setpoint(sol, gm)
-    GasModels.add_production_setpoint(sol, gm)
+    GasModels.add_load_mass_flow_setpoint(sol, gm)
+    GasModels.add_production_mass_flow_setpoint(sol, gm)    
+    GasModels.add_load_volume_setpoint(sol, gm)
+    GasModels.add_production_volume_setpoint(sol, gm)
     GasModels.add_direction_setpoint(sol, gm)
     GasModels.add_direction_ne_setpoint(sol,gm)
     GasModels.add_valve_setpoint(sol, gm)
