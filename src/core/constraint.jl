@@ -62,8 +62,13 @@ function constraint_pressure_price{G}(gm::GenericGasModel{G}, n::Int, i, cost_p)
         gm.con[:nw][n][:pressure_price] = Dict{Int,ConstraintRef}()
     end    
             
-    gm.con[:nw][n][:pressure_price][i] = @constraint(gm.model, p_cost[i] >= cost_p[1] * zone_p[i]^2 + cost_p[2] * zone_p[i] + cost_p[3])      
-end
+    #gm.con[:nw][n][:pressure_price][i] = @constraint(gm.model, p_cost[i] >= cost_p[1] * baseP^2 * zone_p[i]^2 + cost_p[2] * zone_p[i] * baseP + cost_p[3])
+      
+    gm.con[:nw][n][:pressure_price][i] = @constraint(gm.model, p_cost[i] >= cost_p[1] * zone_p[i]^2 + cost_p[2] * zone_p[i] + cost_p[3])
+      
+      
+    println(gm.con[:nw][n][:pressure_price][i])   
+end   
 
 
 

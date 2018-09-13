@@ -19,11 +19,10 @@ function constraint_heat_rate_curve{P, G <: GasModels.AbstractMISOCPForms}(pm::G
     consumer = gm.ref[:nw][n][:consumer][j]
     generators = consumer["gens"] 
     # convert from mmBTU/h in per unit to million CFD
-    constant = ((24.0 * pm.data["baseMVA"]) / 1026.0)
+    constant = (24.0  / 1026.0) / gm.data["baseQ"]
     heat_rates = Dict{Int, Any}()   
     for i in generators
         heat_rates[i] = [pm.ref[:nw][n][:gen][i]["heat_rate_quad_coeff"], pm.ref[:nw][n][:gen][i]["heat_rate_linear_coeff"], pm.ref[:nw][n][:gen][i]["heat_rate_constant_coeff"]  ]    
-      #  heat_rates[i] = pm.ref[:nw][n][:gen][i]["heat_rate"]  
     end
     flmin = GasModels.calc_flmin(gm.data, consumer)
     flmax = GasModels.calc_flmax(gm.data, consumer)
@@ -58,7 +57,7 @@ constraint_zone_demand_price(gm::GenericGasModel, i::Int) = constraint_zone_dema
  This is equation 25 in the HICCS paper"
 function constraint_pressure_price{G}(gm::GenericGasModel{G}, n::Int, i)
     price_zone = gm.ref[:nw][n][:price_zone][i]
-    cost_p = price_zone["cost_p"]
+    cost_p     = price_zone["cost_p"]
     
     constraint_pressure_price(gm, n, i, cost_p)  
 end

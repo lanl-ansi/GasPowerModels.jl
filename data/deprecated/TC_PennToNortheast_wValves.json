@@ -59,6 +59,7 @@
       "min_cost": 530,
       "base_q": 72.11,
       "base_p": 500,
+      "constant_p": 600,      
       "comment": "Transco Leidy Zone",
       "index": 2
     }
