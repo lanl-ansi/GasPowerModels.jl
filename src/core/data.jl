@@ -43,6 +43,6 @@ function gas_grid_per_unit(gas_data::Dict{String,Any}, power_data::Dict{String,A
     # real gas units) 
     for (i, gen) in power_data["gen"]
         gen["heat_rate_quad_coeff"] = gen["heat_rate_quad_coeff"] * mvaBase^2 
-       gen["heat_rate_linear_coeff"] = gen["heat_rate_linear_coeff"] * mvaBase 
+        gen["heat_rate_linear_coeff"] = gen["heat_rate_linear_coeff"] * mvaBase 
     end    
 end

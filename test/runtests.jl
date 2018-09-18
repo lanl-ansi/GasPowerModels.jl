@@ -11,7 +11,6 @@ setlevel!(getlogger(GasModels), "error")
 using Logging
 
 using Ipopt
-using Pajarito
 using Pavito
 using Cbc
 using AmplNLWriter

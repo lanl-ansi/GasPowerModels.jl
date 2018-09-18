@@ -49,7 +49,7 @@ function constraint_zone_demand_price{G}(gm::GenericGasModel{G}, n::Int, i, min_
     end        
     
     gm.con[:nw][n][:zone_demand_price1][i] = @constraint(gm.model, zone_cost[i] >= cost_q[1] * zone_ql[i]^2 + cost_q[2] * zone_ql[i] + cost_q[3])      
-    gm.con[:nw][n][:zone_demand_price2][i] = @constraint(gm.model, zone_cost[i] >= min_cost * zone_ql[i])                    
+    gm.con[:nw][n][:zone_demand_price2][i] = @constraint(gm.model, zone_cost[i] >= min_cost * zone_ql[i])         
 end
 
 " constraints associated with pressure prices 
@@ -60,14 +60,8 @@ function constraint_pressure_price{G}(gm::GenericGasModel{G}, n::Int, i, cost_p)
       
     if !haskey(gm.con[:nw][n], :pressure_price)
         gm.con[:nw][n][:pressure_price] = Dict{Int,ConstraintRef}()
-    end    
-            
-    #gm.con[:nw][n][:pressure_price][i] = @constraint(gm.model, p_cost[i] >= cost_p[1] * baseP^2 * zone_p[i]^2 + cost_p[2] * zone_p[i] * baseP + cost_p[3])
-      
-    gm.con[:nw][n][:pressure_price][i] = @constraint(gm.model, p_cost[i] >= cost_p[1] * zone_p[i]^2 + cost_p[2] * zone_p[i] + cost_p[3])
-      
-      
-    println(gm.con[:nw][n][:pressure_price][i])   
+    end                
+    gm.con[:nw][n][:pressure_price][i] = @constraint(gm.model, p_cost[i] >= cost_p[1] * zone_p[i]^2 + cost_p[2] * zone_p[i] + cost_p[3])      
 end   
 
 
