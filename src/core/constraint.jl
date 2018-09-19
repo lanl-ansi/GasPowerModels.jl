@@ -34,7 +34,7 @@ function constraint_zone_demand{G}(gm::GenericGasModel{G}, n::Int, i, loads)
         gm.con[:nw][n][:zone_demand] = Dict{Int,ConstraintRef}()
     end    
         
-    gm.con[:nw][n][:zone_demand][i] = @constraint(gm.model, zone_ql[i] == sum(fl[j] for j in loads))
+    gm.con[:nw][n][:zone_demand][i] = @constraint(gm.model, zone_ql[i] == sum(fl[j] for j in loads))    
 end
 
 " constraints associated with bounding the demand zone prices 
@@ -49,7 +49,11 @@ function constraint_zone_demand_price{G}(gm::GenericGasModel{G}, n::Int, i, min_
     end        
     
     gm.con[:nw][n][:zone_demand_price1][i] = @constraint(gm.model, zone_cost[i] >= cost_q[1] * zone_ql[i]^2 + cost_q[2] * zone_ql[i] + cost_q[3])      
-    gm.con[:nw][n][:zone_demand_price2][i] = @constraint(gm.model, zone_cost[i] >= min_cost * zone_ql[i])         
+    gm.con[:nw][n][:zone_demand_price2][i] = @constraint(gm.model, zone_cost[i] >= min_cost * zone_ql[i])
+      
+    println(i, " ", gm.con[:nw][n][:zone_demand_price1][i])
+    println(i, " ", gm.con[:nw][n][:zone_demand_price2][i])           
+                 
 end
 
 " constraints associated with pressure prices 

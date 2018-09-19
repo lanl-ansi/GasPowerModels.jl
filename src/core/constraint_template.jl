@@ -18,8 +18,8 @@
 function constraint_heat_rate_curve{P, G <: GasModels.AbstractMISOCPForms}(pm::GenericPowerModel{P}, gm::GenericGasModel{G}, n, j)
     consumer = gm.ref[:nw][n][:consumer][j]
     generators = consumer["gens"] 
-    # convert from mmBTU/h in per unit to million CFD
-    constant = (24.0  / 1026.0) / gm.data["baseQ"]
+    # convert from mmBTU/h in per unit to cubic meters per second
+    constant = ((24.0  / 1026.0) / gm.data["baseQ"]) * 0.32774128  #1.0
     heat_rates = Dict{Int, Any}()   
     for i in generators
         heat_rates[i] = [pm.ref[:nw][n][:gen][i]["heat_rate_quad_coeff"], pm.ref[:nw][n][:gen][i]["heat_rate_linear_coeff"], pm.ref[:nw][n][:gen][i]["heat_rate_constant_coeff"]  ]    
