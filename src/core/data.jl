@@ -38,7 +38,9 @@ function gas_grid_per_unit(gas_data::Dict{String,Any}, power_data::Dict{String,A
                             
         end
     end
-    
+   
+    gas_data["energy_factor"] = gas_data["energy_factor"] / q_base
+     
     # convert the heat rate curve from real power units to per unit power units (will result in
     # real gas units) 
     for (i, gen) in power_data["gen"]

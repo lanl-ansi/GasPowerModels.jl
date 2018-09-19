@@ -20,8 +20,9 @@ function constraint_heat_rate_curve{P, G <: GasModels.AbstractMISOCPForms}(pm::G
     generators = consumer["gens"]
     standard_density = gm.data["standard_density"]  
        
-    # convert from J/h in per unit to cubic meters per second. Also convert the volume into mass flux
-    constant = ((24.0  / 1026.0) / gm.data["baseQ"]) * 0.32774128 * standard_density / 1055056000.0 * 3600.0
+    # convert from J/s in per unit to cubic meters per second at standard density in per unit to kg per second in per unit. 
+    constant = gm.data["energy_factor"] * standard_density  
+      
     heat_rates = Dict{Int, Any}()   
     for i in generators
         heat_rates[i] = [pm.ref[:nw][n][:gen][i]["heat_rate_quad_coeff"], pm.ref[:nw][n][:gen][i]["heat_rate_linear_coeff"], pm.ref[:nw][n][:gen][i]["heat_rate_constant_coeff"]  ]    
