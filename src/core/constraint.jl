@@ -45,8 +45,9 @@ function constraint_zone_demand_price{G}(gm::GenericGasModel{G}, n::Int, i, min_
         gm.con[:nw][n][:zone_demand_price2] = Dict{Int,ConstraintRef}()          
     end        
     
-    gm.con[:nw][n][:zone_demand_price1][i] = @constraint(gm.model, zone_cost[i] >= cost_q[1] * (zone_fl[i] / standard_density)^2 + cost_q[2] * zone_fl[i] / standard_density + cost_q[3])      
-    gm.con[:nw][n][:zone_demand_price2][i] = @constraint(gm.model, zone_cost[i] >= min_cost * zone_fl[i] / standard_density)
+    " the cost is in terms of m^3 at standard density.  We have consumption in terms of m^3 per second.  We convert this to a daily cost 1 day = 86400 seconds"
+    gm.con[:nw][n][:zone_demand_price1][i] = @constraint(gm.model, zone_cost[i] >= 86400^2 * cost_q[1] * (zone_fl[i] / standard_density)^2 + 86400 * cost_q[2] * zone_fl[i] / standard_density + cost_q[3])      
+    gm.con[:nw][n][:zone_demand_price2][i] = @constraint(gm.model, zone_cost[i] >= 86400 * min_cost * zone_fl[i] / standard_density)
       
     println(i, " ", gm.con[:nw][n][:zone_demand_price1][i])
     println(i, " ", gm.con[:nw][n][:zone_demand_price2][i])           
