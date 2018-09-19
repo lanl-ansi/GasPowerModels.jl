@@ -133,11 +133,11 @@ mpc.ne_branch = [
 
 %column_names%  consumer  heat_rate_quad_coeff   heat_rate_linear_coeff   heat_rate_constant_coeff
 mpc.gen_gas = [
-	-1	0   0             0;
-	4	0	1392087.5     0;
-	12	0	60138.1944444 0;
-	-1	0	0	          0;
-	-1	0	0	          0;
+	-1	0   0      0;
+	4	0	4.75   0;
+	12	0	0.2052 0;
+	-1	0	0	   0;
+	-1	0	0	   0;
 ];
 
 % Warnings from cdf2matp conversion:

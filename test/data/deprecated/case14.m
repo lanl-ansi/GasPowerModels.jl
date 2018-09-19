@@ -107,11 +107,11 @@ mpc.bus_name = {
 
 %column_names%  consumer  heat_rate_quad_coeff   heat_rate_linear_coeff   heat_rate_constant_coeff
 mpc.gen_gas = [
-	-1	0   0               0;
-	4	0	140674.111111   0;
-	12	0	140674.111111   0;
-	-1	0	0	            0;
-	-1	0	0	            0;
+	-1	0   0      0;
+	4	0	0.48   0;
+	12	0	0.48   0;
+	-1	0	0	   0;
+	-1	0	0	   0;
 ];
 
 % Warnings from cdf2matp conversion:
