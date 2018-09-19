@@ -17,9 +17,11 @@
  This is the convex relaxation of equation 21 in the HICCS paper"
 function constraint_heat_rate_curve{P, G <: GasModels.AbstractMISOCPForms}(pm::GenericPowerModel{P}, gm::GenericGasModel{G}, n, j)
     consumer = gm.ref[:nw][n][:consumer][j]
-    generators = consumer["gens"] 
-    # convert from mmBTU/h in per unit to cubic meters per second
-    constant = ((24.0  / 1026.0) / gm.data["baseQ"]) * 0.32774128  #1.0
+    generators = consumer["gens"]
+    standard_density = gm.data["standard_density"]  
+       
+    # convert from mmBTU/h in per unit to cubic meters per second. Also convert the volume into mass flux
+    constant = ((24.0  / 1026.0) / gm.data["baseQ"]) * 0.32774128 * standard_density
     heat_rates = Dict{Int, Any}()   
     for i in generators
         heat_rates[i] = [pm.ref[:nw][n][:gen][i]["heat_rate_quad_coeff"], pm.ref[:nw][n][:gen][i]["heat_rate_linear_coeff"], pm.ref[:nw][n][:gen][i]["heat_rate_constant_coeff"]  ]    
@@ -48,8 +50,9 @@ function constraint_zone_demand_price{G}(gm::GenericGasModel{G}, n::Int, i)
     price_zone = gm.ref[:nw][n][:price_zone][i]
     min_cost = price_zone["min_cost"]
     cost_q = price_zone["cost_q"]  
-    
-    constraint_zone_demand_price(gm, n, i, min_cost, cost_q)          
+    standard_density = gm.data["standard_density"]
+      
+    constraint_zone_demand_price(gm, n, i, min_cost, cost_q, standard_density)          
 end
 constraint_zone_demand_price(gm::GenericGasModel, i::Int) = constraint_zone_demand_price(gm, gm.cnw, i)
 

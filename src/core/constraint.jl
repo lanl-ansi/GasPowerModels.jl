@@ -22,25 +22,22 @@ function constraint_zone_pressure{G}(gm::GenericGasModel{G}, n::Int, i)
 end
 constraint_zone_pressure(gm::GenericGasModel, i::Int) = constraint_zone_pressure(gm, gm.cnw, i)
 
-
-
 #### Constraints with Templates #####
-### NEEDS CONVERSION FROM VOLUME TO FLUX   ############################
 function constraint_zone_demand{G}(gm::GenericGasModel{G}, n::Int, i, loads)
     fl = gm.var[:nw][n][:fl]         
-    zone_ql = gm.var[:nw][n][:zone_ql]     
+    zone_fl = gm.var[:nw][n][:zone_fl]     
       
     if !haskey(gm.con[:nw][n], :zone_demand)
         gm.con[:nw][n][:zone_demand] = Dict{Int,ConstraintRef}()
     end    
         
-    gm.con[:nw][n][:zone_demand][i] = @constraint(gm.model, zone_ql[i] == sum(fl[j] for j in loads))    
+    gm.con[:nw][n][:zone_demand][i] = @constraint(gm.model, zone_fl[i] == sum(fl[j] for j in loads))    
 end
 
 " constraints associated with bounding the demand zone prices 
  This is equation 22 in the HICCS paper"
-function constraint_zone_demand_price{G}(gm::GenericGasModel{G}, n::Int, i, min_cost, cost_q)
-    zone_ql = gm.var[:nw][n][:zone_ql] 
+function constraint_zone_demand_price{G}(gm::GenericGasModel{G}, n::Int, i, min_cost, cost_q, standard_density)
+    zone_fl = gm.var[:nw][n][:zone_fl] 
     zone_cost = gm.var[:nw][n][:zone_cost]         
       
     if !haskey(gm.con[:nw][n], :zone_demand_price)
@@ -48,8 +45,8 @@ function constraint_zone_demand_price{G}(gm::GenericGasModel{G}, n::Int, i, min_
         gm.con[:nw][n][:zone_demand_price2] = Dict{Int,ConstraintRef}()          
     end        
     
-    gm.con[:nw][n][:zone_demand_price1][i] = @constraint(gm.model, zone_cost[i] >= cost_q[1] * zone_ql[i]^2 + cost_q[2] * zone_ql[i] + cost_q[3])      
-    gm.con[:nw][n][:zone_demand_price2][i] = @constraint(gm.model, zone_cost[i] >= min_cost * zone_ql[i])
+    gm.con[:nw][n][:zone_demand_price1][i] = @constraint(gm.model, zone_cost[i] >= cost_q[1] * (zone_fl[i] / standard_density)^2 + cost_q[2] * zone_fl[i] / standard_density + cost_q[3])      
+    gm.con[:nw][n][:zone_demand_price2][i] = @constraint(gm.model, zone_cost[i] >= min_cost * zone_fl[i] / standard_density)
       
     println(i, " ", gm.con[:nw][n][:zone_demand_price1][i])
     println(i, " ", gm.con[:nw][n][:zone_demand_price2][i])           

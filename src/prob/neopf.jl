@@ -50,7 +50,8 @@ end
 # Add locational marginal prices
 function add_zone_cost_setpoint{G}(sol, gm::GenericGasModel{G})
     GasModels.add_setpoint(sol, gm, "price_zone", "lm",    :zone_cost)
-    GasModels.add_setpoint(sol, gm, "price_zone", "lq",    :zone_ql)
+    GasModels.add_setpoint(sol, gm, "price_zone", "lf",    :zone_fl)
+    GasModels.add_setpoint(sol, gm, "price_zone", "lq",    :zone_ql, scale = (x,item) -> GasModels.getvalue(x) / gm.data["standard_density"])  
     GasModels.add_setpoint(sol, gm, "price_zone", "lp",    :p_cost)
     GasModels.add_setpoint(sol, gm, "price_zone", "max_p", :zone_p)    
 end

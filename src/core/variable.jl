@@ -10,8 +10,18 @@ end
 
 " function for creating variables associated with zonal demand "
 function variable_zone_demand{G}(gm::GenericGasModel{G}, n::Int=gm.cnw)
-    consumers = gm.ref[:nw][n][:consumer]    
-    gm.var[:nw][n][:zone_ql] = @variable(gm.model, [i in keys(gm.ref[:nw][n][:price_zone])], basename="zone_ql", lowerbound=0.0, upperbound=sum(consumers[j]["qlmax"] for j in gm.ref[:nw][n][:price_zone][i]["junctions"]))             
+    consumers = gm.ref[:nw][n][:consumer]
+    
+    flmax =  Dict{Any,Any}()  
+    for (i, price_zone) in gm.ref[:nw][n][:price_zone]
+        flmax[i] = 0
+        for j in gm.ref[:nw][n][:price_zone][i]["junctions"]
+            consumers = filter( (k, consumer) -> consumer["ql_junc"] == j, gm.ref[:nw][n][:consumer])
+            flmax[i] = flmax[i] + sum(GasModels.calc_flmax(gm.data, consumer) for (k, consumer) in consumers)
+        end
+    end
+                 
+    gm.var[:nw][n][:zone_fl] = @variable(gm.model, [i in keys(gm.ref[:nw][n][:price_zone])], basename="zone_fl", lowerbound=0.0, upperbound=flmax[i])             
 end
 
 " function for creating variables associated with zonal demand "
