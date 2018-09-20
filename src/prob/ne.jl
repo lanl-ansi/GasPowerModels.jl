@@ -114,7 +114,7 @@ function post_ne{P,G}(pm::GenericPowerModel{P}, gm::GenericGasModel{G}; kwargs..
 
     ## Gas-Grid related parts of the problem formulation
     for i in GasModels.ids(gm, :consumer)
-       c = constraint_heat_rate_curve(pm, gm, i)
+       constraint_heat_rate_curve(pm, gm, i)
     end
 
     ### Object function minimizes demand and pressure cost

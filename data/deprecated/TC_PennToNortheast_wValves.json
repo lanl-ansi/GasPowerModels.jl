@@ -1,6 +1,9 @@
 
 
 {
+  "baseP":1.0,
+  "baseQ":1.0,
+
   "price_zone": {
     "1": {
       "junctions": [

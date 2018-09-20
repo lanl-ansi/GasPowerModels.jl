@@ -18,7 +18,7 @@ function post_ne_opf{P,G}(pm::GenericPowerModel{P}, gm::GenericGasModel{G}; kwar
   
     #### Gas only related variables and constraints
     post_nels(gm)
-    
+   
     ## Gas-Grid related parts of the problem formulation
     for i in GasModels.ids(gm, :consumer)
        c = constraint_heat_rate_curve(pm, gm, i)

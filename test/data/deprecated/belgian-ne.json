@@ -1,6 +1,8 @@
 
 
 {
+  "baseP":1.0,
+  "baseQ":1.0,
   "ne_connection": {
     "32": {
       "length": 26,

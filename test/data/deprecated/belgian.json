@@ -1,6 +1,8 @@
 
 
 {
+  "baseP":1.0,
+  "baseQ":1.0,
   "connection": {
     "24": {
       "length": 6,

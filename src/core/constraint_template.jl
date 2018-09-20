@@ -10,11 +10,7 @@
 # Constraint templates should always be defined over "GenericFooModel"
 # and should never refer to model variables
 
-" Assumption is mmBTU/h
- To get a daily rate multiply by 24
- To get back in real units, multiply by mvaBase
- To get CFD, divide by 1026 (1026 BTUs is a cubic feet) 
- This is the convex relaxation of equation 21 in the HICCS paper"
+" Assumption is J/s"
 function constraint_heat_rate_curve{P, G <: GasModels.AbstractMISOCPForms}(pm::GenericPowerModel{P}, gm::GenericGasModel{G}, n, j)
     consumer = gm.ref[:nw][n][:consumer][j]
     generators = consumer["gens"]
