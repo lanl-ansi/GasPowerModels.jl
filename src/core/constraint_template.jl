@@ -10,25 +10,23 @@
 # Constraint templates should always be defined over "GenericFooModel"
 # and should never refer to model variables
 
-" Assumption is mmBTU/h
- To get a daily rate multiply by 24
- To get back in real units, multiply by mvaBase
- To get CFD, divide by 1026 (1026 BTUs is a cubic feet) 
- This is the convex relaxation of equation 21 in the HICCS paper"
+" Assumption is J/s"
 function constraint_heat_rate_curve{P, G <: GasModels.AbstractMISOCPForms}(pm::GenericPowerModel{P}, gm::GenericGasModel{G}, n, j)
     consumer = gm.ref[:nw][n][:consumer][j]
-    generators = consumer["gens"] 
-    # convert from mmBTU/h in per unit to million CFD
-    constant = ((24.0 * pm.data["baseMVA"]) / 1026.0)
+    generators = consumer["gens"]
+    standard_density = gm.data["standard_density"]  
+       
+    # convert from J/s in per unit to cubic meters per second at standard density in per unit to kg per second in per unit. 
+    constant = gm.data["energy_factor"] * standard_density  
+      
     heat_rates = Dict{Int, Any}()   
     for i in generators
         heat_rates[i] = [pm.ref[:nw][n][:gen][i]["heat_rate_quad_coeff"], pm.ref[:nw][n][:gen][i]["heat_rate_linear_coeff"], pm.ref[:nw][n][:gen][i]["heat_rate_constant_coeff"]  ]    
-      #  heat_rates[i] = pm.ref[:nw][n][:gen][i]["heat_rate"]  
     end
-    qlmin = consumer["qlmin"]
-    qlmax = consumer["qlmax"]
+    flmin = GasModels.calc_flmin(gm.data, consumer)
+    flmax = GasModels.calc_flmax(gm.data, consumer)
     
-    constraint_heat_rate_curve(pm, gm, n, j, generators, heat_rates, constant, qlmin, qlmax)
+    constraint_heat_rate_curve(pm, gm, n, j, generators, heat_rates, constant, flmin, flmax)
 end
 constraint_heat_rate_curve(pm::GenericPowerModel, gm::GenericGasModel, k::Int) = constraint_heat_rate_curve(pm, gm, gm.cnw, k)
 
@@ -49,8 +47,9 @@ function constraint_zone_demand_price{G}(gm::GenericGasModel{G}, n::Int, i)
     price_zone = gm.ref[:nw][n][:price_zone][i]
     min_cost = price_zone["min_cost"]
     cost_q = price_zone["cost_q"]  
-    
-    constraint_zone_demand_price(gm, n, i, min_cost, cost_q)          
+    standard_density = gm.data["standard_density"]
+      
+    constraint_zone_demand_price(gm, n, i, min_cost, cost_q, standard_density)          
 end
 constraint_zone_demand_price(gm::GenericGasModel, i::Int) = constraint_zone_demand_price(gm, gm.cnw, i)
 
@@ -58,7 +57,7 @@ constraint_zone_demand_price(gm::GenericGasModel, i::Int) = constraint_zone_dema
  This is equation 25 in the HICCS paper"
 function constraint_pressure_price{G}(gm::GenericGasModel{G}, n::Int, i)
     price_zone = gm.ref[:nw][n][:price_zone][i]
-    cost_p = price_zone["cost_p"]
+    cost_p     = price_zone["cost_p"]
     
     constraint_pressure_price(gm, n, i, cost_p)  
 end

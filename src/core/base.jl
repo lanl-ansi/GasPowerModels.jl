@@ -51,6 +51,9 @@ function build_generic_model(pdata::Dict{String,Any}, gdata::Dict{String,Any}, p
 
     add_junction_generators(pm, gm)
     
+    # a bit of a hack for now
+    gas_grid_per_unit(gm.data, pm.data)
+    
     # unify all the optimization models... a little bit of a hack...
     pm.model = gm.model
         

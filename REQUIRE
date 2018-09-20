@@ -5,7 +5,7 @@ JuMP 0.14.0
 Compat
 
 PowerModels 0.8.1 0.9-
-GasModels 0.2
+GasModels 0.3.1 0.4-
 InfrastructureModels
 
 Compat

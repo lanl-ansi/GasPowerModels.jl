@@ -18,7 +18,7 @@ function post_ne_opf{P,G}(pm::GenericPowerModel{P}, gm::GenericGasModel{G}; kwar
   
     #### Gas only related variables and constraints
     post_nels(gm)
-    
+   
     ## Gas-Grid related parts of the problem formulation
     for i in GasModels.ids(gm, :consumer)
        c = constraint_heat_rate_curve(pm, gm, i)
@@ -35,8 +35,10 @@ function get_ne_opf_solution{P, G}(pm::GenericPowerModel{P}, gm::GenericGasModel
     PowerModels.add_branch_flow_setpoint(sol, pm)
     GasModels.add_junction_pressure_setpoint(sol, gm) 
     GasModels.add_connection_ne(sol, gm)
-    GasModels.add_load_setpoint(sol, gm)
-    GasModels.add_production_setpoint(sol, gm)    
+    GasModels.add_load_mass_flow_setpoint(sol, gm)
+    GasModels.add_production_mass_flow_setpoint(sol, gm)    
+    GasModels.add_load_volume_setpoint(sol, gm)
+    GasModels.add_production_volume_setpoint(sol, gm)        
     GasModels.add_direction_setpoint(sol, gm)
     GasModels.add_direction_ne_setpoint(sol,gm)
     GasModels.add_valve_setpoint(sol, gm)            
@@ -48,7 +50,8 @@ end
 # Add locational marginal prices
 function add_zone_cost_setpoint{G}(sol, gm::GenericGasModel{G})
     GasModels.add_setpoint(sol, gm, "price_zone", "lm",    :zone_cost)
-    GasModels.add_setpoint(sol, gm, "price_zone", "lq",    :zone_ql)
+    GasModels.add_setpoint(sol, gm, "price_zone", "lf",    :zone_fl)
+    GasModels.add_setpoint(sol, gm, "price_zone", "lq",    :zone_ql, scale = (x,item) -> GasModels.getvalue(x) / gm.data["standard_density"])  
     GasModels.add_setpoint(sol, gm, "price_zone", "lp",    :p_cost)
     GasModels.add_setpoint(sol, gm, "price_zone", "max_p", :zone_p)    
 end

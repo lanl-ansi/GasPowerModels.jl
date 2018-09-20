@@ -4,7 +4,7 @@
 
 " function for congestion costs based on demand "
 # This is equation 27 in the HICCS paper
-function objective_min_ne_opf_cost{P, G}(pm::GenericPowerModel{P},gm::GenericGasModel{G}, n::Int=gm.cnw; normalization = 100000.0, gas_ne_weight = 1.0, power_ne_weight = 1.0, power_opf_weight = 1.0, gas_price_weight = 1.0)
+function objective_min_ne_opf_cost{P, G}(pm::GenericPowerModel{P},gm::GenericGasModel{G}, n::Int=gm.cnw; normalization = 1.0, gas_ne_weight = 1.0, power_ne_weight = 1.0, power_opf_weight = 1.0, gas_price_weight = 1.0)
     zp = gm.var[:nw][n][:zp] 
     zc = gm.var[:nw][n][:zc] 
 
@@ -30,12 +30,12 @@ function objective_min_ne_opf_cost{P, G}(pm::GenericPowerModel{P},gm::GenericGas
     end
 
     obj = @objective(gm.model, Min, 
-      gas_ne_weight    * sum(gm.ref[:nw][n][:ne_connection][i]["construction_cost"] * zp[i] for i in keys(gm.ref[:nw][n][:ne_pipe])) +
-      gas_ne_weight    * sum(gm.ref[:nw][n][:ne_connection][i]["construction_cost"] * zc[i] for i in keys(gm.ref[:nw][n][:ne_compressor])) +
-      power_ne_weight  * sum( branches[i]["construction_cost"]*line_ne[i] for (i,branch) in branches) +
-      power_opf_weight * sum(gen["cost"][1]*pg[i]^2 + gen["cost"][2]*pg[i] + gen["cost"][3] for (i,gen) in ref(pm, :gen, nw=n)) +
-      gas_price_weight * sum(zone_cost[i] for i in keys(gm.ref[:nw][n][:price_zone])) +
-      gas_price_weight * sum(gm.ref[:nw][n][:price_zone][i]["constant_p"] * p_cost[i] for i in keys(gm.ref[:nw][n][:price_zone]))
+      gas_ne_weight * normalization    * sum(gm.ref[:nw][n][:ne_connection][i]["construction_cost"] * zp[i] for i in keys(gm.ref[:nw][n][:ne_pipe])) +
+      gas_ne_weight * normalization    * sum(gm.ref[:nw][n][:ne_connection][i]["construction_cost"] * zc[i] for i in keys(gm.ref[:nw][n][:ne_compressor])) +
+      power_ne_weight * normalization  * sum( branches[i]["construction_cost"]*line_ne[i] for (i,branch) in branches) +
+      power_opf_weight * normalization * sum(gen["cost"][1]*pg[i]^2 + gen["cost"][2]*pg[i] + gen["cost"][3] for (i,gen) in ref(pm, :gen, nw=n)) +
+      gas_price_weight * normalization * sum(zone_cost[i] for i in keys(gm.ref[:nw][n][:price_zone])) +
+      gas_price_weight * normalization * sum(gm.ref[:nw][n][:price_zone][i]["constant_p"] * p_cost[i] for i in keys(gm.ref[:nw][n][:price_zone]))
     )
 end
 
