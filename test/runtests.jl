@@ -36,8 +36,7 @@ minlp_solver = couenne_solver
 #gurobi_solver = GurobiSolver()
 #misocp_solver = gurobi_solver
 
-
+include("ne.jl")
 include("data.jl")
 include("gpf.jl")
-include("ne.jl")
 
