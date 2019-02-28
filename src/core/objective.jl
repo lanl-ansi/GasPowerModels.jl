@@ -4,9 +4,9 @@
 
 " function for congestion costs based on demand "
 # This is equation 27 in the HICCS paper
-function objective_min_ne_opf_cost{P, G}(pm::GenericPowerModel{P},gm::GenericGasModel{G}, n::Int=gm.cnw; normalization = 1.0, gas_ne_weight = 1.0, power_ne_weight = 1.0, power_opf_weight = 1.0, gas_price_weight = 1.0)
-    zp = gm.var[:nw][n][:zp] 
-    zc = gm.var[:nw][n][:zc] 
+function objective_min_ne_opf_cost(pm::GenericPowerModel,gm::GenericGasModel, n::Int=gm.cnw; normalization = 1.0, gas_ne_weight = 1.0, power_ne_weight = 1.0, power_opf_weight = 1.0, gas_price_weight = 1.0)
+    zp = gm.var[:nw][n][:zp]
+    zc = gm.var[:nw][n][:zc]
 
     line_ne = var(pm, :branch_ne, nw=n)
     branches = ref(pm, :ne_branch, nw=n)
@@ -29,7 +29,7 @@ function objective_min_ne_opf_cost{P, G}(pm::GenericPowerModel{P},gm::GenericGas
         constraint_pressure_price(gm, i)
     end
 
-    obj = @objective(gm.model, Min, 
+    obj = @objective(gm.model, Min,
       gas_ne_weight * normalization    * sum(gm.ref[:nw][n][:ne_connection][i]["construction_cost"] * zp[i] for i in keys(gm.ref[:nw][n][:ne_pipe])) +
       gas_ne_weight * normalization    * sum(gm.ref[:nw][n][:ne_connection][i]["construction_cost"] * zc[i] for i in keys(gm.ref[:nw][n][:ne_compressor])) +
       power_ne_weight * normalization  * sum( branches[i]["construction_cost"]*line_ne[i] for (i,branch) in branches) +
@@ -41,18 +41,16 @@ end
 
 " function for expansion costs only "
 # This is the objective function for the expansion only results in the HICCS paper
-function objective_min_ne_cost{P, G}(pm::GenericPowerModel{P},gm::GenericGasModel{G},n::Int=gm.cnw; gas_ne_weight = 1.0, power_ne_weight = 1.0, normalization = 1.0)
+function objective_min_ne_cost(pm::GenericPowerModel,gm::GenericGasModel,n::Int=gm.cnw; gas_ne_weight = 1.0, power_ne_weight = 1.0, normalization = 1.0)
     zp = gm.var[:nw][n][:zp] 
-    zc = gm.var[:nw][n][:zc] 
+    zc = gm.var[:nw][n][:zc]
 
     line_ne = var(pm, :branch_ne, nw=n)
     branches = ref(pm, :ne_branch, nw=n)
 
-    obj = @objective(gm.model, Min, 
-      gas_ne_weight      * normalization * sum(gm.ref[:nw][n][:ne_connection][i]["construction_cost"] * zp[i] for i in keys(gm.ref[:nw][n][:ne_pipe])) 
+    obj = @objective(gm.model, Min,
+      gas_ne_weight      * normalization * sum(gm.ref[:nw][n][:ne_connection][i]["construction_cost"] * zp[i] for i in keys(gm.ref[:nw][n][:ne_pipe]))
       + gas_ne_weight    * normalization * sum(gm.ref[:nw][n][:ne_connection][i]["construction_cost"] * zc[i] for i in keys(gm.ref[:nw][n][:ne_compressor]))
       + power_ne_weight  * normalization * sum( branches[i]["construction_cost"]*line_ne[i] for (i,branch) in branches)
-    )  
+    )
 end
-
-

@@ -1,4 +1,4 @@
-function build_solution{P, G}(pm::GenericPowerModel{P}, gm::GenericGasModel{G}, status, solve_time; objective = NaN, solution_builder = get_solution)
+function build_solution(pm::GenericPowerModel, gm::GenericGasModel, status, solve_time; objective = NaN, solution_builder = get_solution)
     if status != :Error
         objective = getobjectivevalue(gm.model)
         status = solver_status_dict(Symbol(typeof(gm.model.solver).name.module), status)
@@ -24,12 +24,12 @@ function build_solution{P, G}(pm::GenericPowerModel{P}, gm::GenericGasModel{G}, 
     return solution
 end
 
-function get_solution{P, G}(pm::GenericPowerModel{P}, gm::GenericGasModel{G})
+function get_solution(pm::GenericPowerModel, gm::GenericGasModel)
     sol = Dict{AbstractString,Any}()
     PowerModels.add_bus_voltage_setpoint(sol, pm)
     PowerModels.add_generator_power_setpoint(sol, pm)
     PowerModels.add_branch_flow_setpoint(sol, pm)
-    GasModels.add_junction_pressure_setpoint(sol, gm)    
+    GasModels.add_junction_pressure_setpoint(sol, gm)
     return sol
 end
 
@@ -61,4 +61,3 @@ function guard_getobjbound(model)
         -Inf
     end
 end
-

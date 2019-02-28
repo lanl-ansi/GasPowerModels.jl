@@ -4,30 +4,30 @@ export run_gpf
 
 " entry point into running the gas grid flow feasability problem"
 function run_gpf(power_file, gas_file, power_model_constructor, gas_model_constructor, solver; kwargs...)
-    return run_generic_model(power_file, gas_file, power_model_constructor, gas_model_constructor, solver, post_gpf; kwargs...) 
+    return run_generic_model(power_file, gas_file, power_model_constructor, gas_model_constructor, solver, post_gpf; kwargs...)
 end
 
-" construct the gas grid flow feasbility problem" 
-function post_gpf{P,G}(pm::GenericPowerModel{P}, gm::GenericGasModel{G})
-    
+" construct the gas grid flow feasbility problem"
+function post_gpf(pm::GenericPowerModel, gm::GenericGasModel)
+
     ## Power only related variables and constraints
     post_gpf(pm)
-        
+
     #### Gas only related variables and constraints
     post_gpf(gm)
-    
+
     ## Gas-Grid related parts of the problem formulation
     for i in GasModels.ids(gm, :consumer)
        constraint_heat_rate_curve(pm, gm, i)
     end
-    
+
     ### The objective is nothing
-    @objective(gm.model, Max, 0) 
-    
+    @objective(gm.model, Max, 0)
+
 end
 
 " Post the electric power constraints "
-function post_gpf{P}(pm::GenericPowerModel{P})
+function post_gpf(pm::GenericPowerModel)
     PowerModels.variable_voltage(pm, bounded = false)
     PowerModels.variable_generation(pm, bounded = false)
     PowerModels.variable_branch_flow(pm, bounded = false)
@@ -70,41 +70,41 @@ function post_gpf{P}(pm::GenericPowerModel{P})
             PowerModels.constraint_voltage_magnitude_setpoint(pm, t_bus["index"])
         end
     end
-  
+
 end
 
 "Post the gas flow variables and constraints"
-function post_gpf{G}(gm::GenericGasModel{G})
-    GasModels.variable_flow(gm)  
+function post_gpf(gm::GenericGasModel)
+    GasModels.variable_flow(gm)
     GasModels.variable_pressure_sqr(gm)
     GasModels.variable_valve_operation(gm)
     GasModels.variable_load_mass_flow(gm)
     GasModels.variable_production_mass_flow(gm)
-        
-                
-    for i in [collect(GasModels.ids(gm,:pipe)); collect(GasModels.ids(gm,:resistor))] 
-        GasModels.constraint_pipe_flow(gm, i) 
+
+
+    for i in [collect(GasModels.ids(gm,:pipe)); collect(GasModels.ids(gm,:resistor))]
+        GasModels.constraint_pipe_flow(gm, i)
     end
-    
+
     for i in GasModels.ids(gm, :junction)
-        GasModels.constraint_junction_mass_flow_ls(gm, i)      
+        GasModels.constraint_junction_mass_flow_ls(gm, i)
     end
-    
+
     for i in GasModels.ids(gm, :short_pipe)
-        GasModels.constraint_short_pipe_flow(gm, i) 
+        GasModels.constraint_short_pipe_flow(gm, i)
     end
-        
-    for i in GasModels.ids(gm, :compressor) 
-        GasModels.constraint_compressor_flow(gm, i) 
+
+    for i in GasModels.ids(gm, :compressor)
+        GasModels.constraint_compressor_flow(gm, i)
     end
-    
-    for i in GasModels.ids(gm, :valve)     
-        GasModels.constraint_valve_flow(gm, i) 
+
+    for i in GasModels.ids(gm, :valve)
+        GasModels.constraint_valve_flow(gm, i)
     end
-    
-    for i in GasModels.ids(gm, :control_valve) 
-        GasModels.constraint_control_valve_flow(gm, i) 
+
+    for i in GasModels.ids(gm, :control_valve)
+        GasModels.constraint_control_valve_flow(gm, i)
     end
-    
-        
+
+
 end
