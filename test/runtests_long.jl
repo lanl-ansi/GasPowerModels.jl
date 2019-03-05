@@ -2,8 +2,6 @@ using PowerModels
 using GasModels
 using GasGridModels
 
-using Logging
-
 using Ipopt
 using Pavito
 using Cbc
