@@ -1,6 +1,6 @@
 # Define NLP implementations of Gas Grid Models
 
-function constraint_heat_rate_curve(pm::GenericPowerModel, gm::GenericGasModel{G}, n::Int, j, generators, heat_rates, constant, flmin, flmax) where G <:GasModels.AbstractMINLPForms
+function constraint_heat_rate_curve(pm::GenericPowerModel, gm::GenericGasModel{G}, n::Int, j, generators, heat_rates, constant, flmin, flmax) where G <:GasModels.AbstractGasFormulation
     fl = flmin != 0 || flmax != 0 ? gm.var[:nw][n][:fl][j] : 0
     pg = var(pm, :pg, nw=n)
 

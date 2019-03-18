@@ -11,7 +11,7 @@
 # and should never refer to model variables
 
 " Assumption is J/s"
-function constraint_heat_rate_curve(pm::GenericPowerModel, gm::GenericGasModel{G}, n, j) where G <: GasModels.AbstractMISOCPForms
+function constraint_heat_rate_curve(pm::GenericPowerModel, gm::GenericGasModel{G}, n, j) where G <:GasModels.AbstractGasFormulation
     consumer = gm.ref[:nw][n][:consumer][j]
     generators = consumer["gens"]
     standard_density = gm.data["standard_density"]
