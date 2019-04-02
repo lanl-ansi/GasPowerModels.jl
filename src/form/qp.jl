@@ -5,8 +5,15 @@
 
 ###################### Constraints ####################################
 
-function constraint_heat_rate_curve(pm::GenericPowerModel, gm::GenericGasModel{G}, n::Int, j, generators, heat_rates, constant, flmin, flmax) where G <: GasModels.AbstractMISOCPForm
-    fl = flmin != 0 || flmax != 0 ? gm.var[:nw][n][:fl][j] : 0
+function constraint_heat_rate_curve(pm::GenericPowerModel, gm::GenericGasModel{G}, n::Int, j, generators, heat_rates, constant, dispatchable) where G <: GasModels.AbstractMISOCPForm
+#    if dispatchable == 1
+#        fl = gm.var[:nw][n][:fl][j]
+#    end
+#    fl = flmin != 0 || flmax != 0 ? gm.var[:nw][n][:fl][j] : 0
+    fl = dispatchable == 1 ? gm.var[:nw][n][:fl][j] : 0
+
+#    println(fl)
+
     pg = var(pm, :pg, nw=n)
 
     if !haskey(gm.con[:nw][n], :heat_rate_curve)
@@ -31,4 +38,5 @@ function constraint_heat_rate_curve(pm::GenericPowerModel, gm::GenericGasModel{G
     else
         gm.con[:nw][n][:heat_rate_curve][j] = @constraint(gm.model, fl >= constant * (sum( heat_rates[i][1] == 0.0 ? 0 : heat_rates[i][1]*pg[i]^2 for i in generators) + sum( heat_rates[i][2]*pg[i] for i in generators) + sum( heat_rates[i][3] for i in generators)))
     end
+#    println(gm.con[:nw][n][:heat_rate_curve][j])
 end

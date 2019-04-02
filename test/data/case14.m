@@ -8,7 +8,7 @@ function mpc = case14
 %
 %   Converted from IEEE CDF file from:
 %       http://www.ee.washington.edu/research/pstca/
-% 
+%
 %  08/19/93 UW ARCHIVE           100.0  1962 W IEEE 14 Bus Test Case
 
 %   MATPOWER
@@ -109,7 +109,7 @@ mpc.bus_name = {
 mpc.gen_gas = [
 	-1	0   0               0;
 	4	0	140674.111111   0;
-	12	0	140674.111111   0;
+	10012	0	140674.111111   0;
 	-1	0	0	            0;
 	-1	0	0	            0;
 ];

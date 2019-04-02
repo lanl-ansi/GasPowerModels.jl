@@ -16,11 +16,13 @@ function variable_zone_demand(gm::GenericGasModel, n::Int=gm.cnw)
     for (i, price_zone) in gm.ref[:nw][n][:price_zone]
         flmax[i] = 0
         for j in gm.ref[:nw][n][:price_zone][i]["junctions"]
-            consumers = filter( (k, consumer) -> consumer["ql_junc"] == j, gm.ref[:nw][n][:consumer])
-            flmax[i] = flmax[i] + sum(GasModels.calc_flmax(gm.data, consumer) for (k, consumer) in consumers)
+#            consumers = filter( (k, consumer) -> consumer["ql_junc"] == j, gm.ref[:nw][n][:consumer])
+#             flmax[i] = flmax[i] + sum(GasModels.calc_flmax(gm.data, consumer) for (k, consumer) in consumers)
+
+            junction_consumers = gm.ref[:nw][n][:junction_consumers][j]
+            flmax[i] = flmax[i] + sum(GasModels.calc_flmax(gm.data, consumers[k]) for k in junction_consumers)
         end
     end
-
     gm.var[:nw][n][:zone_fl] = @variable(gm.model, [i in keys(gm.ref[:nw][n][:price_zone])], basename="$(n)_zone_fl", lowerbound=0.0, upperbound=flmax[i])
 end
 

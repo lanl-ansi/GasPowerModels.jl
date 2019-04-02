@@ -12,6 +12,6 @@
     @testset "Demand Penalty" begin
         result = GasGridModels.run_ne_opf("../test/data/no_cost.m", "../test/data/no_pressure_cost.json", SOCWRPowerModel, MISOCPGasModel, misocp_solver; power_opf_weight=1.0, gas_price_weight=1.0)
         @test result["status"] == :LocalOptimal || result["status"] == :Optimal
-        @test isapprox(result["objective"],  250139; atol = 1.0) || isapprox(result["objective"],  248541; atol = 1.0) 
+        @test isapprox(result["objective"],  250139; atol = 1.0) || isapprox(result["objective"],  248541; atol = 2.0) 
     end
  end

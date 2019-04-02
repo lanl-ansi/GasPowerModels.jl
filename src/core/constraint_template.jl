@@ -12,9 +12,15 @@
 
 " Assumption is J/s"
 function constraint_heat_rate_curve(pm::GenericPowerModel, gm::GenericGasModel{G}, n, j) where G <:GasModels.AbstractGasFormulation
+#    println()
+
+
     consumer = gm.ref[:nw][n][:consumer][j]
     generators = consumer["gens"]
     standard_density = gm.data["standard_density"]
+
+#    println("consumer ", j)
+#    println(generators)
 
     # convert from J/s in per unit to cubic meters per second at standard density in per unit to kg per second in per unit.
     constant = gm.data["energy_factor"] * standard_density
@@ -23,19 +29,31 @@ function constraint_heat_rate_curve(pm::GenericPowerModel, gm::GenericGasModel{G
     for i in generators
         heat_rates[i] = [pm.ref[:nw][n][:gen][i]["heat_rate_quad_coeff"], pm.ref[:nw][n][:gen][i]["heat_rate_linear_coeff"], pm.ref[:nw][n][:gen][i]["heat_rate_constant_coeff"]  ]
     end
-    flmin = GasModels.calc_flmin(gm.data, consumer)
-    flmax = GasModels.calc_flmax(gm.data, consumer)
+#    flmin = GasModels.calc_flmin(gm.data, consumer)
+#    flmax = GasModels.calc_flmax(gm.data, consumer)
+    dispatchable = consumer["dispatchable"]
+#    fl = GasModels.calc_fl(gm.data, consumer)
 
-    constraint_heat_rate_curve(pm, gm, n, j, generators, heat_rates, constant, flmin, flmax)
+    constraint_heat_rate_curve(pm, gm, n, j, generators, heat_rates, constant, dispatchable)
 end
 constraint_heat_rate_curve(pm::GenericPowerModel, gm::GenericGasModel, k::Int) = constraint_heat_rate_curve(pm, gm, gm.cnw, k)
 
 " constraints associated with bounding the demand zone prices
  This is equation 23 in the HICCS paper "
 function constraint_zone_demand(gm::GenericGasModel, n::Int, i)
-    load_set = filter(j -> gm.ref[:nw][n][:consumer][j]["qlmin"] != 0 || gm.ref[:nw][n][:consumer][j]["qlmax"] != 0, collect(keys(gm.ref[:nw][n][:consumer])))
+#    load_set = collect(keys(Dict(x for x in gm.ref[:nw][n][:consumer] if x.second["dispatchable"] == 1)))
+#    load_set = filter(j -> gm.ref[:nw][n][:consumer][j]["qlmin"] != 0 || gm.ref[:nw][n][:consumer][j]["qlmax"] != 0, collect(keys(gm.ref[:nw][n][:consumer])))
     price_zone = gm.ref[:nw][n][:price_zone][i]
-    loads = intersect(price_zone["junctions"],load_set)
+    #loads = intersect(price_zone["junctions"],load_set)
+
+#println(load_set)
+#    loads = filter(j -> contains(price_zone["junctions"],gm.ref[:nw][n][:consumer][j]["ql_junc"]), load_set)
+
+   loads = Set()
+   for i in price_zone["junctions"]
+       loads = union(loads,GasModels.ref(gm,n,:junction_dispatchable_consumers,i))
+   end
+   println(loads)
 
     constraint_zone_demand(gm, n, i, loads)
 end
