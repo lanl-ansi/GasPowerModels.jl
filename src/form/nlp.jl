@@ -14,7 +14,7 @@ function constraint_heat_rate_curve(pm::GenericPowerModel, gm::GenericGasModel{G
     end
 
     if length(generators) == 0
-        if fl != 0
+        if dispatchable == 1
             gm.con[:nw][n][:heat_rate_curve][j] = @constraint(pm.model, fl == 0.0)
         end
         return
