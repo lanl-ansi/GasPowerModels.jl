@@ -12,7 +12,7 @@
 
 " Assumption is J/s"
 function constraint_heat_rate_curve(pm::GenericPowerModel, gm::GenericGasModel{G}, n, j) where G <:GasModels.AbstractGasFormulation
-    consumer = gm.ref[:nw][n][:consumer][j]
+    consumer = GasModels.ref(gm,n,:consumer,j)
     generators = consumer["gens"]
     standard_density = gm.data["standard_density"]
 
@@ -21,7 +21,7 @@ function constraint_heat_rate_curve(pm::GenericPowerModel, gm::GenericGasModel{G
 
     heat_rates = Dict{Int, Any}()
     for i in generators
-        heat_rates[i] = [pm.ref[:nw][n][:gen][i]["heat_rate_quad_coeff"], pm.ref[:nw][n][:gen][i]["heat_rate_linear_coeff"], pm.ref[:nw][n][:gen][i]["heat_rate_constant_coeff"]  ]
+        heat_rates[i] = [PowerModels.ref(pm,n,:gen,i)["heat_rate_quad_coeff"], PowerModels.ref(pm,n,:gen,i)["heat_rate_linear_coeff"], PowerModels.ref(pm,n,:gen,i)["heat_rate_constant_coeff"]]
     end
     dispatchable = consumer["dispatchable"]
     constraint_heat_rate_curve(pm, gm, n, j, generators, heat_rates, constant, dispatchable)
@@ -31,7 +31,7 @@ constraint_heat_rate_curve(pm::GenericPowerModel, gm::GenericGasModel, k::Int) =
 " constraints associated with bounding the demand zone prices
  This is equation 23 in the HICCS paper "
 function constraint_zone_demand(gm::GenericGasModel, n::Int, i)
-   price_zone = gm.ref[:nw][n][:price_zone][i]
+   price_zone = GasModels.ref(gm,n,:price_zone,i)
    loads = Set()
    for i in price_zone["junctions"]
        loads = union(loads,GasModels.ref(gm,n,:junction_dispatchable_consumers,i))
@@ -44,7 +44,7 @@ constraint_zone_demand(gm::GenericGasModel, i::Int) = constraint_zone_demand(gm,
 " constraints associated with bounding the demand zone prices
  This is equation 22 in the HICCS paper"
 function constraint_zone_demand_price(gm::GenericGasModel, n::Int, i)
-    price_zone = gm.ref[:nw][n][:price_zone][i]
+    price_zone = GasModels.ref(gm,n,:price_zone,i)
     min_cost = price_zone["min_cost"]
     cost_q = price_zone["cost_q"]
     standard_density = gm.data["standard_density"]
@@ -56,7 +56,7 @@ constraint_zone_demand_price(gm::GenericGasModel, i::Int) = constraint_zone_dema
 " constraints associated with pressure prices
  This is equation 25 in the HICCS paper"
 function constraint_pressure_price(gm::GenericGasModel, n::Int, i)
-    price_zone = gm.ref[:nw][n][:price_zone][i]
+    price_zone = GasModels.ref(gm,n,:price_zone,i)
     cost_p     = price_zone["cost_p"]
 
     constraint_pressure_price(gm, n, i, cost_p)
