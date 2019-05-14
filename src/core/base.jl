@@ -15,17 +15,17 @@ function JuMP.solve(gm::GenericGasModel)
     try
         solve_time = getsolvetime(gm.model)
     catch
-        warn("there was an issue with getsolvetime() on the solver, falling back on @timed.  This is not a rigorous timing value.");
+        @warn "there was an issue with getsolvetime() on the solver, falling back on @timed.  This is not a rigorous timing value."
     end
 
     return status, solve_time
 end
 
 ""
-function run_generic_model(power_file, gas_file, power_model_constructor, gas_model_constructor, solver, post_method; solution_builder = get_solution, kwargs...)  
+function run_generic_model(power_file, gas_file, power_model_constructor, gas_model_constructor, solver, post_method; solution_builder = get_solution, kwargs...)
     power_data    = PowerModels.parse_file(power_file)
     gas_data      = GasModels.parse_file(gas_file)
-    return run_generic_model(power_data, gas_data, power_model_constructor, gas_model_constructor, solver, post_method; solution_builder = solution_builder, kwargs...)      
+    return run_generic_model(power_data, gas_data, power_model_constructor, gas_model_constructor, solver, post_method; solution_builder = solution_builder, kwargs...)
 end
 
 " Run the optimization on a dictionarized model"
@@ -39,7 +39,7 @@ end
 function build_generic_model(pfile::String, gfile::String, power_model_constructor, gas_model_constructor, post_method; kwargs...)
     gas_data = GasModels.parse_file(gfile)
     power_data = PowerModels.parse_file(pfile)
-    
+
     return build_generic_model(power_data, gas_data, power_model_constructor, gas_model_constructor, post_method; kwargs...)
 end
 
@@ -50,14 +50,14 @@ function build_generic_model(pdata::Dict{String,Any}, gdata::Dict{String,Any}, p
     pm = power_model_constructor(pdata)
 
     add_junction_generators(pm, gm)
-    
+
     # a bit of a hack for now
     gas_grid_per_unit(gm.data, pm.data)
-    
+
     # unify all the optimization models... a little bit of a hack...
     pm.model = gm.model
-        
-    post_method(pm, gm; kwargs...) 
+
+    post_method(pm, gm; kwargs...)
     return pm, gm
 end
 

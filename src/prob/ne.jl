@@ -4,11 +4,11 @@ export run_ne_popf
 
 " entry point for running gas and electric power expansion planning only "
 function run_ne(power_file, gas_file, power_model_constructor, gas_model_constructor, solver; solution_builder=get_ne_solution, kwargs...)
-    return run_generic_model(power_file, gas_file, power_model_constructor, gas_model_constructor, solver, post_ne; solution_builder=solution_builder, kwargs...)     
+    return run_generic_model(power_file, gas_file, power_model_constructor, gas_model_constructor, solver, post_ne; solution_builder=solution_builder, kwargs...)
 end
 
 "Post all the constraints associated with expansion planning in electric power"
-function post_tnep{P}(pm::GenericPowerModel{P})
+function post_tnep(pm::GenericPowerModel)
     PowerModels.variable_branch_ne(pm)      # variable z in the TPS paper
     PowerModels.variable_voltage(pm)        # variable v in the TPS paper
     PowerModels.variable_voltage_ne(pm)     # variable v in the TPS paper
@@ -16,7 +16,7 @@ function post_tnep{P}(pm::GenericPowerModel{P})
     PowerModels.variable_branch_flow(pm)    # variable p,q in the TPS paper
     PowerModels.variable_dcline_flow(pm)    # DC line flows.  Not used in TPS paper
     PowerModels.variable_branch_flow_ne(pm) # variable p,q in the TPS paper
-    
+
     PowerModels.constraint_voltage(pm)      # adds upper and lower bounds on voltage and voltage squared, constraint 11 in TPS paper
     PowerModels.constraint_voltage_ne(pm)   # adds upper and lower bounds on voltage and voltage squared, constraint 11 in TPS paper
 
@@ -47,60 +47,60 @@ function post_tnep{P}(pm::GenericPowerModel{P})
 end
 
 "Post all the constraints and variables associated with expansion planning in gas networks"
-function post_nels{G}(gm::GenericGasModel{G})
-    GasModels.variable_flow(gm) # variable x in the TPS paper         
+function post_nels(gm::GenericGasModel)
+    GasModels.variable_flow(gm) # variable x in the TPS paper
     GasModels.variable_pressure_sqr(gm)  # variable \pi in the TPS paper
     GasModels.variable_valve_operation(gm)
     GasModels.variable_load_mass_flow(gm)  # variable d in the TPS paper
     GasModels.variable_production_mass_flow(gm)  # variable s in the TPS paper
-    
+
     # expansion variables
     GasModels.variable_pipe_ne(gm)
     GasModels.variable_compressor_ne(gm)
 
-    GasModels.variable_flow_ne(gm)  # variable x in the TPS paper  
-    
+    GasModels.variable_flow_ne(gm)  # variable x in the TPS paper
+
     for i in GasModels.ids(gm, :junction)
-        GasModels.constraint_junction_mass_flow_ne_ls(gm, i) 
+        GasModels.constraint_junction_mass_flow_ne_ls(gm, i)
     end
 
-    for i in [collect(GasModels.ids(gm,:pipe)); collect(GasModels.ids(gm,:resistor))] 
+    for i in [collect(GasModels.ids(gm,:pipe)); collect(GasModels.ids(gm,:resistor))]
         GasModels.constraint_pipe_flow_ne(gm, i)
     end
 
-    for i in GasModels.ids(gm,:ne_pipe) 
+    for i in GasModels.ids(gm,:ne_pipe)
         GasModels.constraint_new_pipe_flow_ne(gm, i)
     end
-    
-    for i in GasModels.ids(gm, :short_pipe) 
+
+    for i in GasModels.ids(gm, :short_pipe)
         GasModels.constraint_short_pipe_flow_ne(gm, i)
     end
-    
-    # We assume that we already have a short pipe connecting two nodes 
-    # and we just want to add a compressor to it.  Use constraint 
+
+    # We assume that we already have a short pipe connecting two nodes
+    # and we just want to add a compressor to it.  Use constraint
     # constraint_on_off_compressor_flow_expansion to disallow flow
-    # if the compressor is not built 
-    for i in GasModels.ids(gm,:compressor)       
+    # if the compressor is not built
+    for i in GasModels.ids(gm,:compressor)
         GasModels.constraint_compressor_flow_ne(gm, i)
     end
- 
-    for i in GasModels.ids(gm, :ne_compressor) 
+
+    for i in GasModels.ids(gm, :ne_compressor)
         GasModels.constraint_new_compressor_flow_ne(gm, i)
-    end  
-          
-    for i in GasModels.ids(gm, :valve)     
+    end
+
+    for i in GasModels.ids(gm, :valve)
         GasModels.constraint_valve_flow(gm, i)
     end
-    
-    for i in GasModels.ids(gm, :control_valve) 
-        GasModels.constraint_control_valve_flow(gm, i)       
+
+    for i in GasModels.ids(gm, :control_valve)
+        GasModels.constraint_control_valve_flow(gm, i)
     end
-    
-        
+
+
 end
 
 # construct the gas flow feasbility problem with demand being the cost model
-function post_ne{P,G}(pm::GenericPowerModel{P}, gm::GenericGasModel{G}; kwargs...)
+function post_ne(pm::GenericPowerModel, gm::GenericGasModel; kwargs...)
     kwargs = Dict(kwargs)
     gas_ne_weight     = haskey(kwargs, :gas_ne_weight)     ? kwargs[:gas_ne_weight] : 1.0
     power_ne_weight   = haskey(kwargs, :power_ne_weight)   ? kwargs[:power_ne_weight] : 1.0
@@ -118,10 +118,10 @@ function post_ne{P,G}(pm::GenericPowerModel{P}, gm::GenericGasModel{G}; kwargs..
     end
 
     ### Object function minimizes demand and pressure cost
-    objective_min_ne_cost(pm, gm; gas_ne_weight = gas_ne_weight, power_ne_weight = power_ne_weight, normalization =  obj_normalization)     
+    objective_min_ne_cost(pm, gm; gas_ne_weight = gas_ne_weight, power_ne_weight = power_ne_weight, normalization =  obj_normalization)
 end
 
-function get_ne_solution{P, G}(pm::GenericPowerModel{P}, gm::GenericGasModel{G})
+function get_ne_solution(pm::GenericPowerModel, gm::GenericGasModel)
     sol = Dict{AbstractString,Any}()
     PowerModels.add_bus_voltage_setpoint(sol, pm)
     PowerModels.add_generator_power_setpoint(sol, pm)
@@ -129,7 +129,7 @@ function get_ne_solution{P, G}(pm::GenericPowerModel{P}, gm::GenericGasModel{G})
     GasModels.add_junction_pressure_setpoint(sol, gm)
     GasModels.add_connection_ne(sol, gm)
     GasModels.add_load_mass_flow_setpoint(sol, gm)
-    GasModels.add_production_mass_flow_setpoint(sol, gm)    
+    GasModels.add_production_mass_flow_setpoint(sol, gm)
     GasModels.add_load_volume_setpoint(sol, gm)
     GasModels.add_production_volume_setpoint(sol, gm)
     GasModels.add_direction_setpoint(sol, gm)
@@ -138,5 +138,3 @@ function get_ne_solution{P, G}(pm::GenericPowerModel{P}, gm::GenericGasModel{G})
     PowerModels.add_branch_ne_setpoint(sol, pm)
     return sol
 end
-
-

@@ -1,5 +1,3 @@
-isdefined(Base, :__precompile__) && __precompile__()
-
 module GasGridModels
 
 using JSON
@@ -9,8 +7,28 @@ using Compat
 using PowerModels
 using GasModels
 using InfrastructureModels
+using Memento
 
 using Compat
+
+if VERSION < v"0.7.0-"
+    import Compat: @__MODULE__
+end
+
+# Create our module level logger (this will get precompiled)
+const LOGGER = getlogger(@__MODULE__)
+
+# Register the module level logger at runtime so that folks can access the logger via `getlogger(GasModels)`
+# NOTE: If this line is not included then the precompiled `GasModels.LOGGER` won't be registered at runtime.
+__init__() = Memento.register(LOGGER)
+
+"Suppresses information and warning messages output by GasModels, for fine grained control use the Memento package"
+function silence()
+    Memento.info(LOGGER, "Suppressing information and warning messages for the rest of this session.  Use the Memento package for more fine-grained control of logging.")
+    setlevel!(getlogger(InfrastructureModels), "error")
+#    setlevel!(getlogger(GasModels), "error")
+    setlevel!(getlogger(PowerModels), "error")
+end
 
 include("core/base.jl")
 include("core/variable.jl")

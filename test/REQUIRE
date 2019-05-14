@@ -1,13 +1,10 @@
 julia 0.6
 
-PowerModels 0.8 0.9- 
+PowerModels 0.8 0.9-
 GasModels 0.3.1 0.4-
-
-Logging
 
 Ipopt
 Pavito
 Cbc
 AmplNLWriter
-CoinOptServices
 GLPKMathProgInterface
