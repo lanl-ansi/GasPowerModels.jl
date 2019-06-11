@@ -34,5 +34,5 @@ deploydocs(
     make = nothing,
     target = "build",
     repo = "github.com/lanl-ansi/GasGridModels.jl.git",
-    julia = "0.6"
+    julia = "1.1"
 )
