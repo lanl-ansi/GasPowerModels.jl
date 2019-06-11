@@ -1,11 +1,13 @@
+
+""
 function build_solution(pm::GenericPowerModel, gm::GenericGasModel, status, solve_time; objective = NaN, solution_builder = get_solution)
     if status != :Error
-        objective = getobjectivevalue(gm.model)
-        status = solver_status_dict(Symbol(typeof(gm.model.solver).name.module), status)
+        objective = JuMP.objective_value(gm.model)
+        status = GasModels.optimizer_status_dict(Symbol(typeof(gm.model.moi_backend).name.module), status)
     end
 
     solution = Dict{AbstractString,Any}(
-        "solver" => string(typeof(gm.model.solver)),
+        "optimizer" => string(typeof(gm.model.moi_backend.optimizer)), 
         "status" => status,
         "objective" => objective,
         "objective_lb" => guard_getobjbound(gm.model),

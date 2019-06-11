@@ -18,31 +18,43 @@ if VERSION > v"0.7.0-"
 end
 
 
+#using Ipopt
+#using Cbc
+#using AmplNLWriter
+#using GLPKMathProgInterface
+
+#using Compat.Test
+
+
+
+#bonmin_solver = AmplNLSolver("bonmin")
+#couenne_solver =  AmplNLSolver("couenne")
+#cbc_solver     = CbcSolver()
+#glpk_solver = GLPKSolverMIP()
+#ipopt_solver = IpoptSolver(tol=1e-6, print_level=0)
+#pavito_glpk_solver = PavitoSolver(mip_solver=glpk_solver, cont_solver=ipopt_solver, mip_solver_drives=false, log_level=1)
+#pavito_cbc_solver = PavitoSolver(mip_solver=cbc_solver, cont_solver=ipopt_solver, mip_solver_drives=false, log_level=1)
+
+using JuMP
 using Ipopt
-using Pavito
 using Cbc
-using AmplNLWriter
-using GLPKMathProgInterface
-
-using Compat.Test
+using Juniper
+using Test
 
 
+ipopt_solver = JuMP.with_optimizer(Ipopt.Optimizer, tol=1e-6, print_level=0, sb="yes")
+cbc_solver = JuMP.with_optimizer(Cbc.Optimizer, logLevel=0)
+juniper_solver = JuMP.with_optimizer(Juniper.Optimizer,
+    nl_solver=JuMP.with_optimizer(Ipopt.Optimizer, tol=1e-4, print_level=0),
+    mip_solver=cbc_solver, log_levels=[])
 
-bonmin_solver = AmplNLSolver("bonmin")
-couenne_solver =  AmplNLSolver("couenne")
-cbc_solver     = CbcSolver()
-glpk_solver = GLPKSolverMIP()
-ipopt_solver = IpoptSolver(tol=1e-6, print_level=0)
-pavito_glpk_solver = PavitoSolver(mip_solver=glpk_solver, cont_solver=ipopt_solver, mip_solver_drives=false, log_level=1)
-pavito_cbc_solver = PavitoSolver(mip_solver=cbc_solver, cont_solver=ipopt_solver, mip_solver_drives=false, log_level=1)
-
-misocp_solver = pavito_cbc_solver
-minlp_solver = couenne_solver
+misocp_solver = juniper_solver
+minlp_solver = juniper_solver
 
 #using Gurobi
-#gurobi_solver = GurobiSolver()
+#gurobi_solver = JuMP.with_optimizer(Gurobi.Optimizer)
 #misocp_solver = gurobi_solver
 
-include("ne.jl")
 include("data.jl")
 include("gpf.jl")
+include("ne.jl")

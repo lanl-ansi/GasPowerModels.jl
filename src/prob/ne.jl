@@ -4,7 +4,7 @@ export run_ne_popf
 
 " entry point for running gas and electric power expansion planning only "
 function run_ne(power_file, gas_file, power_model_constructor, gas_model_constructor, solver; solution_builder=get_ne_solution, kwargs...)
-    return run_generic_model(power_file, gas_file, power_model_constructor, gas_model_constructor, solver, post_ne; solution_builder=solution_builder, kwargs...)
+    return run_generic_model(power_file, gas_file, power_model_constructor, gas_model_constructor, solver, post_ne; power_ref_extensions=[PowerModels.on_off_va_bounds_ref!,PowerModels.ne_branch_ref!], solution_builder=solution_builder, kwargs...)
 end
 
 "Post all the constraints associated with expansion planning in electric power"
