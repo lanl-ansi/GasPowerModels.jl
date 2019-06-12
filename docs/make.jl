@@ -30,9 +30,5 @@ makedocs(
 )
 
 deploydocs(
-    deps = nothing,
-    make = nothing,
-    target = "build",
     repo = "github.com/lanl-ansi/GasPowerModels.jl.git",
-    julia = "1.1"
 )
