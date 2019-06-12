@@ -1,19 +1,12 @@
 module GasGridModels
 
 using JSON
-using MathProgBase
 using JuMP
-using Compat
 using PowerModels
 using GasModels
 using InfrastructureModels
 using Memento
 
-using Compat
-
-if VERSION < v"0.7.0-"
-    import Compat: @__MODULE__
-end
 
 # Create our module level logger (this will get precompiled)
 const LOGGER = getlogger(@__MODULE__)

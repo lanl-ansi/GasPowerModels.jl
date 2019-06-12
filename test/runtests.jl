@@ -7,24 +7,7 @@ using Memento
 # Suppress warnings during testing.
 setlevel!(getlogger(GasModels), "error")
 
-if VERSION < v"0.7.0-"
-    # suppress warnings during testing
-    import Compat: occursin
-end
-
-if VERSION > v"0.7.0-"
-    # suppress warnings during testing
-    GasGridModels.silence()
-end
-
-
-#using Ipopt
-#using Cbc
-#using AmplNLWriter
-#using GLPKMathProgInterface
-
-#using Compat.Test
-
+GasGridModels.silence()
 
 
 #bonmin_solver = AmplNLSolver("bonmin")

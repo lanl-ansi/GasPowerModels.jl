@@ -1,8 +1,6 @@
-julia 1.1
+julia 1
 JSON
-MathProgBase
 JuMP
-Compat
 
 PowerModels
 GasModels
