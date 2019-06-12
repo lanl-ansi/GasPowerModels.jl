@@ -3,5 +3,3 @@ julia 1
 Ipopt
 Cbc
 Juniper
-
-JuMP
