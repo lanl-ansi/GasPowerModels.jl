@@ -1,4 +1,4 @@
-GasGridModels.jl Change Log
+GasPowerModels.jl Change Log
 =======================
 
 ### Pending

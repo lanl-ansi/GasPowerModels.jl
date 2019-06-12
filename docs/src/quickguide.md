@@ -3,7 +3,7 @@
 Once GasGrid Models is installed, Pavito is installed, and network data files (e.g. `"test/data/belgion.json"`, `"test/data/case14.m"`) have been acquired, a Gas and Power Flow with SOC relaxations can be executed with,
 
 ```julia
-using GasGridModels
+using GasPowerModels
 using Pavito
 
 run_gpf("../test/data/case14.m", "../test/data/belgian.json", SOCWRPowerModel, MISOCPGasModel, PavitoSolver())
@@ -18,7 +18,7 @@ run_gpf("../test/data/case14.m", "../test/data/belgian.json", ACPowerModel, MINL
 
 ## Getting Results
 
-The run commands in GasGridModels return detailed results data in the form of a dictionary.
+The run commands in GasPowerModels return detailed results data in the form of a dictionary.
 This dictionary can be saved for further processing as follows,
 
 ```julia
@@ -39,14 +39,14 @@ For example, the following dictionary comprehension can be used to inspect the j
 Dict(name => data["p"] for (name, data) in result["solution"]["junction"])
 ```
 
-For more information about GasGridModels result data see the [GasGridModels Result Data Format](@ref) section.
+For more information about GasPowerModels result data see the [GasPowerModels Result Data Format](@ref) section.
 
 
 ## Inspecting the Formulation
-The following example demonstrates how to break a `run_gpf` call into separate model building and solving steps.  This allows inspection of the JuMP model created by GasGridModels for the gas flow problem,
+The following example demonstrates how to break a `run_gpf` call into separate model building and solving steps.  This allows inspection of the JuMP model created by GasPowerModels for the gas flow problem,
 
 ```julia
-pm, gm = build_generic_model("../test/data/case14.m", "../test/data/belgian.json", SOCWRPowerModel, MISOCPGasModel, GasGridModels.post_gpf)
+pm, gm = build_generic_model("../test/data/case14.m", "../test/data/belgian.json", SOCWRPowerModel, MISOCPGasModel, GasPowerModels.post_gpf)
 
 print(gm.model)
 print(pm.model)

@@ -1,11 +1,11 @@
-# The GasGridModels Mathematical Model
+# The GasPowerModels Mathematical Model
 
-As GasGridModels implements a variety of coupled gas grid network optimization problems, the implementation is the best reference for precise mathematical formulations.  This section provides a mathematical specification for a prototypical coupled gas grid Flow problem, to provide an overview of the typical mathematical models in GasGridModels.
+As GasPowerModels implements a variety of coupled gas grid network optimization problems, the implementation is the best reference for precise mathematical formulations.  This section provides a mathematical specification for a prototypical coupled gas grid Flow problem, to provide an overview of the typical mathematical models in GasPowerModels.
 
 
 ## Coupled Gas Electric Power Flow
 
-GasGridModels implements a steady-state model of gas flow and power flow based on the implementations of gas flows in GasModels.jl and power flows in PowerModels.jl.  The key coupling constraint between
+GasPowerModels implements a steady-state model of gas flow and power flow based on the implementations of gas flows in GasModels.jl and power flows in PowerModels.jl.  The key coupling constraint between
 power and gas systems is through generators that consume gas to produce power.  This is expressed in terms of a heat rate curve, i.e.
 
 ```math

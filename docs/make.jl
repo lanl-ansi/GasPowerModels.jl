@@ -1,9 +1,9 @@
-using Documenter, GasGridModels
+using Documenter, GasPowerModels
 
 makedocs(
-    modules = [GasGridModels],
+    modules = [GasPowerModels],
     format = :html,
-    sitename = "GasGridModels",
+    sitename = "GasPowerModels",
     authors = "Russell Bent and contributors.",
     analytics = "UA-367975-10",
     pages = [
@@ -33,6 +33,6 @@ deploydocs(
     deps = nothing,
     make = nothing,
     target = "build",
-    repo = "github.com/lanl-ansi/GasGridModels.jl.git",
+    repo = "github.com/lanl-ansi/GasPowerModels.jl.git",
     julia = "1.1"
 )

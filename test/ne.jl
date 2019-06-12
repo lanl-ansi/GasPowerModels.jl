@@ -19,7 +19,7 @@ end
         gas_ne_weight = 1.0
         power_ne_weight = 1.0
 
-        result = GasGridModels.run_ne("../test/data/case14-ne.m", "../test/data/belgian-ne.json", SOCWRPowerModel, MISOCPGasModel, misocp_solver; gas_ne_weight=gas_ne_weight, power_ne_weight=power_ne_weight, obj_normalization=normalization)
+        result = GasPowerModels.run_ne("../test/data/case14-ne.m", "../test/data/belgian-ne.json", SOCWRPowerModel, MISOCPGasModel, misocp_solver; gas_ne_weight=gas_ne_weight, power_ne_weight=power_ne_weight, obj_normalization=normalization)
         @test result["status"] == :LocalOptimal || result["status"] == :Optimal
 
 #        @test isapprox(result["objective"], 4.2769964867495346e9 * normalization; atol = 1.0)

@@ -1,7 +1,7 @@
 # Objective
 
 ```@autodocs
-Modules = [GasGridModels]
+Modules = [GasPowerModels]
 Pages   = ["core/objective.jl"]
 Order   = [:function]
 Private  = true

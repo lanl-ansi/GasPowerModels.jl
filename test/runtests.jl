@@ -1,13 +1,13 @@
 using InfrastructureModels
 using PowerModels
 using GasModels
-using GasGridModels
+using GasPowerModels
 using Memento
 
 # Suppress warnings during testing.
 setlevel!(getlogger(GasModels), "error")
 
-GasGridModels.silence()
+GasPowerModels.silence()
 
 
 #bonmin_solver = AmplNLSolver("bonmin")
