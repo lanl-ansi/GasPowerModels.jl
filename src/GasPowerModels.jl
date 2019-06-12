@@ -1,4 +1,4 @@
-module GasGridModels
+module GasPowerModels
 
 using JSON
 using JuMP

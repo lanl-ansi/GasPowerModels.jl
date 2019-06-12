@@ -1,8 +1,8 @@
-# GasGridModels Result Data Format
+# GasPowerModels Result Data Format
 
 ## The Result Data Dictionary
 
-GasGridModels utilizes a dictionary to organize the results of a run command. The dictionary uses strings as key values so it can be serialized to JSON for algorithmic data exchange.
+GasPowerModels utilizes a dictionary to organize the results of a run command. The dictionary uses strings as key values so it can be serialized to JSON for algorithmic data exchange.
 The data dictionary organization is designed to be consistent with the GasModels [The Network Data Dictionary](@ref).
 
 At the top level the results data dictionary is structured as follows:

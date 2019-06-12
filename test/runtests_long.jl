@@ -1,6 +1,6 @@
 using PowerModels
 using GasModels
-using GasGridModels
+using GasPowerModels
 using InfrastructureModels
 
 using Ipopt
