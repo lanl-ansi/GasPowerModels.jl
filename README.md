@@ -20,13 +20,11 @@ This enables the definition of a wide variety of formulations and their comparis
 
 ## Installation
 
-For the moment, GasPowerModels.jl is not yet registered as a Julia package.  Hence, "clone" should be used instead of "add" for package installation,
+GasPowerModels.jl should be installed using the command
 
-`Pkg.clone("https://github.com/lanl-ansi/GasPowerModels.jl.git")`
+`add GasPowerModels`
 
-At least one solver is required for running GasModels.  Commercial or psuedo-commerical solvers seem to handle these problems much better than
-some of the open source alternatives.  Gurobi and Cplex perform well on the MISOCP model, and SCIP handles the MINLP model reasonably well.
-
+At least one solver is required for running GasPowerModels.  Commercial or psuedo-commerical solvers seem to handle these problems much better than some of the open source alternatives.  Gurobi and Cplex perform well on the MISOCP model, and SCIP handles the MINLP model reasonably well.
 
 ## Basic Usage
 
@@ -35,22 +33,22 @@ Once GasPowerModels is installed, a solver is installed, and a network data file
 using GasPowerModels
 using <solver_package>
 
-run_gpf("foo_gasgrid.json", "foo_electricpower.json", "foo_gas.json", FooGasGridModel, FooPowerModel, FooGasModel, FooSolver())
+run_gpf("power.m", "gas.m", <>PowerModel, <>GasModel, <>Solver())
 ```
 
 Similarly, an expansion solver can be executed with,
 ```
-run_ne("foo_gasgrid.json", "foo_electricpower.json", "foo_gas.json", FooGasGridModel, FooPowerModel, FooGasModel, FooSolver())
+run_ne("power.m", "gas.m", <>PowerModel, <>GasModel, <>Solver())
 ```
 
-where FooGasModel is the implementation of the mathematical program of the Gas equations you plan to use (i.e. MINLPGasModel) and FooSolver is the JuMP solver you want to use to solve the optimization problem (i.e. IpoptSolver).
+where <>GasModel is the implementation of the mathematical program of the Gas equations you plan to use (i.e. MINLPGasModel) and <>Solver is the JuMP solver you want to use to solve the optimization problem (i.e. IpoptSolver).
 
 
 ## Acknowledgments
 
-The primary developer is Russell Bent, with significant contributions from Conrado Borraz-Sanchez, Pascal van Hentenryck, and Seth Blumsack.
+The primary developers are Russell Bent and Kaarthik Sundar. Significant contributions on the technical model were made by Conrado Borraz-Sanchez, Pascal van Hentenryck, and Seth Blumsack.
 
-Special thanks to Miles Lubin for his assistance in integrating with Julia/JuMP.
+Special thanks to Miles Lubin and Carleton Coffrin for their assistance in integrating with Julia/JuMP and PowerModels.jl.
 
 
 ## License
