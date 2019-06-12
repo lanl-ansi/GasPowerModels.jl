@@ -1,10 +1,5 @@
-julia 1.1
-
-PowerModels
-GasModels
+julia 1
 
 Ipopt
 Cbc
 Juniper
-
-JuMP
