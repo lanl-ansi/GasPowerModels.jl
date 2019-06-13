@@ -44,7 +44,7 @@ end
 ""
 function build_generic_model(pdata::Dict{String,Any}, gdata::Dict{String,Any}, power_model_constructor, gas_model_constructor, post_method; power_ref_extensions=[], multinetwork=false, multiconductor=false, kwargs...)
     gm = GasModels.build_generic_model(gdata, gas_model_constructor, empty_post_method; multinetwork=multinetwork, kwargs...)
-    pm = PowerModels.build_generic_model(pdata, power_model_constructor, empty_post_method; ref_extensions=power_ref_extensions, multinetwork=multinetwork, multiconductor=multiconductor)
+    pm = PowerModels.build_model(pdata, power_model_constructor, empty_post_method; ref_extensions=power_ref_extensions, multinetwork=multinetwork, multiconductor=multiconductor)
 
     add_junction_generators(pm, gm)
 

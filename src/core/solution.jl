@@ -28,9 +28,9 @@ end
 
 function get_solution(pm::GenericPowerModel, gm::GenericGasModel)
     sol = Dict{AbstractString,Any}()
-    PowerModels.add_bus_voltage_setpoint(sol, pm)
-    PowerModels.add_generator_power_setpoint(sol, pm)
-    PowerModels.add_branch_flow_setpoint(sol, pm)
+    PowerModels.add_setpoint_bus_voltage!(sol, pm)
+    PowerModels.add_setpoint_generator_power!(sol, pm)
+    PowerModels.add_setpoint_branch_flow!(sol, pm)
     GasModels.add_junction_pressure_setpoint(sol, gm)
     return sol
 end

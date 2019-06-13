@@ -22,7 +22,7 @@ GasModels.variable_production_mass_flow(gm)
 
 ### Constraints
 ```julia
-PowerModels.constraint_voltage(pm)
+PowerModels.constraint_model_voltage(pm)
 
 for i in PowerModels.ids(pm, :ref_buses)
     PowerModels.constraint_theta_ref(pm, i)
@@ -30,7 +30,7 @@ for i in PowerModels.ids(pm, :ref_buses)
 end
 
 for i in PowerModels.ids(pm, :bus)
-    PowerModels.constraint_kcl_shunt(pm, i)
+    PowerModels.constraint_power_balance_shunt(pm, i)
     if length(ref(pm, :bus_gens, i)) > 0 && !(i in ids(pm,:ref_buses))
         PowerModels.constraint_voltage_magnitude_setpoint(pm, i)
         for j in ref(pm, :bus_gens, i)
@@ -103,8 +103,8 @@ PowerModels.variable_generation(pm)
 PowerModels.variable_branch_flow(pm)    
 PowerModels.variable_dcline_flow(pm)    
 PowerModels.variable_branch_flow_ne(pm) 
-PowerModels.constraint_voltage(pm)
-PowerModels.constraint_voltage_ne(pm)
+PowerModels.constraint_model_voltage(pm)
+PowerModels.constraint_model_voltage_ne(pm)
 
 GasModels.variable_flow(gm)          
 GasModels.variable_pressure_sqr(gm)
@@ -118,15 +118,15 @@ GasModels.variable_flow_ne(gm)
 
 ### Constraints
 ```julia
-PowerModels.constraint_voltage(pm)      
-PowerModels.constraint_voltage_ne(pm)   
+PowerModels.constraint_model_voltage(pm)      
+PowerModels.constraint_model_voltage_ne(pm)   
 
 for i in ids(pm, :ref_buses)
     PowerModels.constraint_theta_ref(pm, i)  
 end
 
 for i in ids(pm, :bus)
-    PowerModels.constraint_kcl_shunt_ne(pm, i) 
+    PowerModels.constraint_power_balance_shunt_ne(pm, i) 
 end
 
 for i in ids(pm, :branch)

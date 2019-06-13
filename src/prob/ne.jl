@@ -4,7 +4,7 @@ export run_ne_popf
 
 " entry point for running gas and electric power expansion planning only "
 function run_ne(power_file, gas_file, power_model_constructor, gas_model_constructor, solver; solution_builder=get_ne_solution, kwargs...)
-    return run_generic_model(power_file, gas_file, power_model_constructor, gas_model_constructor, solver, post_ne; power_ref_extensions=[PowerModels.on_off_va_bounds_ref!,PowerModels.ne_branch_ref!], solution_builder=solution_builder, kwargs...)
+    return run_generic_model(power_file, gas_file, power_model_constructor, gas_model_constructor, solver, post_ne; power_ref_extensions=[PowerModels.ref_add_on_off_va_bounds!,PowerModels.ref_add_ne_branch!], solution_builder=solution_builder, kwargs...)
 end
 
 "Post all the constraints associated with expansion planning in electric power"
@@ -17,15 +17,15 @@ function post_tnep(pm::GenericPowerModel)
     PowerModels.variable_dcline_flow(pm)    # DC line flows.  Not used in TPS paper
     PowerModels.variable_branch_flow_ne(pm) # variable p,q in the TPS paper
 
-    PowerModels.constraint_voltage(pm)      # adds upper and lower bounds on voltage and voltage squared, constraint 11 in TPS paper
-    PowerModels.constraint_voltage_ne(pm)   # adds upper and lower bounds on voltage and voltage squared, constraint 11 in TPS paper
+    PowerModels.constraint_model_voltage(pm)      # adds upper and lower bounds on voltage and voltage squared, constraint 11 in TPS paper
+    PowerModels.constraint_model_voltage_ne(pm)   # adds upper and lower bounds on voltage and voltage squared, constraint 11 in TPS paper
 
     for i in ids(pm, :ref_buses)
         PowerModels.constraint_theta_ref(pm, i)  # sets the reference bus phase angle to 0 (not explictly stated in TPS paper)
     end
 
     for i in ids(pm, :bus)
-        PowerModels.constraint_kcl_shunt_ne(pm, i) # Kirchoff's laws (constraints 1 and 2 in TPS paper)
+        PowerModels.constraint_power_balance_shunt_ne(pm, i) # Kirchoff's laws (constraints 1 and 2 in TPS paper)
     end
 
     for i in ids(pm, :branch)
@@ -123,9 +123,9 @@ end
 
 function get_ne_solution(pm::GenericPowerModel, gm::GenericGasModel)
     sol = Dict{AbstractString,Any}()
-    PowerModels.add_bus_voltage_setpoint(sol, pm)
-    PowerModels.add_generator_power_setpoint(sol, pm)
-    PowerModels.add_branch_flow_setpoint(sol, pm)
+    PowerModels.add_setpoint_bus_voltage!(sol, pm)
+    PowerModels.add_setpoint_generator_power!(sol, pm)
+    PowerModels.add_setpoint_branch_flow!(sol, pm)
     GasModels.add_junction_pressure_setpoint(sol, gm)
     GasModels.add_connection_ne(sol, gm)
     GasModels.add_load_mass_flow_setpoint(sol, gm)
@@ -135,6 +135,7 @@ function get_ne_solution(pm::GenericPowerModel, gm::GenericGasModel)
     GasModels.add_direction_setpoint(sol, gm)
     GasModels.add_direction_ne_setpoint(sol,gm)
     GasModels.add_valve_setpoint(sol, gm)
-    PowerModels.add_branch_ne_setpoint(sol, pm)
+    PowerModels.add_setpoint_branch_ne_flow!(sol, pm)
+    PowerModels.add_setpoint_branch_ne_built!(sol, pm)
     return sol
 end
