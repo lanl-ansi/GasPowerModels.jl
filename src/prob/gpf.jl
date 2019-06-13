@@ -33,7 +33,7 @@ function post_gpf(pm::GenericPowerModel)
     PowerModels.variable_branch_flow(pm, bounded = false)
     PowerModels.variable_dcline_flow(pm, bounded = false)
 
-    PowerModels.constraint_voltage(pm)
+    PowerModels.constraint_model_voltage(pm)
 
     for i in PowerModels.ids(pm, :ref_buses)
         PowerModels.constraint_theta_ref(pm, i)
@@ -41,7 +41,7 @@ function post_gpf(pm::GenericPowerModel)
     end
 
     for i in PowerModels.ids(pm, :bus)
-        PowerModels.constraint_kcl_shunt(pm, i)
+        PowerModels.constraint_power_balance_shunt(pm, i)
 
         # PV Bus Constraints
         if length(ref(pm, :bus_gens, i)) > 0 && !(i in ids(pm,:ref_buses))

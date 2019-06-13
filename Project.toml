@@ -2,7 +2,7 @@ name = "GasPowerModels"
 uuid = "1fcaf345-95e3-5b8b-91d6-2145eb844b9d"
 authors = ["Russell Bent"]
 repo = "https://github.com/lanl-ansi/GasPowerModels.jl"
-version = "0.1.0"
+version = "0.1.1"
 
 [deps]
 GasModels = "5e113713-6c35-5477-b766-e1109486666f"
@@ -13,10 +13,10 @@ Memento = "f28f55f0-a522-5efc-85c2-fe41dfb9b2d9"
 PowerModels = "c36e90e8-916a-50a6-bd94-075b64ef4655"
 
 [compat]
-JSON = ">= 0.18"
 GasModels = "~0.4"
 InfrastructureModels = "~0.2"
-PowerModels = "~0.11"
+JSON = ">= 0.18"
+PowerModels = "~0.12"
 julia = "^1"
 
 [extras]
