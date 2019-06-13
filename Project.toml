@@ -13,9 +13,9 @@ Memento = "f28f55f0-a522-5efc-85c2-fe41dfb9b2d9"
 PowerModels = "c36e90e8-916a-50a6-bd94-075b64ef4655"
 
 [compat]
-JSON = ">= 0.18"
 GasModels = "~0.4"
 InfrastructureModels = "~0.2"
+JSON = ">= 0.18"
 PowerModels = "~0.12"
 julia = "^1"
 
