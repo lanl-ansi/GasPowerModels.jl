@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Network Data Format · GasPowerModels</title><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-367975-10', 'auto');
+ga('send', 'pageview');
+</script><link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css" rel="stylesheet" type="text/css"/><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link href="../assets/documenter.css" rel="stylesheet" type="text/css"/></head><body><nav class="toc"><h1>GasPowerModels</h1><select id="version-selector" onChange="window.location.href=this.value" style="visibility: hidden"></select><form class="search" id="search-form" action="../search/"><input id="search-query" name="q" type="text" placeholder="Search docs"/></form><ul><li><a class="toctext" href="../">Home</a></li><li><span class="toctext">Manual</span><ul><li><a class="toctext" href="../quickguide/">Getting Started</a></li><li class="current"><a class="toctext" href>Network Data Format</a><ul class="internal"><li><a class="toctext" href="#The-Network-Data-Dictionary-1">The Network Data Dictionary</a></li></ul></li><li><a class="toctext" href="../result-data/">Result Data Format</a></li><li><a class="toctext" href="../math-model/">Mathematical Model</a></li></ul></li><li><span class="toctext">Library</span><ul><li><a class="toctext" href="../formulations/">Network Formulations</a></li><li><a class="toctext" href="../specifications/">Problem Specifications</a></li><li><span class="toctext">Modeling Components</span><ul><li><a class="toctext" href="../model/">GasGridModel</a></li><li><a class="toctext" href="../objective/">Objective</a></li><li><a class="toctext" href="../variables/">Variables</a></li><li><a class="toctext" href="../constraints/">Constraints</a></li></ul></li><li><a class="toctext" href="../parser/">File IO</a></li></ul></li><li><a class="toctext" href="../developer/">Developer</a></li></ul></nav><article id="docs"><header><nav><ul><li>Manual</li><li><a href>Network Data Format</a></li></ul><a class="edit-page" href="https://github.com/lanl-ansi/GasPowerModels.jl/blob/master/docs/src/network-data.md"><span class="fa"></span> Edit on GitHub</a></nav><hr/><div id="topbar"><span>Network Data Format</span><a class="fa fa-bars" href="#"></a></div></header><h1><a class="nav-anchor" id="GasPowerModels-Network-Data-Format-1" href="#GasPowerModels-Network-Data-Format-1">GasPowerModels Network Data Format</a></h1><h2><a class="nav-anchor" id="The-Network-Data-Dictionary-1" href="#The-Network-Data-Dictionary-1">The Network Data Dictionary</a></h2><p>Internally GasPowerModels utilizes a dictionary to store network data for power systems (see PowerModels) and gas models (see GasModels.jl). The dictionary uses strings as key values so it can be serialized to JSON for algorithmic data exchange. The I/O for GasPowerModels utilizes the serializations available in PowerModels.jl and GasModels.jl to construct the two network models. All data is assumed to be in per_unit (non dimenisionalized) or SI units.</p><p>Besides the standard network data supported by GasModels.jl and PowerModels.jl, there are a few extra fields that are required to couple the two systems together. These are discussed as follows:</p><h3><a class="nav-anchor" id="Gas-Networks-1" href="#Gas-Networks-1">Gas Networks</a></h3><pre><code class="language-json">{
+&quot;energy_factor&quot;: &lt;float&gt;,          # factor for converting the Joules per second used by a generator to m^3 per second gas consumption. SI units are m^3 per Joules
+&quot;price_zone&quot;:{
+    &quot;1&quot;:{
+      &quot;junctions&quot;: &lt;array&gt;,   # array of junction ids for a natural gas price zone
+      &quot;cost_q&quot;: &lt;array&gt;,      # array of floats that model a quadractic cost curve on non-firm gas consumed in the zone. SI units are dollars per m^3 at standard pressure
+      &quot;cost_p&quot;: &lt;array&gt;,      # array of floats that model a quadractic cost curve on pressure squared in the zone. SI units are dollars per pascals^2
+      &quot;min_cost&quot; &lt;float&gt;,     # minimum cost per unit of non-firm gas consumed in the zone.  SI units are dollars per m^3 at standard pressure
+      &quot;constant_p&quot; &lt;float&gt;,   # bias factor for weighting pressure penalty cost relative to demand penalty cost      
+       ...
+    },
+    &quot;2&quot;:{...},
+    ...
+}
+}</code></pre><h3><a class="nav-anchor" id="Power-Networks-1" href="#Power-Networks-1">Power Networks</a></h3><pre><code class="language-json">{
+&quot;gen&quot;:{
+    &quot;1&quot;:{
+       &quot;heat_rate_quad_coeff&quot;:   &lt;float&gt;,  # quadratic term of a heat rate curve that converts MW into J/s. SI Units are J per MW produced in a second   
+       &quot;heat_rate_linear_coeff&quot;: &lt;float&gt;,  # linear term of a heat rate curve that converts MW into J/s. SI Units are J per MW produced in a second   
+       &quot;heat_rate_constant_coeff&quot;: &lt;float&gt;,  # constant term of a heat rate curve that converts MW into J/s. SI Units are J per MW produced in a second
+       ...
+    },
+    &quot;2&quot;:{...},
+    ...
+}
+}</code></pre><footer><hr/><a class="previous" href="../quickguide/"><span class="direction">Previous</span><span class="title">Getting Started</span></a><a class="next" href="../result-data/"><span class="direction">Next</span><span class="title">Result Data Format</span></a></footer></article></body></html>
