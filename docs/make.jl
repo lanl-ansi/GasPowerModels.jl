@@ -2,10 +2,9 @@ using Documenter, GasPowerModels
 
 makedocs(
     modules = [GasPowerModels],
-    format = :html,
+    format = Documenter.HTML(),
     sitename = "GasPowerModels",
     authors = "Russell Bent and contributors.",
-    analytics = "UA-367975-10",
     pages = [
         "Home" => "index.md",
         "Manual" => [
