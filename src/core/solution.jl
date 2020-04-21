@@ -1,9 +1,9 @@
 
 ""
-function build_solution(pm::GenericPowerModel, gm::GenericGasModel, status, solve_time; objective = NaN, solution_builder = get_solution)
+function build_solution(pm::AbstractPowerModel, gm::GenericGasModel, status, solve_time; objective = NaN, solution_builder = get_solution)
     if status != :Error
         objective = JuMP.objective_value(gm.model)
-        status = GasModels.optimizer_status_dict(Symbol(typeof(gm.model.moi_backend).name.module), status)
+        status = _GM.optimizer_status_dict(Symbol(typeof(gm.model.moi_backend).name.module), status)
     end
 
     solution = Dict{AbstractString,Any}(
@@ -26,12 +26,12 @@ function build_solution(pm::GenericPowerModel, gm::GenericGasModel, status, solv
     return solution
 end
 
-function get_solution(pm::GenericPowerModel, gm::GenericGasModel)
+function get_solution(pm::AbstractPowerModel, gm::GenericGasModel)
     sol = Dict{AbstractString,Any}()
-    PowerModels.add_setpoint_bus_voltage!(sol, pm)
-    PowerModels.add_setpoint_generator_power!(sol, pm)
-    PowerModels.add_setpoint_branch_flow!(sol, pm)
-    GasModels.add_junction_pressure_setpoint(sol, gm)
+    _PM.add_setpoint_bus_voltage!(sol, pm)
+    _PM.add_setpoint_generator_power!(sol, pm)
+    _PM.add_setpoint_branch_flow!(sol, pm)
+    _GM.add_junction_pressure_setpoint(sol, gm)
     return sol
 end
 

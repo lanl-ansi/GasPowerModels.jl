@@ -1,17 +1,17 @@
 # TODO These values should be stored in ref...
 " Assign generator numbers to the junctions for easy access "
-function add_junction_generators(pm::GenericPowerModel, gm::GenericGasModel)
+function add_junction_generators(pm::AbstractPowerModel, gm::GenericGasModel)
     for k in keys(gm.ref[:nw])
         # create a gens field
-        for (j, consumer) in GasModels.ref(gm, k, :consumer)
+        for (j, consumer) in _GM.ref(gm, k, :consumer)
             consumer["gens"] = []
         end
 
         # assumes that network numbers are linked between power and gas...
-        for (i, gen) in PowerModels.ref(pm, k, :gen)
-            if haskey(gen, "consumer") && haskey(GasModels.ref(gm, k, :consumer), gen["consumer"])
+        for (i, gen) in _PM.ref(pm, k, :gen)
+            if haskey(gen, "consumer") && haskey(_GM.ref(gm, k, :consumer), gen["consumer"])
                 consumer = gen["consumer"]
-                push!(GasModels.ref(gm, k, :consumer, consumer)["gens"], i)
+                push!(_GM.ref(gm, k, :consumer, consumer)["gens"], i)
             end
         end
     end

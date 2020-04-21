@@ -18,8 +18,8 @@ end
 
 ""
 function run_generic_model(power_file, gas_file, power_model_constructor, gas_model_constructor, solver, post_method; solution_builder = get_solution, kwargs...)
-    power_data    = PowerModels.parse_file(power_file)
-    gas_data      = GasModels.parse_file(gas_file)
+    power_data    = _PM.parse_file(power_file)
+    gas_data      = _GM.parse_file(gas_file)
     return run_generic_model(power_data, gas_data, power_model_constructor, gas_model_constructor, solver, post_method; solution_builder = solution_builder, kwargs...)
 end
 
@@ -32,8 +32,8 @@ end
 
 ""
 function build_generic_model(pfile::String, gfile::String, power_model_constructor, gas_model_constructor, post_method; kwargs...)
-    gas_data = GasModels.parse_file(gfile)
-    power_data = PowerModels.parse_file(pfile)
+    gas_data = _GM.parse_file(gfile)
+    power_data = _PM.parse_file(pfile)
     return build_generic_model(power_data, gas_data, power_model_constructor, gas_model_constructor, post_method; kwargs...)
 end
 
@@ -43,8 +43,8 @@ end
 
 ""
 function build_generic_model(pdata::Dict{String,Any}, gdata::Dict{String,Any}, power_model_constructor, gas_model_constructor, post_method; power_ref_extensions=[], multinetwork=false, multiconductor=false, kwargs...)
-    gm = GasModels.build_generic_model(gdata, gas_model_constructor, empty_post_method; multinetwork=multinetwork, kwargs...)
-    pm = PowerModels.build_model(pdata, power_model_constructor, empty_post_method; ref_extensions=power_ref_extensions, multinetwork=multinetwork, multiconductor=multiconductor)
+    gm = _GM.build_generic_model(gdata, gas_model_constructor, empty_post_method; multinetwork=multinetwork, kwargs...)
+    pm = _PM.build_model(pdata, power_model_constructor, empty_post_method; ref_extensions=power_ref_extensions, multinetwork=multinetwork, multiconductor=multiconductor)
 
     add_junction_generators(pm, gm)
 
@@ -59,15 +59,15 @@ function build_generic_model(pdata::Dict{String,Any}, gdata::Dict{String,Any}, p
 end
 
 ""
-function solve_generic_model(pm::GenericPowerModel, gm::GenericGasModel, optimizer::JuMP.OptimizerFactory; solution_builder = get_solution)
+function solve_generic_model(pm::AbstractPowerModel, gm::GenericGasModel, optimizer::JuMP.OptimizerFactory; solution_builder = get_solution)
     termination_status, solve_time = optimize!(pm, gm, optimizer)
-    status = GasModels.parse_status(termination_status)
+    status = _GM.parse_status(termination_status)
 
     return build_solution(pm, gm, status, solve_time; solution_builder = solution_builder)
 end
 
 " Do a solve of the problem "
-function optimize!(pm::GenericPowerModel, gm::GenericGasModel, optimizer::JuMP.OptimizerFactory)
+function optimize!(pm::AbstractPowerModel, gm::GenericGasModel, optimizer::JuMP.OptimizerFactory)
     if gm.model.moi_backend.state == MOIU.NO_OPTIMIZER
         _, solve_time, solve_bytes_alloc, sec_in_gc = @timed JuMP.optimize!(gm.model, optimizer)
     else
