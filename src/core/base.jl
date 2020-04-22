@@ -1,14 +1,14 @@
 ""
-function instantiate_model(gfile::String, pfile::String, gtype::Type, ptype::Type, build_method; kwargs...)
+function instantiate_model(gfile::String, pfile::String, gtype::Type, ptype::Type, build_method; gext=[], pext=[], kwargs...)
     gdata, pdata = [_GM.parse_file(gfile), _PM.parse_file(pfile)]
-    return instantiate_model(gdata, pdata, gtype, ptype, build_method; kwargs...)
+    return instantiate_model(gdata, pdata, gtype, ptype, build_method; pext=pext, kwargs...)
 end
 
 ""
-function instantiate_model(gdata::Dict{String,<:Any}, pdata::Dict{String,<:Any}, gtype::Type, ptype::Type, build_method; kwargs...)
+function instantiate_model(gdata::Dict{String,<:Any}, pdata::Dict{String,<:Any}, gtype::Type, ptype::Type, build_method; gext=[], pext=[], kwargs...)
     # Instantiate the separate (empty) infrastructure models.
-    gm = _GM.instantiate_model(gdata, gtype, m->nothing; kwargs...)
-    pm = _PM.instantiate_model(pdata, ptype, m->nothing; kwargs...)
+    gm = _GM.instantiate_model(gdata, gtype, m->nothing; ref_extensions=gext)
+    pm = _PM.instantiate_model(pdata, ptype, m->nothing; ref_extensions=pext)
 
     add_junction_generators(pm, gm)
 
@@ -19,15 +19,15 @@ function instantiate_model(gdata::Dict{String,<:Any}, pdata::Dict{String,<:Any},
     pm.model = gm.model
 
     # Build the corresponding problem.
-    build_method(pm, gm; kwargs...)
+    build_method(pm, gm, kwargs=kwargs)
 
     return gm, pm
 end
 
 ""
-function solve_model(gdata::Dict{String,<:Any}, pdata::Dict{String,<:Any}, gtype::Type, ptype::Type, optimizer, build_method; gsp=[], psp=[], kwargs...)
+function solve_model(gdata::Dict{String,<:Any}, pdata::Dict{String,<:Any}, gtype::Type, ptype::Type, optimizer, build_method; gsp=[], psp=[], gext=[], pext=[], kwargs...)
     start_time = time()
-    gm, pm = instantiate_model(gdata, pdata, gtype, ptype, build_method; kwargs...)
+    gm, pm = instantiate_model(gdata, pdata, gtype, ptype, build_method; gext=gext, pext=pext, kwargs...)
     Memento.debug(_LOGGER, "gpm model build time: $(time() - start_time)")
 
     start_time = time()
@@ -44,7 +44,7 @@ function solve_model(gdata::Dict{String,<:Any}, pdata::Dict{String,<:Any}, gtype
 end
 
 ""
-function solve_model(gfile::String, pfile::String, gtype::Type, ptype::Type, optimizer, build_method; kwargs...)
+function solve_model(gfile::String, pfile::String, gtype::Type, ptype::Type, optimizer, build_method; gext=[], pext=[], kwargs...)
     gdata, pdata = [_GM.parse_file(gfile), _PM.parse_file(pfile)]
-    return solve_model(gdata, pdata, gtype, ptype, optimizer, build_method; kwargs...)
+    return solve_model(gdata, pdata, gtype, ptype, optimizer, build_method; gext=gext, pext=pext, kwargs...)
 end

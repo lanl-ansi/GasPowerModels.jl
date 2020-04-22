@@ -3,47 +3,48 @@ export solve_ne
 export solve_ne_popf
 
 " entry point for running gas and electric power expansion planning only "
-function solve_ne(power_file, gas_file, power_model_constructor, gas_model_constructor, solver; solution_builder=get_ne_solution, kwargs...)
-    return solve_generic_model(power_file, gas_file, power_model_constructor, gas_model_constructor, solver, post_ne; power_ref_extensions=[_PM.ref_add_on_off_va_bounds!,_PM.ref_add_ne_branch!], solution_builder=solution_builder, kwargs...)
+function solve_ne(gfile, pfile, gtype, ptype, optimizer; kwargs...)
+    return solve_model(gfile, pfile, gtype, ptype, optimizer, post_ne;
+        gext=[_GM.ref_add_ne!],
+        pext=[_PM.ref_add_on_off_va_bounds!, _PM.ref_add_ne_branch!], kwargs...)
 end
 
 "Post all the constraints associated with expansion planning in electric power"
 function post_tnep(pm::_PM.AbstractPowerModel)
-    _PM.variable_branch_ne(pm)      # variable z in the TPS paper
-    _PM.variable_voltage(pm)        # variable v in the TPS paper
-    _PM.variable_voltage_ne(pm)     # variable v in the TPS paper
-    _PM.variable_generation(pm)     # variable p^g, q^g in the TPS paper
-    _PM.variable_branch_flow(pm)    # variable p,q in the TPS paper
-    _PM.variable_dcline_flow(pm)    # DC line flows.  Not used in TPS paper
-    _PM.variable_branch_flow_ne(pm) # variable p,q in the TPS paper
+    _PM.variable_ne_branch_indicator(pm) # variable z in the TPS paper
+    _PM.variable_bus_voltage(pm)         # variable v in the TPS paper
+    _PM.variable_ne_branch_voltage(pm)   # variable v in the TPS paper
+    _PM.variable_gen_power(pm)           # variable p^g, q^g in the TPS paper
+    _PM.variable_branch_power(pm)        # variable p,q in the TPS paper
+    _PM.variable_dcline_power(pm)        # DC line flows.  Not used in TPS paper
+    _PM.variable_ne_branch_power(pm)     # variable p,q in the TPS paper
 
-    _PM.constraint_model_voltage(pm)      # adds upper and lower bounds on voltage and voltage squared, constraint 11 in TPS paper
-    _PM.constraint_model_voltage_ne(pm)   # adds upper and lower bounds on voltage and voltage squared, constraint 11 in TPS paper
+    _PM.constraint_model_voltage(pm)    # adds upper and lower bounds on voltage and voltage squared, constraint 11 in TPS paper
+    _PM.constraint_ne_model_voltage(pm) # adds upper and lower bounds on voltage and voltage squared, constraint 11 in TPS paper
 
     for i in _PM.ids(pm, :ref_buses)
-        _PM.constraint_theta_ref(pm, i)  # sets the reference bus phase angle to 0 (not explictly stated in TPS paper)
+        _PM.constraint_theta_ref(pm, i) # sets the reference bus phase angle to 0 (not explictly stated in TPS paper)
     end
 
     for i in _PM.ids(pm, :bus)
-        _PM.constraint_power_balance_ne(pm, i) # Kirchoff's laws (constraints 1 and 2 in TPS paper)
+        _PM.constraint_ne_power_balance(pm, i) # Kirchoff's laws (constraints 1 and 2 in TPS paper)
     end
 
     for i in _PM.ids(pm, :branch)
-        _PM.constraint_ohms_yt_from(pm, i)                # Ohms laws (constraints 3 and 5 in TPS paper)
-        _PM.constraint_ohms_yt_to(pm, i)                  # Ohms laws (constraints 4 and 6 in TPS paper)
-        _PM.constraint_voltage_angle_difference(pm, i)    # limit on phase angle difference (not explictly stated in TPS paper)
-        _PM.constraint_thermal_limit_from(pm, i)          # thermal limit on lines (constraint 7 in TPS paper)
-        _PM.constraint_thermal_limit_to(pm, i)            # thermal limit on lines (constraint 8 in TPS paper)
+        _PM.constraint_ohms_yt_from(pm, i)              # Ohms laws (constraints 3 and 5 in TPS paper)
+        _PM.constraint_ohms_yt_to(pm, i)                # Ohms laws (constraints 4 and 6 in TPS paper)
+        _PM.constraint_voltage_angle_difference(pm, i)  # limit on phase angle difference (not explictly stated in TPS paper)
+        _PM.constraint_thermal_limit_from(pm, i)        # thermal limit on lines (constraint 7 in TPS paper)
+        _PM.constraint_thermal_limit_to(pm, i)          # thermal limit on lines (constraint 8 in TPS paper)
     end
 
     for i in _PM.ids(pm, :ne_branch)
-        _PM.constraint_ohms_yt_from_ne(pm, i)             # Ohms laws (constraints 3 and 5 in TPS paper)
-        _PM.constraint_ohms_yt_to_ne(pm, i)               # Ohms laws (constraints 4 and 6 in TPS paper)
-        _PM.constraint_voltage_angle_difference_ne(pm, i) # limit on phase angle difference (not explictly stated in TPS paper)
-        _PM.constraint_thermal_limit_from_ne(pm, i)       # thermal limit on lines (constraint 7 in TPS paper)
-        _PM.constraint_thermal_limit_to_ne(pm, i)         # thermal limit on lines (constraint 8 in TPS paper)
+        _PM.constraint_ne_ohms_yt_from(pm, i)             # Ohms laws (constraints 3 and 5 in TPS paper)
+        _PM.constraint_ne_ohms_yt_to(pm, i)               # Ohms laws (constraints 4 and 6 in TPS paper)
+        _PM.constraint_ne_voltage_angle_difference(pm, i) # limit on phase angle difference (not explictly stated in TPS paper)
+        _PM.constraint_ne_thermal_limit_from(pm, i)       # thermal limit on lines (constraint 7 in TPS paper)
+        _PM.constraint_ne_thermal_limit_to(pm, i)         # thermal limit on lines (constraint 8 in TPS paper)
     end
-
 end
 
 "Post all the constraints and variables associated with expansion planning in gas networks"
@@ -60,27 +61,27 @@ function post_nels(gm::_GM.AbstractGasModel)
 
     _GM.variable_flow_ne(gm)  # variable x in the TPS paper
 
-    for i in _GM.ids(gm, :junction)
-        _GM.constraint_mass_flow_balance_ne_ls(gm, i)
-    end
-
     for i in _GM.ids(gm, :pipe)
         _GM.constraint_pipe_pressure(gm, i)
         _GM.constraint_pipe_mass_flow(gm,i)
-        _GM.constraint_weymouth(gm,i)
+        _GM.constraint_pipe_weymouth(gm,i)
     end
 
     for i in _GM.ids(gm, :resistor)
-        _GM.constraint_pipe_pressure(gm, i)
-        _GM.constraint_pipe_mass_flow(gm, i)
-        _GM.constraint_weymouth(gm, i)
+        _GM.constraint_resistor_pressure(gm, i)
+        _GM.constraint_resistor_mass_flow(gm,i)
+        _GM.constraint_resistor_weymouth(gm,i)
+    end
+
+    for i in _GM.ids(gm, :junction)
+        _GM.constraint_mass_flow_balance_ne(gm, i)
     end
 
     for i in _GM.ids(gm, :ne_pipe)
         _GM.constraint_pipe_pressure_ne(gm, i)
         _GM.constraint_pipe_ne(gm, i)
         _GM.constraint_pipe_mass_flow_ne(gm,i)
-        _GM.constraint_weymouth_ne(gm, i)
+        _GM.constraint_pipe_weymouth_ne(gm, i)
     end
 
     for i in _GM.ids(gm, :short_pipe)
@@ -108,9 +109,9 @@ function post_nels(gm::_GM.AbstractGasModel)
         _GM.constraint_on_off_valve_pressure(gm, i)
     end
 
-    for i in _GM.ids(gm, :control_valve)
-        _GM.constraint_on_off_control_valve_mass_flow(gm, i)
-        _GM.constraint_on_off_control_valve_pressure(gm, i)
+    for i in _GM.ids(gm, :regulator)
+        _GM.constraint_on_off_regulator_mass_flow(gm, i)
+        _GM.constraint_on_off_regulator_pressure(gm, i)
     end
 end
 
@@ -128,7 +129,7 @@ function post_ne(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel; kwargs...
     post_nels(gm)
 
     # Gas-Power related parts of the problem formulation.
-    for i in _GM.ids(gm, :consumer)
+    for i in _GM.ids(gm, :delivery)
        constraint_heat_rate_curve(pm, gm, i)
     end
 

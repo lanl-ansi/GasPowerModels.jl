@@ -36,8 +36,8 @@ function variable_zone_pressure(gm::_GM.AbstractGasModel, n::Int=gm.cnw)
     pmin =  Dict{Any,Any}()
     pmax =  Dict{Any,Any}()
     for (i, price_zone) in gm.ref[:nw][n][:price_zone]
-        pmin[i] = minimum(junctions[j]["pmin"] for j in gm.ref[:nw][n][:price_zone][i]["junctions"])^2
-        pmax[i] = maximum(junctions[j]["pmax"] for j in gm.ref[:nw][n][:price_zone][i]["junctions"])^2
+        pmin[i] = minimum(junctions[j]["p_min"] for j in gm.ref[:nw][n][:price_zone][i]["junctions"])^2
+        pmax[i] = maximum(junctions[j]["p_max"] for j in gm.ref[:nw][n][:price_zone][i]["junctions"])^2
     end
 
     # variable for normalized zone-based demand pricing
@@ -54,8 +54,8 @@ function variable_pressure_price(gm::_GM.AbstractGasModel, n::Int=gm.cnw)
     cmin =  Dict{Any,Any}()
     cmax =  Dict{Any,Any}()
     for (i, price_zone) in gm.ref[:nw][n][:price_zone]
-        pmin[i] = minimum(junctions[j]["pmin"] for j in gm.ref[:nw][n][:price_zone][i]["junctions"])^2
-        pmax[i] = maximum(junctions[j]["pmax"] for j in gm.ref[:nw][n][:price_zone][i]["junctions"])^2
+        pmin[i] = minimum(junctions[j]["p_min"] for j in gm.ref[:nw][n][:price_zone][i]["junctions"])^2
+        pmax[i] = maximum(junctions[j]["p_max"] for j in gm.ref[:nw][n][:price_zone][i]["junctions"])^2
 
         cmin[i] = gm.ref[:nw][n][:price_zone][i]["cost_p"][1] * pmin[i]^2 + gm.ref[:nw][n][:price_zone][i]["cost_p"][2] * pmin[i] + gm.ref[:nw][n][:price_zone][i]["cost_p"][3]
         cmax[i] = gm.ref[:nw][n][:price_zone][i]["cost_p"][1] * pmax[i]^2 + gm.ref[:nw][n][:price_zone][i]["cost_p"][2] * pmax[i] + gm.ref[:nw][n][:price_zone][i]["cost_p"][3]

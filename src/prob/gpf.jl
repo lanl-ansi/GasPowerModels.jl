@@ -8,7 +8,7 @@ function solve_gpf(gfile, pfile, gtype, ptype, optimizer; kwargs...)
 end
 
 "Construct the gas grid flow feasbility problem."
-function post_gpf(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel)
+function post_gpf(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel; kwargs...)
     # Power-only related variables and constraints
     post_gpf_pm(pm)
 
@@ -22,7 +22,7 @@ function post_gpf(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel)
 end
 
 "Post the electric power variables and constraints."
-function post_gpf_pm(pm::_PM.AbstractPowerModel)
+function post_gpf_pm(pm::_PM.AbstractPowerModel; kwargs...)
     _PM.variable_bus_voltage(pm, bounded=false)
     _PM.variable_gen_power(pm, bounded=false)
     _PM.variable_branch_power(pm, bounded=false)
@@ -71,7 +71,7 @@ function post_gpf_pm(pm::_PM.AbstractPowerModel)
 end
 
 "Post the gas flow variables and constraints."
-function post_gpf_gm(gm::_GM.AbstractGasModel)
+function post_gpf_gm(gm::_GM.AbstractGasModel; kwargs...)
     _GM.variable_flow(gm)
     _GM.variable_pressure_sqr(gm)
     _GM.variable_valve_operation(gm)

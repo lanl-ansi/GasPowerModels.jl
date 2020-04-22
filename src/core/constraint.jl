@@ -7,13 +7,14 @@
 " constraints associated with bounding the maximum pressure in a zone
  This is equation 24 in the HICCS paper "
 function constraint_zone_pressure(gm::_GM.AbstractGasModel, n::Int, i)
-    price_zone = _GM.ref(gm,n,:price_zone,i) #gm.ref[:nw][n][:price_zone][i]
-    zone_p = _GM.var(gm,n,:zone_p) #gm.var[:nw][n][:zone_p]
-    p = _GM.var(gm,n,:p) #gm.var[:nw][n][:p]
+    price_zone = _GM.ref(gm, n, :price_zone, i)
+    zone_p = _GM.var(gm, n, :zone_p)
+    p = _GM.var(gm, n, :p)
 
     if !haskey(gm.con[:nw][n], :zone_pressure)
         gm.con[:nw][n][:zone_pressure] = Dict{Int,Dict{Int,ConstraintRef}}()
     end
+
     gm.con[:nw][n][:zone_pressure][i] = Dict{Int,ConstraintRef}()
 
     for j in gm.ref[:nw][n][:price_zone][i]["junctions"]
