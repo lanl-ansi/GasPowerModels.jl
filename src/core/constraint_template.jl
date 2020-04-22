@@ -3,7 +3,7 @@
 #
 # Constraint templates help simplify data wrangling across multiple
 # formulations by providing an abstraction layer between the network data
-# and network constraint definitions.  The constraint template's job is to
+# and network constraint definitions. The constraint template's job is to
 # extract the required parameters from a given network data structure and
 # pass the data as named arguments to the Gas Flow or Power Flow formulations.
 #
@@ -11,9 +11,9 @@
 # and should never refer to model variables
 
 " Assumption is J/s"
-function constraint_heat_rate_curve(pm::AbstractPowerModel, gm::GenericGasModel{G}, n, j) where G <:_GM.AbstractGasFormulation
-    consumer = _GM.ref(gm,n,:consumer,j)
-    generators = consumer["gens"]
+function constraint_heat_rate_curve(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel, n, j)
+    delivery = _GM.ref(gm,n,:delivery,j)
+    generators = delivery["gens"]
     standard_density = gm.data["standard_density"]
 
     # convert from J/s in per unit to cubic meters per second at standard density in per unit to kg per second in per unit.
@@ -21,29 +21,32 @@ function constraint_heat_rate_curve(pm::AbstractPowerModel, gm::GenericGasModel{
 
     heat_rates = Dict{Int, Any}()
     for i in generators
-        heat_rates[i] = [_PM.ref(pm,n,:gen,i)["heat_rate_quad_coeff"], _PM.ref(pm,n,:gen,i)["heat_rate_linear_coeff"], _PM.ref(pm,n,:gen,i)["heat_rate_constant_coeff"]]
+        heat_rates[i] = [_PM.ref(pm, n, :gen, i)["heat_rate_quad_coeff"],
+                         _PM.ref(pm, n, :gen, i)["heat_rate_linear_coeff"],
+                         _PM.ref(pm, n, :gen, i)["heat_rate_constant_coeff"]]
     end
-    dispatchable = consumer["dispatchable"]
+
+    dispatchable = delivery["is_dispatchable"]
     constraint_heat_rate_curve(pm, gm, n, j, generators, heat_rates, constant, dispatchable)
 end
-constraint_heat_rate_curve(pm::AbstractPowerModel, gm::GenericGasModel, k::Int) = constraint_heat_rate_curve(pm, gm, gm.cnw, k)
+constraint_heat_rate_curve(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel, k::Int) = constraint_heat_rate_curve(pm, gm, gm.cnw, k)
 
 " constraints associated with bounding the demand zone prices
  This is equation 23 in the HICCS paper "
-function constraint_zone_demand(gm::GenericGasModel, n::Int, i)
+function constraint_zone_demand(gm::_GM.AbstractGasModel, n::Int, i)
    price_zone = _GM.ref(gm,n,:price_zone,i)
    loads = Set()
    for i in price_zone["junctions"]
-       loads = union(loads,_GM.ref(gm,n,:junction_dispatchable_consumers,i))
+       loads = union(loads,_GM.ref(gm,n,:junction_dispatchable_deliveries,i))
    end
 
    constraint_zone_demand(gm, n, i, loads)
 end
-constraint_zone_demand(gm::GenericGasModel, i::Int) = constraint_zone_demand(gm, gm.cnw, i)
+constraint_zone_demand(gm::_GM.AbstractGasModel, i::Int) = constraint_zone_demand(gm, gm.cnw, i)
 
 " constraints associated with bounding the demand zone prices
  This is equation 22 in the HICCS paper"
-function constraint_zone_demand_price(gm::GenericGasModel, n::Int, i)
+function constraint_zone_demand_price(gm::_GM.AbstractGasModel, n::Int, i)
     price_zone = _GM.ref(gm,n,:price_zone,i)
     min_cost = price_zone["min_cost"]
     cost_q = price_zone["cost_q"]
@@ -51,14 +54,14 @@ function constraint_zone_demand_price(gm::GenericGasModel, n::Int, i)
 
     constraint_zone_demand_price(gm, n, i, min_cost, cost_q, standard_density)
 end
-constraint_zone_demand_price(gm::GenericGasModel, i::Int) = constraint_zone_demand_price(gm, gm.cnw, i)
+constraint_zone_demand_price(gm::_GM.AbstractGasModel, i::Int) = constraint_zone_demand_price(gm, gm.cnw, i)
 
 " constraints associated with pressure prices
  This is equation 25 in the HICCS paper"
-function constraint_pressure_price(gm::GenericGasModel, n::Int, i)
+function constraint_pressure_price(gm::_GM.AbstractGasModel, n::Int, i)
     price_zone = _GM.ref(gm,n,:price_zone,i)
     cost_p     = price_zone["cost_p"]
 
     constraint_pressure_price(gm, n, i, cost_p)
 end
-constraint_pressure_price(gm::GenericGasModel, i::Int) = constraint_pressure_price(gm, gm.cnw, i)
+constraint_pressure_price(gm::_GM.AbstractGasModel, i::Int) = constraint_pressure_price(gm, gm.cnw, i)

@@ -4,13 +4,13 @@
 
 " function for congestion costs based on demand "
 # This is equation 27 in the HICCS paper
-function objective_min_ne_opf_cost(pm::AbstractPowerModel, gm::GenericGasModel, n::Int=gm.cnw; normalization = 1.0, gas_ne_weight = 1.0, power_ne_weight = 1.0, power_opf_weight = 1.0, gas_price_weight = 1.0)
+function objective_min_ne_opf_cost(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel, n::Int=gm.cnw; normalization = 1.0, gas_ne_weight = 1.0, power_ne_weight = 1.0, power_opf_weight = 1.0, gas_price_weight = 1.0)
     zp = _GM.var(gm, n, :zp)
     zc = _GM.var(gm, n, :zc)
 
-    line_ne = var(pm, n, :branch_ne)
-    branches = ref(pm, n, :ne_branch)
-    pg = var(pm, n, :pg)
+    line_ne = _PM.var(pm, n, :branch_ne)
+    branches = _PM.ref(pm, n, :ne_branch)
+    pg = _PM.var(pm, n, :pg)
 
     # constraint for normalized zone-based demand pricing
     variable_zone_demand(gm)
@@ -30,7 +30,7 @@ function objective_min_ne_opf_cost(pm::AbstractPowerModel, gm::GenericGasModel, 
 
     gen_cost = Dict()
     for (i, gen) in _PM.ref(pm, :gen, nw=n)
-        pg = sum( var(pm, n, c, :pg, i) for c in conductor_ids(pm, n) )
+        pg = sum(_PM.var(pm, n, c, :pg, i) for c in _PM.conductor_ids(pm, n))
 
         if length(gen["cost"]) == 1
             gen_cost[(n,i)] = gen["cost"][1]
@@ -44,7 +44,7 @@ function objective_min_ne_opf_cost(pm::AbstractPowerModel, gm::GenericGasModel, 
     end
 
 
-    obj = @objective(gm.model, Min,
+    obj = JuMP.@objective(gm.model, Min,
       gas_ne_weight * normalization    * sum(pipe["construction_cost"] * zp[i] for (i,pipe) in _GM.ref(gm,n,:ne_pipe)) +
       gas_ne_weight * normalization    * sum(compressor["construction_cost"] * zc[i] for (i,compressor) in _GM.ref(gm,n,:ne_compressor)) +
       power_ne_weight * normalization  * sum(branches[i]["construction_cost"]*line_ne[i] for (i,branch) in branches) +
@@ -56,14 +56,14 @@ end
 
 " function for expansion costs only "
 # This is the objective function for the expansion only results in the HICCS paper
-function objective_min_ne_cost(pm::AbstractPowerModel,gm::GenericGasModel,n::Int=gm.cnw; gas_ne_weight = 1.0, power_ne_weight = 1.0, normalization = 1.0)
+function objective_min_ne_cost(pm::_PM.AbstractPowerModel,gm::_GM.AbstractGasModel,n::Int=gm.cnw; gas_ne_weight = 1.0, power_ne_weight = 1.0, normalization = 1.0)
     zp = _GM.var(gm, n, :zp)
     zc = _GM.var(gm, n, :zc)
 
-    line_ne = var(pm, n, :branch_ne)
-    branches = ref(pm, n, :ne_branch)
+    line_ne = _PM.var(pm, n, :branch_ne)
+    branches = _PM.ref(pm, n, :ne_branch)
 
-    obj = @objective(gm.model, Min,
+    obj = JuMP.@objective(gm.model, Min,
       gas_ne_weight      * normalization * sum(pipe["construction_cost"] * zp[i] for (i,pipe) in _GM.ref(gm,n,:ne_pipe))
       + gas_ne_weight    * normalization * sum(compressor["construction_cost"] * zc[i] for (i,compressor) in _GM.ref(gm,n,:ne_compressor))
       + power_ne_weight  * normalization * sum(branches[i]["construction_cost"]*line_ne[i] for (i,branch) in branches)

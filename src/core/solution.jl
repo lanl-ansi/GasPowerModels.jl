@@ -1,7 +1,7 @@
 
 ""
-function build_solution(pm::AbstractPowerModel, gm::GenericGasModel, status, solve_time; objective = NaN, solution_builder = get_solution)
-    if status != :Error
+function build_solution(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel, status, solve_time; objective = NaN, solution_builder = get_solution)
+    if termination_status != :Error
         objective = JuMP.objective_value(gm.model)
         status = _GM.optimizer_status_dict(Symbol(typeof(gm.model.moi_backend).name.module), status)
     end
@@ -26,7 +26,7 @@ function build_solution(pm::AbstractPowerModel, gm::GenericGasModel, status, sol
     return solution
 end
 
-function get_solution(pm::AbstractPowerModel, gm::GenericGasModel)
+function get_solution(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel)
     sol = Dict{AbstractString,Any}()
     _PM.add_setpoint_bus_voltage!(sol, pm)
     _PM.add_setpoint_generator_power!(sol, pm)

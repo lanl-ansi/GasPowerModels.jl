@@ -33,12 +33,12 @@ Once GasPowerModels is installed, a solver is installed, and a network data file
 using GasPowerModels
 using <solver_package>
 
-run_gpf("power.m", "gas.m", <>PowerModel, <>GasModel, <>Solver())
+solve_gpf("power.m", "gas.m", <>PowerModel, <>GasModel, <>Solver())
 ```
 
 Similarly, an expansion solver can be executed with,
 ```
-run_ne("power.m", "gas.m", <>PowerModel, <>GasModel, <>Solver())
+solve_ne("power.m", "gas.m", <>PowerModel, <>GasModel, <>Solver())
 ```
 
 where <>GasModel is the implementation of the mathematical program of the Gas equations you plan to use (i.e. MINLPGasModel) and <>Solver is the JuMP solver you want to use to solve the optimization problem (i.e. IpoptSolver).

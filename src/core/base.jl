@@ -1,85 +1,50 @@
-# stuff that is universal to all gas grid models
-
-export
-    setdata, solve,
-    run_generic_model, build_generic_model, solve_generic_model
-
-" Do a solve of the problem "
-function JuMP.solve(gm::GenericGasModel)
-    status, solve_time, solve_bytes_alloc, sec_in_gc = @timed solve(gm.model)
-    try
-        solve_time = getsolvetime(gm.model)
-    catch
-        @warn "there was an issue with getsolvetime() on the solver, falling back on @timed.  This is not a rigorous timing value."
-    end
-
-    return status, solve_time
+""
+function instantiate_model(gfile::String, pfile::String, gtype::Type, ptype::Type, build_method; kwargs...)
+    gdata, pdata = [_GM.parse_file(gfile), _PM.parse_file(pfile)]
+    return instantiate_model(gdata, pdata, gtype, ptype, build_method; kwargs...)
 end
 
 ""
-function run_generic_model(power_file, gas_file, power_model_constructor, gas_model_constructor, solver, post_method; solution_builder = get_solution, kwargs...)
-    power_data    = _PM.parse_file(power_file)
-    gas_data      = _GM.parse_file(gas_file)
-    return run_generic_model(power_data, gas_data, power_model_constructor, gas_model_constructor, solver, post_method; solution_builder = solution_builder, kwargs...)
-end
-
-" Run the optimization on a dictionarized model"
-function run_generic_model(power_data::Dict{String,Any}, gas_data::Dict{String,Any}, power_model_constructor, gas_model_constructor, solver, post_method; power_ref_extensions=[], solution_builder = get_solution, kwargs...)
-    pm, gm = build_generic_model(power_data, gas_data, power_model_constructor, gas_model_constructor, post_method; power_ref_extensions=power_ref_extensions, kwargs...)
-    solution = solve_generic_model(pm, gm, solver; solution_builder = solution_builder)
-    return solution
-end
-
-""
-function build_generic_model(pfile::String, gfile::String, power_model_constructor, gas_model_constructor, post_method; kwargs...)
-    gas_data = _GM.parse_file(gfile)
-    power_data = _PM.parse_file(pfile)
-    return build_generic_model(power_data, gas_data, power_model_constructor, gas_model_constructor, post_method; kwargs...)
-end
-
-" Dummy post method to do nothing for the individual system"
-function empty_post_method(m; kwargs...)
-end
-
-""
-function build_generic_model(pdata::Dict{String,Any}, gdata::Dict{String,Any}, power_model_constructor, gas_model_constructor, post_method; power_ref_extensions=[], multinetwork=false, multiconductor=false, kwargs...)
-    gm = _GM.build_generic_model(gdata, gas_model_constructor, empty_post_method; multinetwork=multinetwork, kwargs...)
-    pm = _PM.build_model(pdata, power_model_constructor, empty_post_method; ref_extensions=power_ref_extensions, multinetwork=multinetwork, multiconductor=multiconductor)
+function instantiate_model(gdata::Dict{String,<:Any}, pdata::Dict{String,<:Any}, gtype::Type, ptype::Type, build_method; kwargs...)
+    # Instantiate the separate (empty) infrastructure models.
+    gm = _GM.instantiate_model(gdata, gtype, m->nothing; kwargs...)
+    pm = _PM.instantiate_model(pdata, ptype, m->nothing; kwargs...)
 
     add_junction_generators(pm, gm)
 
-    # a bit of a hack for now
+    # TODO: The below is a bit of a hack.
     gas_grid_per_unit(gm.data, pm.data)
 
-    # unify all the optimization models... a little bit of a hack...
+    # Unify all the optimization models.
     pm.model = gm.model
 
-    post_method(pm, gm; kwargs...)
-    return pm, gm
+    # Build the corresponding problem.
+    build_method(pm, gm; kwargs...)
+
+    return gm, pm
 end
 
 ""
-function solve_generic_model(pm::AbstractPowerModel, gm::GenericGasModel, optimizer::JuMP.OptimizerFactory; solution_builder = get_solution)
-    termination_status, solve_time = optimize!(pm, gm, optimizer)
-    status = _GM.parse_status(termination_status)
+function solve_model(gdata::Dict{String,<:Any}, pdata::Dict{String,<:Any}, gtype::Type, ptype::Type, optimizer, build_method; gsp=[], psp=[], kwargs...)
+    start_time = time()
+    gm, pm = instantiate_model(gdata, pdata, gtype, ptype, build_method; kwargs...)
+    Memento.debug(_LOGGER, "gpm model build time: $(time() - start_time)")
 
-    return build_solution(pm, gm, status, solve_time; solution_builder = solution_builder)
+    start_time = time()
+    gas_result = _IM.optimize_model!(gm, optimizer=optimizer, solution_processors=gsp)
+    power_result = _IM.build_result(pm, gas_result["solve_time"]; solution_processors=psp)
+    Memento.debug(_LOGGER, "gpm model solution time: $(time() - start_time)")
+
+    # Create a combined gas-power result object.
+    result = gas_result # Contains most of the result data, already.
+    result["solution"] = merge(gas_result["solution"], power_result["solution"])
+
+    # Return the combined result dictionary.
+    return result
 end
 
-" Do a solve of the problem "
-function optimize!(pm::AbstractPowerModel, gm::GenericGasModel, optimizer::JuMP.OptimizerFactory)
-    if gm.model.moi_backend.state == MOIU.NO_OPTIMIZER
-        _, solve_time, solve_bytes_alloc, sec_in_gc = @timed JuMP.optimize!(gm.model, optimizer)
-    else
-        @warn "Model already contains optimizer factory, cannot use optimizer specified in `solve_generic_model`"
-        _, solve_time, solve_bytes_alloc, sec_in_gc = @timed JuMP.optimize!(gm.model)
-    end
-
-    try
-        solve_time = MOI.get(gm.model, MOI.SolveTime())
-    catch
-        warn(LOGGER, "the given optimizer does not provide the SolveTime() attribute, falling back on @timed.  This is not a rigorous timing value.")
-    end
-
-    return JuMP.termination_status(gm.model), solve_time
+""
+function solve_model(gfile::String, pfile::String, gtype::Type, ptype::Type, optimizer, build_method; kwargs...)
+    gdata, pdata = [_GM.parse_file(gfile), _PM.parse_file(pfile)]
+    return solve_model(gdata, pdata, gtype, ptype, optimizer, build_method; kwargs...)
 end

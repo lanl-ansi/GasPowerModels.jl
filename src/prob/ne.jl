@@ -1,14 +1,14 @@
 # Definitions for running a feasible combined gas and power flow with network expansion
-export run_ne
-export run_ne_popf
+export solve_ne
+export solve_ne_popf
 
 " entry point for running gas and electric power expansion planning only "
-function run_ne(power_file, gas_file, power_model_constructor, gas_model_constructor, solver; solution_builder=get_ne_solution, kwargs...)
-    return run_generic_model(power_file, gas_file, power_model_constructor, gas_model_constructor, solver, post_ne; power_ref_extensions=[_PM.ref_add_on_off_va_bounds!,_PM.ref_add_ne_branch!], solution_builder=solution_builder, kwargs...)
+function solve_ne(power_file, gas_file, power_model_constructor, gas_model_constructor, solver; solution_builder=get_ne_solution, kwargs...)
+    return solve_generic_model(power_file, gas_file, power_model_constructor, gas_model_constructor, solver, post_ne; power_ref_extensions=[_PM.ref_add_on_off_va_bounds!,_PM.ref_add_ne_branch!], solution_builder=solution_builder, kwargs...)
 end
 
 "Post all the constraints associated with expansion planning in electric power"
-function post_tnep(pm::AbstractPowerModel)
+function post_tnep(pm::_PM.AbstractPowerModel)
     _PM.variable_branch_ne(pm)      # variable z in the TPS paper
     _PM.variable_voltage(pm)        # variable v in the TPS paper
     _PM.variable_voltage_ne(pm)     # variable v in the TPS paper
@@ -20,15 +20,15 @@ function post_tnep(pm::AbstractPowerModel)
     _PM.constraint_model_voltage(pm)      # adds upper and lower bounds on voltage and voltage squared, constraint 11 in TPS paper
     _PM.constraint_model_voltage_ne(pm)   # adds upper and lower bounds on voltage and voltage squared, constraint 11 in TPS paper
 
-    for i in ids(pm, :ref_buses)
+    for i in _PM.ids(pm, :ref_buses)
         _PM.constraint_theta_ref(pm, i)  # sets the reference bus phase angle to 0 (not explictly stated in TPS paper)
     end
 
-    for i in ids(pm, :bus)
+    for i in _PM.ids(pm, :bus)
         _PM.constraint_power_balance_ne(pm, i) # Kirchoff's laws (constraints 1 and 2 in TPS paper)
     end
 
-    for i in ids(pm, :branch)
+    for i in _PM.ids(pm, :branch)
         _PM.constraint_ohms_yt_from(pm, i)                # Ohms laws (constraints 3 and 5 in TPS paper)
         _PM.constraint_ohms_yt_to(pm, i)                  # Ohms laws (constraints 4 and 6 in TPS paper)
         _PM.constraint_voltage_angle_difference(pm, i)    # limit on phase angle difference (not explictly stated in TPS paper)
@@ -36,7 +36,7 @@ function post_tnep(pm::AbstractPowerModel)
         _PM.constraint_thermal_limit_to(pm, i)            # thermal limit on lines (constraint 8 in TPS paper)
     end
 
-    for i in ids(pm, :ne_branch)
+    for i in _PM.ids(pm, :ne_branch)
         _PM.constraint_ohms_yt_from_ne(pm, i)             # Ohms laws (constraints 3 and 5 in TPS paper)
         _PM.constraint_ohms_yt_to_ne(pm, i)               # Ohms laws (constraints 4 and 6 in TPS paper)
         _PM.constraint_voltage_angle_difference_ne(pm, i) # limit on phase angle difference (not explictly stated in TPS paper)
@@ -47,7 +47,7 @@ function post_tnep(pm::AbstractPowerModel)
 end
 
 "Post all the constraints and variables associated with expansion planning in gas networks"
-function post_nels(gm::GenericGasModel)
+function post_nels(gm::_GM.AbstractGasModel)
     _GM.variable_flow(gm) # variable x in the TPS paper
     _GM.variable_pressure_sqr(gm)  # variable \pi in the TPS paper
     _GM.variable_valve_operation(gm)
@@ -115,28 +115,28 @@ function post_nels(gm::GenericGasModel)
 end
 
 # construct the gas flow feasbility problem with demand being the cost model
-function post_ne(pm::AbstractPowerModel, gm::GenericGasModel; kwargs...)
+function post_ne(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel; kwargs...)
     kwargs = Dict(kwargs)
-    gas_ne_weight     = haskey(kwargs, :gas_ne_weight)     ? kwargs[:gas_ne_weight] : 1.0
-    power_ne_weight   = haskey(kwargs, :power_ne_weight)   ? kwargs[:power_ne_weight] : 1.0
+    gas_ne_weight = haskey(kwargs, :gas_ne_weight) ? kwargs[:gas_ne_weight] : 1.0
+    power_ne_weight = haskey(kwargs, :power_ne_weight) ? kwargs[:power_ne_weight] : 1.0
     obj_normalization = haskey(kwargs, :obj_normalization) ? kwargs[:obj_normalization] : 1.0
 
-    ## Power only related variables and constraints
+    # Power-only-related variables and constraints.
     post_tnep(pm)
 
-    #### Gas only related variables and constraints
+    # Gas-only-related variables and constraints.
     post_nels(gm)
 
-    ## Gas-Grid related parts of the problem formulation
+    # Gas-Power related parts of the problem formulation.
     for i in _GM.ids(gm, :consumer)
        constraint_heat_rate_curve(pm, gm, i)
     end
 
-    ### Object function minimizes demand and pressure cost
-    objective_min_ne_cost(pm, gm; gas_ne_weight = gas_ne_weight, power_ne_weight = power_ne_weight, normalization =  obj_normalization)
+    # Objective function minimizes demand and pressure cost.
+    objective_min_ne_cost(pm, gm; gas_ne_weight=gas_ne_weight, power_ne_weight=power_ne_weight, normalization= obj_normalization)
 end
 
-function get_ne_solution(pm::AbstractPowerModel, gm::GenericGasModel)
+function get_ne_solution(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel)
     sol = Dict{AbstractString,Any}()
     _PM.add_setpoint_bus_voltage!(sol, pm)
     _PM.add_setpoint_generator_power!(sol, pm)

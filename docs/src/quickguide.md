@@ -6,13 +6,13 @@ Once GasGrid Models is installed, Pavito is installed, and network data files (e
 using GasPowerModels
 using Pavito
 
-run_gpf("../test/data/case14.m", "../test/data/belgian.json", SOCWRPowerModel, MISOCPGasModel, PavitoSolver())
+solve_gpf("../test/data/case14.m", "../test/data/belgian.json", SOCWRPowerModel, MISOCPGasModel, PavitoSolver())
 ```
 
 Similarly, a full non-convex Gas and Power Flow can be executed with a MINLP solver like
 
 ```julia
-run_gpf("../test/data/case14.m", "../test/data/belgian.json", ACPowerModel, MINLPGasModel, PavitoSolver())
+solve_gpf("../test/data/case14.m", "../test/data/belgian.json", ACPowerModel, MINLPGasModel, PavitoSolver())
 ```
 
 
@@ -22,7 +22,7 @@ The run commands in GasPowerModels return detailed results data in the form of a
 This dictionary can be saved for further processing as follows,
 
 ```julia
-run_gpf("../test/data/case14.m", "../test/data/belgian.json", SOCWRPowerModel, MISOCPGasModel, PavitoSolver())
+solve_gpf("../test/data/case14.m", "../test/data/belgian.json", SOCWRPowerModel, MISOCPGasModel, PavitoSolver())
 ```
 
 For example, the algorithm's runtime and final objective value can be accessed with,
@@ -43,7 +43,7 @@ For more information about GasPowerModels result data see the [GasPowerModels Re
 
 
 ## Inspecting the Formulation
-The following example demonstrates how to break a `run_gpf` call into separate model building and solving steps.  This allows inspection of the JuMP model created by GasPowerModels for the gas flow problem,
+The following example demonstrates how to break a `solve_gpf` call into separate model building and solving steps.  This allows inspection of the JuMP model created by GasPowerModels for the gas flow problem,
 
 ```julia
 pm, gm = build_generic_model("../test/data/case14.m", "../test/data/belgian.json", SOCWRPowerModel, MISOCPGasModel, GasPowerModels.post_gpf)
