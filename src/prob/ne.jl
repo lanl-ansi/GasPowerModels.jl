@@ -4,9 +4,9 @@ export solve_ne_popf
 
 " entry point for running gas and electric power expansion planning only "
 function solve_ne(gfile, pfile, gtype, ptype, optimizer; kwargs...)
+    pext = [_PM.ref_add_on_off_va_bounds!, _PM.ref_add_ne_branch!]
     return solve_model(gfile, pfile, gtype, ptype, optimizer, post_ne;
-        gext=[_GM.ref_add_ne!],
-        pext=[_PM.ref_add_on_off_va_bounds!, _PM.ref_add_ne_branch!], kwargs...)
+        gext=[_GM.ref_add_ne!], pext=pext, kwargs...)
 end
 
 "Post all the constraints associated with expansion planning in electric power"
@@ -19,8 +19,8 @@ function post_tnep(pm::_PM.AbstractPowerModel)
     _PM.variable_dcline_power(pm)        # DC line flows.  Not used in TPS paper
     _PM.variable_ne_branch_power(pm)     # variable p,q in the TPS paper
 
-    _PM.constraint_model_voltage(pm)    # adds upper and lower bounds on voltage and voltage squared, constraint 11 in TPS paper
-    _PM.constraint_ne_model_voltage(pm) # adds upper and lower bounds on voltage and voltage squared, constraint 11 in TPS paper
+    _PM.constraint_model_voltage(pm)     # adds upper and lower bounds on voltage and voltage squared, constraint 11 in TPS paper
+    _PM.constraint_ne_model_voltage(pm)  # adds upper and lower bounds on voltage and voltage squared, constraint 11 in TPS paper
 
     for i in _PM.ids(pm, :ref_buses)
         _PM.constraint_theta_ref(pm, i) # sets the reference bus phase angle to 0 (not explictly stated in TPS paper)
@@ -31,11 +31,11 @@ function post_tnep(pm::_PM.AbstractPowerModel)
     end
 
     for i in _PM.ids(pm, :branch)
-        _PM.constraint_ohms_yt_from(pm, i)              # Ohms laws (constraints 3 and 5 in TPS paper)
-        _PM.constraint_ohms_yt_to(pm, i)                # Ohms laws (constraints 4 and 6 in TPS paper)
-        _PM.constraint_voltage_angle_difference(pm, i)  # limit on phase angle difference (not explictly stated in TPS paper)
-        _PM.constraint_thermal_limit_from(pm, i)        # thermal limit on lines (constraint 7 in TPS paper)
-        _PM.constraint_thermal_limit_to(pm, i)          # thermal limit on lines (constraint 8 in TPS paper)
+        _PM.constraint_ohms_yt_from(pm, i)             # Ohms laws (constraints 3 and 5 in TPS paper)
+        _PM.constraint_ohms_yt_to(pm, i)               # Ohms laws (constraints 4 and 6 in TPS paper)
+        _PM.constraint_voltage_angle_difference(pm, i) # limit on phase angle difference (not explictly stated in TPS paper)
+        _PM.constraint_thermal_limit_from(pm, i)       # thermal limit on lines (constraint 7 in TPS paper)
+        _PM.constraint_thermal_limit_to(pm, i)         # thermal limit on lines (constraint 8 in TPS paper)
     end
 
     for i in _PM.ids(pm, :ne_branch)
@@ -118,8 +118,8 @@ end
 # construct the gas flow feasbility problem with demand being the cost model
 function post_ne(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel; kwargs...)
     kwargs = Dict(kwargs)
-    gas_ne_weight = haskey(kwargs, :gas_ne_weight) ? kwargs[:gas_ne_weight] : 1.0
-    power_ne_weight = haskey(kwargs, :power_ne_weight) ? kwargs[:power_ne_weight] : 1.0
+    gweight = haskey(kwargs, :gas_ne_weight) ? kwargs[:gas_ne_weight] : 1.0
+    pweight = haskey(kwargs, :power_ne_weight) ? kwargs[:power_ne_weight] : 1.0
     obj_normalization = haskey(kwargs, :obj_normalization) ? kwargs[:obj_normalization] : 1.0
 
     # Power-only-related variables and constraints.
@@ -134,7 +134,8 @@ function post_ne(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel; kwargs...
     end
 
     # Objective function minimizes demand and pressure cost.
-    objective_min_ne_cost(pm, gm; gas_ne_weight=gas_ne_weight, power_ne_weight=power_ne_weight, normalization= obj_normalization)
+    objective_min_ne_cost(pm, gm; gas_ne_weight=gweight,
+        power_ne_weight=pweight, normalization=obj_normalization)
 end
 
 function get_ne_solution(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel)

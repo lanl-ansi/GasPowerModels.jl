@@ -1,7 +1,7 @@
 #Check to see if generator connections to consumers are being correctly processed
-@testset "test gas grid data" begin
+@testset "Test Gas Grid Data" begin
     @testset "IEEE 14 Belgian case" begin
-        data = PowerModels.parse_file("../test/data/case14.m")
+        data = _PM.parse_file("../test/data/case14.m")
 
         @test data["gen"]["1"]["consumer"] == -1
         @test data["gen"]["1"]["heat_rate_quad_coeff"] == 0
