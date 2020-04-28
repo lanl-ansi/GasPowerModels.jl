@@ -25,7 +25,7 @@ import Juniper
 using Test
 
 # Setup for optimizers.
-ipopt = JuMP.with_optimizer(Ipopt.Optimizer, tol=1e-8, print_level=0, sb="yes")
+ipopt = JuMP.with_optimizer(Ipopt.Optimizer, tol=1.0e-4, print_level=0, sb="yes")
 cbc = JuMP.with_optimizer(Cbc.Optimizer, logLevel=0)
 juniper = JuMP.with_optimizer(Juniper.Optimizer, nl_solver=ipopt, mip_solver=cbc, log_levels=[])
 

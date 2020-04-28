@@ -1,7 +1,7 @@
 ""
 function instantiate_model(gfile::String, pfile::String, gtype::Type, ptype::Type, build_method; gext=[], pext=[], kwargs...)
     gdata, pdata = [_GM.parse_file(gfile), _PM.parse_file(pfile)]
-    return instantiate_model(gdata, pdata, gtype, ptype, build_method; pext=pext, kwargs...)
+    return instantiate_model(gdata, pdata, gtype, ptype, build_method; gext=gext, pext=pext, kwargs...)
 end
 
 ""

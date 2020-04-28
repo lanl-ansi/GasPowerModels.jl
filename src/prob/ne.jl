@@ -10,7 +10,7 @@ function run_ne(gfile, pfile, gtype, ptype, optimizer; kwargs...)
 end
 
 "Post all the constraints associated with expansion planning in electric power"
-function post_tnep(pm::_PM.AbstractPowerModel)
+function post_tnep(pm::_PM.AbstractPowerModel; kwargs...)
     _PM.variable_ne_branch_indicator(pm) # variable z in the TPS paper
     _PM.variable_bus_voltage(pm)         # variable v in the TPS paper
     _PM.variable_ne_branch_voltage(pm)   # variable v in the TPS paper
@@ -48,17 +48,16 @@ function post_tnep(pm::_PM.AbstractPowerModel)
 end
 
 "Post all the constraints and variables associated with expansion planning in gas networks"
-function post_nels(gm::_GM.AbstractGasModel)
+function post_nels(gm::_GM.AbstractGasModel; kwargs...)
     _GM.variable_flow(gm) # variable x in the TPS paper
     _GM.variable_pressure_sqr(gm)  # variable \pi in the TPS paper
     _GM.variable_valve_operation(gm)
     _GM.variable_load_mass_flow(gm)  # variable d in the TPS paper
     _GM.variable_production_mass_flow(gm)  # variable s in the TPS paper
 
-    # expansion variables
+    # Expansion variables.
     _GM.variable_pipe_ne(gm)
     _GM.variable_compressor_ne(gm)
-
     _GM.variable_flow_ne(gm)  # variable x in the TPS paper
 
     for i in _GM.ids(gm, :pipe)
@@ -138,7 +137,7 @@ function post_ne(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel; kwargs...
         power_ne_weight=pweight, normalization=obj_normalization)
 end
 
-function get_ne_solution(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel)
+function get_ne_solution(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel; kwargs...)
     sol = Dict{AbstractString,Any}()
     _PM.add_setpoint_bus_voltage!(sol, pm)
     _PM.add_setpoint_generator_power!(sol, pm)

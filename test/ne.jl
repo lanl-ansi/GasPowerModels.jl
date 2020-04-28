@@ -23,7 +23,7 @@ end
             gas_ne_weight=gas_ne_weight, power_ne_weight=power_ne_weight,
             obj_normalization=normalization, psp=[_PM.sol_data_model!])
 
-        #@test result["termination_status"] == _MOI.LOCALLY_SOLVED
+        @test result["termination_status"] == _MOI.LOCALLY_SOLVED
         #@test isapprox(result["objective"], 0.07226588*normalization, atol=1.0)
         #@test isapprox(result["solution"]["junction"]["4"]["p"], 0.937914, rtol=1.0e-2)
         #@test isapprox(result["solution"]["junction"]["15"]["p"], 0.65232, rtol=1.0e-2)

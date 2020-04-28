@@ -1,1205 +1,1193 @@
-
-
 {
-  "ne_connection": {
-    "32": {
-      "length": 26000,
-      "f_junction": 3,
-      "friction_factor": 0.0070370370260614,
-      "t_junction": 4,
-      "diameter": 0.89,
-      "construction_cost": 93106633.472385,
-      "type": "pipe"
-    },
-    "29": {
-      "length": 4000,
-      "f_junction": 1,
-      "friction_factor": 0.0070370370264493,
-      "t_junction": 2,
-      "diameter": 0.89,
-      "construction_cost": 14324097.45729,
-      "type": "pipe"
-    },
-    "41": {
-      "length": 25000,
-      "f_junction": 10,
-      "friction_factor": 0.0070370370241218,
-      "t_junction": 11,
-      "diameter": 0.89,
-      "construction_cost": 89525609.108063,
-      "type": "pipe"
-    },
-    "35": {
-      "length": 19000,
-      "f_junction": 7,
-      "friction_factor": 0.0075887473022613,
-      "t_junction": 4,
-      "diameter": 0.5901,
-      "construction_cost": 38037099.542967,
-      "type": "pipe"
-    },
-    "51": {
-      "length": 6000,
-      "f_junction": 19,
-      "friction_factor": 0.0085629675705269,
-      "t_junction": 20,
-      "diameter": 0.3155,
-      "construction_cost": 7833421.6935435,
-      "type": "pipe"
-    },
-    "49": {
-      "length": 26000,
-      "f_junction": 171,
-      "friction_factor": 0.0085629678783369,
-      "t_junction": 18,
-      "diameter": 0.3155,
-      "construction_cost": 339448273.38689,
-      "type": "pipe"
-    },
-    "31": {
-      "length": 6000,
-      "f_junction": 2,
-      "friction_factor": 0.0070370370260614,
-      "t_junction": 3,
-      "diameter": 0.89,
-      "construction_cost": 21486146.185935,
-      "type": "pipe"
-    },
-    "42": {
-      "length": 25000,
-      "f_junction": 10,
-      "friction_factor": 0.0081907659495215,
-      "t_junction": 11,
-      "diameter": 0.3955,
-      "construction_cost": 36132942.183722,
-      "type": "pipe"
-    },
-    "33": {
-      "length": 43000,
-      "f_junction": 5,
-      "friction_factor": 0.0075887473251455,
-      "t_junction": 6,
-      "diameter": 0.5901,
-      "construction_cost": 86083962.123557,
-      "type": "pipe"
-    },
-    "28": {
-      "length": 4000,
-      "f_junction": 1,
-      "friction_factor": 0.0070370370264493,
-      "t_junction": 2,
-      "diameter": 0.89,
-      "construction_cost": 14324097.45729,
-      "type": "pipe"
-    },
-    "43": {
-      "length": 42000,
-      "f_junction": 11,
-      "friction_factor": 0.0070370370283889,
-      "t_junction": 12,
-      "diameter": 0.89,
-      "construction_cost": 1504030233.0155,
-      "type": "pipe"
-    },
-    "50": {
-      "length": 98000,
-      "f_junction": 18,
-      "friction_factor": 0.0085629679809403,
-      "t_junction": 19,
-      "diameter": 0.3155,
-      "construction_cost": 1279458876.6121,
-      "type": "pipe"
-    },
-    "39": {
-      "length": 20000,
-      "f_junction": 9,
-      "friction_factor": 0.007037037028001,
-      "t_junction": 10,
-      "diameter": 0.89,
-      "construction_cost": 71620487.28645,
-      "type": "pipe"
-    },
-    "40": {
-      "length": 20000,
-      "f_junction": 9,
-      "friction_factor": 0.0081907657978876,
-      "t_junction": 10,
-      "diameter": 0.3955,
-      "construction_cost": 28906353.746977,
-      "type": "pipe"
-    },
-    "38": {
-      "length": 5000,
-      "f_junction": 81,
-      "friction_factor": 0.0081907658737045,
-      "t_junction": 9,
-      "diameter": 0.3955,
-      "construction_cost": 7226588.4367443,
-      "type": "pipe"
-    },
-    "46": {
-      "length": 10000,
-      "f_junction": 14,
-      "friction_factor": 0.0070370370260614,
-      "t_junction": 15,
-      "diameter": 0.89,
-      "construction_cost": 358102436.43225,
-      "type": "pipe"
-    },
-    "34": {
-      "length": 29000,
-      "f_junction": 6,
-      "friction_factor": 0.0075887473339471,
-      "t_junction": 7,
-      "diameter": 0.5901,
-      "construction_cost": 58056625.618213,
-      "type": "pipe"
-    },
-    "44": {
-      "length": 40000,
-      "f_junction": 12,
-      "friction_factor": 0.0070370370241218,
-      "t_junction": 13,
-      "diameter": 0.89,
-      "construction_cost": 1432409745.729,
-      "type": "pipe"
-    },
-    "45": {
-      "length": 5000,
-      "f_junction": 13,
-      "friction_factor": 0.0070370370260614,
-      "t_junction": 14,
-      "diameter": 0.89,
-      "construction_cost": 179051218.21613,
-      "type": "pipe"
-    },
-    "36": {
-      "length": 55000,
-      "f_junction": 4,
-      "friction_factor": 0.0070370370241218,
-      "t_junction": 14,
-      "diameter": 0.89,
-      "construction_cost": 196956340.03774,
-      "type": "pipe"
-    },
-    "37": {
-      "length": 5000,
-      "f_junction": 81,
-      "friction_factor": 0.0070370370260614,
-      "t_junction": 9,
-      "diameter": 0.89,
-      "construction_cost": 17905121.821613,
-      "type": "pipe"
-    },
-    "47": {
-      "length": 25000,
-      "f_junction": 15,
-      "friction_factor": 0.0070370370241218,
-      "t_junction": 16,
-      "diameter": 0.89,
-      "construction_cost": 895256091.08063,
-      "type": "pipe"
-    },
-    "48": {
-      "length": 10500,
-      "f_junction": 11,
-      "friction_factor": 0.0081907658661228,
-      "t_junction": 17,
-      "diameter": 0.3955,
-      "construction_cost": 151758357.17163,
-      "type": "pipe"
-    },
-    "30": {
-      "length": 6000,
-      "f_junction": 2,
-      "friction_factor": 0.0070370370260614,
-      "t_junction": 3,
-      "diameter": 0.89,
-      "construction_cost": 21486146.185935,
-      "type": "pipe"
-    }
-  },
-  "temperature": 281.15,
-  "ne_compressor": {
-
-  },
-  "multinetwork": false,
-  "gas_molar_mass": 0.0185674,
-  "compressor": {
-    "100000": {
-      "c_ratio_max": 2,
-      "f_junction": 171,
-      "t_junction": 100017,
-      "c_ratio_min": 1,
-      "type": "compressor"
-    },
-    "10": {
-      "c_ratio_max": 2,
-      "f_junction": 8,
-      "t_junction": 300008,
-      "c_ratio_min": 1,
-      "type": "compressor"
-    },
-    "22": {
-      "c_ratio_max": 2,
-      "f_junction": 17,
-      "t_junction": 100017,
-      "c_ratio_min": 1,
-      "type": "compressor"
-    },
-    "11": {
-      "c_ratio_max": 2,
-      "f_junction": 8,
-      "t_junction": 200008,
-      "c_ratio_min": 1,
-      "type": "compressor"
-    },
-    "100001": {
-      "c_ratio_max": 2,
-      "f_junction": 81,
-      "t_junction": 200008,
-      "c_ratio_min": 1,
-      "type": "compressor"
-    },
-    "100002": {
-      "c_ratio_max": 2,
-      "f_junction": 81,
-      "t_junction": 300008,
-      "c_ratio_min": 1,
-      "type": "compressor"
-    }
-  },
-  "consumer": {
-    "4": {
-      "qlmax": 21599.205149251,
-      "ql_junc": 4,
-      "qlmin": 0,
-      "dispatchable": 1,
-      "ql": 0
-    },
-    "12": {
-      "qlmax": 0.045790314916411,
-      "ql_junc": 12,
-      "qlmin": 0.045790314916411,
-      "dispatchable": 0,
-      "ql": 0.045790314916411
-    },
-    "20": {
-      "qlmax": 0.041448874681412,
-      "ql_junc": 20,
-      "qlmin": 0.041448874681412,
-      "dispatchable": 0,
-      "ql": 0.041448874681412
-    },
-    "6": {
-      "qlmax": 0.087131193572077,
-      "ql_junc": 6,
-      "qlmin": 0.087131193572077,
-      "dispatchable": 0,
-      "ql": 0.087131193572077
-    },
-    "15": {
-      "qlmax": 0.14791135686207,
-      "ql_junc": 15,
-      "qlmin": 0.14791135686207,
-      "dispatchable": 0,
-      "ql": 0.14791135686207
-    },
-    "16": {
-      "qlmax": 0.3372931876107,
-      "ql_junc": 16,
-      "qlmin": 0.3372931876107,
-      "dispatchable": 0,
-      "ql": 0.3372931876107
-    },
-    "7": {
-      "qlmax": 0.11352542226446,
-      "ql_junc": 7,
-      "qlmin": 0.11352542226446,
-      "dispatchable": 0,
-      "ql": 0.11352542226446
-    },
-    "10012": {
-      "qlmax": 21599.205149251,
-      "ql_junc": 12,
-      "qlmin": 0,
-      "dispatchable": 1,
-      "ql": 0
-    },
-    "10": {
-      "qlmax": 0.13747894077498,
-      "ql_junc": 10,
-      "qlmin": 0.13747894077498,
-      "dispatchable": 0,
-      "ql": 0.13747894077498
-    },
-    "19": {
-      "qlmax": 0.0047950235431336,
-      "ql_junc": 19,
-      "qlmin": 0.0047950235431336,
-      "dispatchable": 0,
-      "ql": 0.0047950235431336
-    },
-    "3": {
-      "qlmax": 0.084625685774763,
-      "ql_junc": 3,
-      "qlmin": 0.084625685774763,
-      "dispatchable": 0,
-      "ql": 0.084625685774763
-    }
-  },
-  "baseQ": 535.85648148148,
-  "standard_density": 1,
-  "compressibility_factor": 0.8,
-  "resistor": {
-
-  },
-  "short_pipe": {
-
-  },
-  "producer": {
-    "1": {
-      "qgmin": 0.23567514795456,
-      "qg": 0.23567514795456,
-      "qgmax": 0.23567514795456,
-      "dispatchable": 0,
-      "qg_junc": 1
-    },
-    "2": {
-      "qgmin": 0.1814333232537,
-      "qg": 0.1814333232537,
-      "qgmax": 0.1814333232537,
-      "dispatchable": 0,
-      "qg_junc": 2
-    },
-    "13": {
-      "qgmin": 0.025919046179101,
-      "qg": 0.025919046179101,
-      "qgmax": 0.025919046179101,
-      "dispatchable": 0,
-      "qg_junc": 13
-    },
-    "10013": {
-      "qgmin": 0,
-      "qg": 0,
-      "qgmax": 0.0172793641194,
-      "dispatchable": 1,
-      "qg_junc": 13
-    },
-    "5": {
-      "qgmin": 0.060795541924057,
-      "qg": 0.060795541924057,
-      "qgmax": 0.060795541924057,
-      "dispatchable": 0,
-      "qg_junc": 5
-    },
-    "10001": {
-      "qgmin": 0,
-      "qg": 0,
-      "qgmax": 2.1599205149251,
-      "dispatchable": 1,
-      "qg_junc": 1
-    },
-    "10014": {
-      "qgmin": 0,
-      "qg": 0,
-      "qgmax": 0.00086396820597002,
-      "dispatchable": 1,
-      "qg_junc": 14
-    },
-    "14": {
-      "qgmin": 0.02073523694328,
-      "qg": 0.02073523694328,
-      "qgmax": 0.02073523694328,
-      "dispatchable": 0,
-      "qg_junc": 14
-    },
-    "10005": {
-      "qgmin": 0,
-      "qg": 0,
-      "qgmax": 0.0043198410298501,
-      "dispatchable": 1,
-      "qg_junc": 5
-    },
-    "10002": {
-      "qgmin": 0,
-      "qg": 0,
-      "qgmax": 2.1599205149251,
-      "dispatchable": 1,
-      "qg_junc": 2
-    },
-    "10008": {
-      "qgmin": 0,
-      "qg": 0,
-      "qgmax": 0.064797615447752,
-      "dispatchable": 1,
-      "qg_junc": 8
-    },
-    "8": {
-      "qgmin": 0.4754417037453,
-      "qg": 0.4754417037453,
-      "qgmax": 0.4754417037453,
-      "dispatchable": 0,
-      "qg_junc": 8
-    }
-  },
-  "ne_pipe": {
-    "32": {
-      "length": 26000,
-      "f_junction": 3,
-      "friction_factor": 0.0070370370260614,
-      "t_junction": 4,
-      "diameter": 0.89,
-      "construction_cost": 93106633.472385,
-      "type": "pipe"
-    },
-    "29": {
-      "length": 4000,
-      "f_junction": 1,
-      "friction_factor": 0.0070370370264493,
-      "t_junction": 2,
-      "diameter": 0.89,
-      "construction_cost": 14324097.45729,
-      "type": "pipe"
-    },
-    "41": {
-      "length": 25000,
-      "f_junction": 10,
-      "friction_factor": 0.0070370370241218,
-      "t_junction": 11,
-      "diameter": 0.89,
-      "construction_cost": 89525609.108063,
-      "type": "pipe"
-    },
-    "35": {
-      "length": 19000,
-      "f_junction": 7,
-      "friction_factor": 0.0075887473022613,
-      "t_junction": 4,
-      "diameter": 0.5901,
-      "construction_cost": 38037099.542967,
-      "type": "pipe"
-    },
-    "51": {
-      "length": 6000,
-      "f_junction": 19,
-      "friction_factor": 0.0085629675705269,
-      "t_junction": 20,
-      "diameter": 0.3155,
-      "construction_cost": 7833421.6935435,
-      "type": "pipe"
-    },
-    "49": {
-      "length": 26000,
-      "f_junction": 171,
-      "friction_factor": 0.0085629678783369,
-      "t_junction": 18,
-      "diameter": 0.3155,
-      "construction_cost": 339448273.38689,
-      "type": "pipe"
-    },
-    "31": {
-      "length": 6000,
-      "f_junction": 2,
-      "friction_factor": 0.0070370370260614,
-      "t_junction": 3,
-      "diameter": 0.89,
-      "construction_cost": 21486146.185935,
-      "type": "pipe"
-    },
-    "42": {
-      "length": 25000,
-      "f_junction": 10,
-      "friction_factor": 0.0081907659495215,
-      "t_junction": 11,
-      "diameter": 0.3955,
-      "construction_cost": 36132942.183722,
-      "type": "pipe"
-    },
-    "33": {
-      "length": 43000,
-      "f_junction": 5,
-      "friction_factor": 0.0075887473251455,
-      "t_junction": 6,
-      "diameter": 0.5901,
-      "construction_cost": 86083962.123557,
-      "type": "pipe"
-    },
-    "28": {
-      "length": 4000,
-      "f_junction": 1,
-      "friction_factor": 0.0070370370264493,
-      "t_junction": 2,
-      "diameter": 0.89,
-      "construction_cost": 14324097.45729,
-      "type": "pipe"
-    },
-    "43": {
-      "length": 42000,
-      "f_junction": 11,
-      "friction_factor": 0.0070370370283889,
-      "t_junction": 12,
-      "diameter": 0.89,
-      "construction_cost": 1504030233.0155,
-      "type": "pipe"
-    },
-    "50": {
-      "length": 98000,
-      "f_junction": 18,
-      "friction_factor": 0.0085629679809403,
-      "t_junction": 19,
-      "diameter": 0.3155,
-      "construction_cost": 1279458876.6121,
-      "type": "pipe"
-    },
-    "39": {
-      "length": 20000,
-      "f_junction": 9,
-      "friction_factor": 0.007037037028001,
-      "t_junction": 10,
-      "diameter": 0.89,
-      "construction_cost": 71620487.28645,
-      "type": "pipe"
-    },
-    "40": {
-      "length": 20000,
-      "f_junction": 9,
-      "friction_factor": 0.0081907657978876,
-      "t_junction": 10,
-      "diameter": 0.3955,
-      "construction_cost": 28906353.746977,
-      "type": "pipe"
-    },
-    "38": {
-      "length": 5000,
-      "f_junction": 81,
-      "friction_factor": 0.0081907658737045,
-      "t_junction": 9,
-      "diameter": 0.3955,
-      "construction_cost": 7226588.4367443,
-      "type": "pipe"
-    },
-    "46": {
-      "length": 10000,
-      "f_junction": 14,
-      "friction_factor": 0.0070370370260614,
-      "t_junction": 15,
-      "diameter": 0.89,
-      "construction_cost": 358102436.43225,
-      "type": "pipe"
-    },
-    "34": {
-      "length": 29000,
-      "f_junction": 6,
-      "friction_factor": 0.0075887473339471,
-      "t_junction": 7,
-      "diameter": 0.5901,
-      "construction_cost": 58056625.618213,
-      "type": "pipe"
-    },
-    "44": {
-      "length": 40000,
-      "f_junction": 12,
-      "friction_factor": 0.0070370370241218,
-      "t_junction": 13,
-      "diameter": 0.89,
-      "construction_cost": 1432409745.729,
-      "type": "pipe"
-    },
-    "45": {
-      "length": 5000,
-      "f_junction": 13,
-      "friction_factor": 0.0070370370260614,
-      "t_junction": 14,
-      "diameter": 0.89,
-      "construction_cost": 179051218.21613,
-      "type": "pipe"
-    },
-    "36": {
-      "length": 55000,
-      "f_junction": 4,
-      "friction_factor": 0.0070370370241218,
-      "t_junction": 14,
-      "diameter": 0.89,
-      "construction_cost": 196956340.03774,
-      "type": "pipe"
-    },
-    "37": {
-      "length": 5000,
-      "f_junction": 81,
-      "friction_factor": 0.0070370370260614,
-      "t_junction": 9,
-      "diameter": 0.89,
-      "construction_cost": 17905121.821613,
-      "type": "pipe"
-    },
-    "47": {
-      "length": 25000,
-      "f_junction": 15,
-      "friction_factor": 0.0070370370241218,
-      "t_junction": 16,
-      "diameter": 0.89,
-      "construction_cost": 895256091.08063,
-      "type": "pipe"
-    },
-    "48": {
-      "length": 10500,
-      "f_junction": 11,
-      "friction_factor": 0.0081907658661228,
-      "t_junction": 17,
-      "diameter": 0.3955,
-      "construction_cost": 151758357.17163,
-      "type": "pipe"
-    },
-    "30": {
-      "length": 6000,
-      "f_junction": 2,
-      "friction_factor": 0.0070370370260614,
-      "t_junction": 3,
-      "diameter": 0.89,
-      "construction_cost": 21486146.185935,
-      "type": "pipe"
-    }
-  },
-  "valve": {
-
-  },
-  "per_unit": true,
-  "junction": {
-    "171": {
-      "pmax": 0.8275,
-      "pmin": 0
-    },
-    "4": {
-      "pmax": 1,
-      "pmin": 0.9375
-    },
-    "1": {
-      "pmax": 0.9625,
-      "pmin": 0
-    },
-    "81": {
-      "pmax": 0.8275,
-      "pmin": 0
-    },
-    "12": {
-      "pmax": 0.8275,
-      "pmin": 0.125
-    },
-    "20": {
-      "pmax": 0.8275,
-      "pmin": 0.3125
-    },
-    "2": {
-      "pmax": 0.9625,
-      "pmin": 0
-    },
-    "6": {
-      "pmax": 1,
-      "pmin": 0.375
-    },
-    "11": {
-      "pmax": 0.8275,
-      "pmin": 0
-    },
-    "200008": {
-      "pmax": 0.8275,
-      "pmin": 0
-    },
-    "13": {
-      "pmax": 0.8275,
-      "pmin": 0
-    },
-    "300008": {
-      "pmax": 0.8275,
-      "pmin": 0
-    },
-    "5": {
-      "pmax": 0.9625,
-      "pmin": 0
-    },
-    "15": {
-      "pmax": 0.8275,
-      "pmin": 0
-    },
-    "16": {
-      "pmax": 0.8275,
-      "pmin": 0.625
-    },
-    "14": {
-      "pmax": 0.8275,
-      "pmin": 0
-    },
-    "7": {
-      "pmax": 1,
-      "pmin": 0.375
-    },
-    "100017": {
-      "pmax": 0.8275,
-      "pmin": 0
-    },
-    "8": {
-      "pmax": 0.8275,
-      "pmin": 0.625
-    },
-    "17": {
-      "pmax": 0.8275,
-      "pmin": 0
-    },
-    "10": {
-      "pmax": 0.8275,
-      "pmin": 0.375
-    },
-    "19": {
-      "pmax": 0.8275,
-      "pmin": 0
-    },
-    "9": {
-      "pmax": 0.8275,
-      "pmin": 0
-    },
-    "18": {
-      "pmax": 0.7875,
-      "pmin": 0
-    },
-    "3": {
-      "pmax": 1,
-      "pmin": 0.375
-    }
-  },
-  "pipe": {
-    "24": {
-      "length": 6000,
-      "f_junction": 19,
-      "friction_factor": 0.0085629675705269,
-      "t_junction": 20,
-      "diameter": 0.3155,
-      "type": "pipe"
-    },
-    "4": {
-      "length": 6000,
-      "f_junction": 2,
-      "friction_factor": 0.0070370370260614,
-      "t_junction": 3,
-      "diameter": 0.89,
-      "type": "pipe"
-    },
-    "1": {
-      "length": 4000,
-      "f_junction": 1,
-      "friction_factor": 0.0070370370264493,
-      "t_junction": 2,
-      "diameter": 0.89,
-      "type": "pipe"
-    },
-    "12": {
-      "length": 20000,
-      "f_junction": 9,
-      "friction_factor": 0.007037037028001,
-      "t_junction": 10,
-      "diameter": 0.89,
-      "type": "pipe"
-    },
-    "221": {
-      "length": 26000,
-      "f_junction": 171,
-      "friction_factor": 0.0085629678783369,
-      "t_junction": 18,
-      "diameter": 0.3155,
-      "type": "pipe"
-    },
-    "101": {
-      "length": 5000,
-      "f_junction": 81,
-      "friction_factor": 0.0070370370260614,
-      "t_junction": 9,
-      "diameter": 0.89,
-      "type": "pipe"
-    },
-    "20": {
-      "length": 25000,
-      "f_junction": 15,
-      "friction_factor": 0.0070370370241218,
-      "t_junction": 16,
-      "diameter": 0.89,
-      "type": "pipe"
-    },
-    "2": {
-      "length": 4000,
-      "f_junction": 1,
-      "friction_factor": 0.0070370370264493,
-      "t_junction": 2,
-      "diameter": 0.89,
-      "type": "pipe"
-    },
-    "6": {
-      "length": 43000,
-      "f_junction": 5,
-      "friction_factor": 0.0075887473251455,
-      "t_junction": 6,
-      "diameter": 0.5901,
-      "type": "pipe"
-    },
-    "23": {
-      "length": 98000,
-      "f_junction": 18,
-      "friction_factor": 0.0085629679809403,
-      "t_junction": 19,
-      "diameter": 0.3155,
-      "type": "pipe"
-    },
-    "13": {
-      "length": 20000,
-      "f_junction": 9,
-      "friction_factor": 0.0081907657978876,
-      "t_junction": 10,
-      "diameter": 0.3955,
-      "type": "pipe"
-    },
-    "5": {
-      "length": 26000,
-      "f_junction": 3,
-      "friction_factor": 0.0070370370260614,
-      "t_junction": 4,
-      "diameter": 0.89,
-      "type": "pipe"
-    },
-    "15": {
-      "length": 25000,
-      "f_junction": 10,
-      "friction_factor": 0.0081907659495215,
-      "t_junction": 11,
-      "diameter": 0.3955,
-      "type": "pipe"
-    },
-    "16": {
-      "length": 42000,
-      "f_junction": 11,
-      "friction_factor": 0.0070370370283889,
-      "t_junction": 12,
-      "diameter": 0.89,
-      "type": "pipe"
-    },
-    "14": {
-      "length": 25000,
-      "f_junction": 10,
-      "friction_factor": 0.0070370370241218,
-      "t_junction": 11,
-      "diameter": 0.89,
-      "type": "pipe"
-    },
-    "111": {
-      "length": 5000,
-      "f_junction": 81,
-      "friction_factor": 0.0081907658737045,
-      "t_junction": 9,
-      "diameter": 0.3955,
-      "type": "pipe"
-    },
-    "21": {
-      "length": 10500,
-      "f_junction": 11,
-      "friction_factor": 0.0081907658661228,
-      "t_junction": 17,
-      "diameter": 0.3955,
-      "type": "pipe"
-    },
-    "7": {
-      "length": 29000,
-      "f_junction": 6,
-      "friction_factor": 0.0075887473339471,
-      "t_junction": 7,
-      "diameter": 0.5901,
-      "type": "pipe"
-    },
-    "8": {
-      "length": 19000,
-      "f_junction": 7,
-      "friction_factor": 0.0075887473022613,
-      "t_junction": 4,
-      "diameter": 0.5901,
-      "type": "pipe"
-    },
-    "17": {
-      "length": 40000,
-      "f_junction": 12,
-      "friction_factor": 0.0070370370241218,
-      "t_junction": 13,
-      "diameter": 0.89,
-      "type": "pipe"
-    },
-    "19": {
-      "length": 10000,
-      "f_junction": 14,
-      "friction_factor": 0.0070370370260614,
-      "t_junction": 15,
-      "diameter": 0.89,
-      "type": "pipe"
-    },
-    "9": {
-      "length": 55000,
-      "f_junction": 4,
-      "friction_factor": 0.0070370370241218,
-      "t_junction": 14,
-      "diameter": 0.89,
-      "type": "pipe"
-    },
-    "18": {
-      "length": 5000,
-      "f_junction": 13,
-      "friction_factor": 0.0070370370260614,
-      "t_junction": 14,
-      "diameter": 0.89,
-      "type": "pipe"
-    },
-    "3": {
-      "length": 6000,
-      "f_junction": 2,
-      "friction_factor": 0.0070370370260614,
-      "t_junction": 3,
-      "diameter": 0.89,
-      "type": "pipe"
-    }
-  },
-  "energy_factor": 2.61590529e-8,
-  "baseP": 8000000,
-  "control_valve": {
-
-  },
-  "connection": {
-    "24": {
-      "length": 6000,
-      "f_junction": 19,
-      "friction_factor": 0.0085629675705269,
-      "t_junction": 20,
-      "diameter": 0.3155,
-      "type": "pipe"
-    },
-    "4": {
-      "length": 6000,
-      "f_junction": 2,
-      "friction_factor": 0.0070370370260614,
-      "t_junction": 3,
-      "diameter": 0.89,
-      "type": "pipe"
-    },
-    "1": {
-      "length": 4000,
-      "f_junction": 1,
-      "friction_factor": 0.0070370370264493,
-      "t_junction": 2,
-      "diameter": 0.89,
-      "type": "pipe"
-    },
-    "12": {
-      "length": 20000,
-      "f_junction": 9,
-      "friction_factor": 0.007037037028001,
-      "t_junction": 10,
-      "diameter": 0.89,
-      "type": "pipe"
-    },
-    "221": {
-      "length": 26000,
-      "f_junction": 171,
-      "friction_factor": 0.0085629678783369,
-      "t_junction": 18,
-      "diameter": 0.3155,
-      "type": "pipe"
-    },
-    "101": {
-      "length": 5000,
-      "f_junction": 81,
-      "friction_factor": 0.0070370370260614,
-      "t_junction": 9,
-      "diameter": 0.89,
-      "type": "pipe"
-    },
-    "20": {
-      "length": 25000,
-      "f_junction": 15,
-      "friction_factor": 0.0070370370241218,
-      "t_junction": 16,
-      "diameter": 0.89,
-      "type": "pipe"
-    },
-    "2": {
-      "length": 4000,
-      "f_junction": 1,
-      "friction_factor": 0.0070370370264493,
-      "t_junction": 2,
-      "diameter": 0.89,
-      "type": "pipe"
-    },
-    "6": {
-      "length": 43000,
-      "f_junction": 5,
-      "friction_factor": 0.0075887473251455,
-      "t_junction": 6,
-      "diameter": 0.5901,
-      "type": "pipe"
-    },
-    "23": {
-      "length": 98000,
-      "f_junction": 18,
-      "friction_factor": 0.0085629679809403,
-      "t_junction": 19,
-      "diameter": 0.3155,
-      "type": "pipe"
-    },
-    "22": {
-      "c_ratio_max": 2,
-      "f_junction": 17,
-      "t_junction": 100017,
-      "c_ratio_min": 1,
-      "type": "compressor"
-    },
-    "11": {
-      "c_ratio_max": 2,
-      "f_junction": 8,
-      "t_junction": 200008,
-      "c_ratio_min": 1,
-      "type": "compressor"
-    },
-    "100001": {
-      "c_ratio_max": 2,
-      "f_junction": 81,
-      "t_junction": 200008,
-      "c_ratio_min": 1,
-      "type": "compressor"
-    },
-    "13": {
-      "length": 20000,
-      "f_junction": 9,
-      "friction_factor": 0.0081907657978876,
-      "t_junction": 10,
-      "diameter": 0.3955,
-      "type": "pipe"
-    },
-    "100002": {
-      "c_ratio_max": 2,
-      "f_junction": 81,
-      "t_junction": 300008,
-      "c_ratio_min": 1,
-      "type": "compressor"
-    },
-    "100000": {
-      "c_ratio_max": 2,
-      "f_junction": 171,
-      "t_junction": 100017,
-      "c_ratio_min": 1,
-      "type": "compressor"
-    },
-    "5": {
-      "length": 26000,
-      "f_junction": 3,
-      "friction_factor": 0.0070370370260614,
-      "t_junction": 4,
-      "diameter": 0.89,
-      "type": "pipe"
-    },
-    "15": {
-      "length": 25000,
-      "f_junction": 10,
-      "friction_factor": 0.0081907659495215,
-      "t_junction": 11,
-      "diameter": 0.3955,
-      "type": "pipe"
-    },
-    "16": {
-      "length": 42000,
-      "f_junction": 11,
-      "friction_factor": 0.0070370370283889,
-      "t_junction": 12,
-      "diameter": 0.89,
-      "type": "pipe"
-    },
-    "14": {
-      "length": 25000,
-      "f_junction": 10,
-      "friction_factor": 0.0070370370241218,
-      "t_junction": 11,
-      "diameter": 0.89,
-      "type": "pipe"
-    },
-    "111": {
-      "length": 5000,
-      "f_junction": 81,
-      "friction_factor": 0.0081907658737045,
-      "t_junction": 9,
-      "diameter": 0.3955,
-      "type": "pipe"
-    },
-    "21": {
-      "length": 10500,
-      "f_junction": 11,
-      "friction_factor": 0.0081907658661228,
-      "t_junction": 17,
-      "diameter": 0.3955,
-      "type": "pipe"
-    },
-    "7": {
-      "length": 29000,
-      "f_junction": 6,
-      "friction_factor": 0.0075887473339471,
-      "t_junction": 7,
-      "diameter": 0.5901,
-      "type": "pipe"
-    },
-    "8": {
-      "length": 19000,
-      "f_junction": 7,
-      "friction_factor": 0.0075887473022613,
-      "t_junction": 4,
-      "diameter": 0.5901,
-      "type": "pipe"
-    },
-    "17": {
-      "length": 40000,
-      "f_junction": 12,
-      "friction_factor": 0.0070370370241218,
-      "t_junction": 13,
-      "diameter": 0.89,
-      "type": "pipe"
-    },
-    "19": {
-      "length": 10000,
-      "f_junction": 14,
-      "friction_factor": 0.0070370370260614,
-      "t_junction": 15,
-      "diameter": 0.89,
-      "type": "pipe"
-    },
-    "10": {
-      "c_ratio_max": 2,
-      "f_junction": 8,
-      "t_junction": 300008,
-      "c_ratio_min": 1,
-      "type": "compressor"
-    },
-    "9": {
-      "length": 55000,
-      "f_junction": 4,
-      "friction_factor": 0.0070370370241218,
-      "t_junction": 14,
-      "diameter": 0.89,
-      "type": "pipe"
-    },
-    "18": {
-      "length": 5000,
-      "f_junction": 13,
-      "friction_factor": 0.0070370370260614,
-      "t_junction": 14,
-      "diameter": 0.89,
-      "type": "pipe"
-    },
-    "3": {
-      "length": 6000,
-      "f_junction": 2,
-      "friction_factor": 0.0070370370260614,
-      "t_junction": 3,
-      "diameter": 0.89,
-      "type": "pipe"
-    }
-  }
+    "baseP": 8000000,
+    "baseQ": 535.85648148148,
+    "compressibility_factor": 0.8,
+    "compressor": {
+        "10": {
+            "c_ratio_max": 2,
+            "c_ratio_min": 1,
+            "f_junction": 8,
+            "t_junction": 300008,
+            "type": "compressor"
+        },
+        "100000": {
+            "c_ratio_max": 2,
+            "c_ratio_min": 1,
+            "f_junction": 171,
+            "t_junction": 100017,
+            "type": "compressor"
+        },
+        "100001": {
+            "c_ratio_max": 2,
+            "c_ratio_min": 1,
+            "f_junction": 81,
+            "t_junction": 200008,
+            "type": "compressor"
+        },
+        "100002": {
+            "c_ratio_max": 2,
+            "c_ratio_min": 1,
+            "f_junction": 81,
+            "t_junction": 300008,
+            "type": "compressor"
+        },
+        "11": {
+            "c_ratio_max": 2,
+            "c_ratio_min": 1,
+            "f_junction": 8,
+            "t_junction": 200008,
+            "type": "compressor"
+        },
+        "22": {
+            "c_ratio_max": 2,
+            "c_ratio_min": 1,
+            "f_junction": 17,
+            "t_junction": 100017,
+            "type": "compressor"
+        }
+    },
+    "connection": {
+        "1": {
+            "diameter": 0.89,
+            "f_junction": 1,
+            "friction_factor": 0.0070370370264493,
+            "length": 4000,
+            "t_junction": 2,
+            "type": "pipe"
+        },
+        "10": {
+            "c_ratio_max": 2,
+            "c_ratio_min": 1,
+            "f_junction": 8,
+            "t_junction": 300008,
+            "type": "compressor"
+        },
+        "100000": {
+            "c_ratio_max": 2,
+            "c_ratio_min": 1,
+            "f_junction": 171,
+            "t_junction": 100017,
+            "type": "compressor"
+        },
+        "100001": {
+            "c_ratio_max": 2,
+            "c_ratio_min": 1,
+            "f_junction": 81,
+            "t_junction": 200008,
+            "type": "compressor"
+        },
+        "100002": {
+            "c_ratio_max": 2,
+            "c_ratio_min": 1,
+            "f_junction": 81,
+            "t_junction": 300008,
+            "type": "compressor"
+        },
+        "101": {
+            "diameter": 0.89,
+            "f_junction": 81,
+            "friction_factor": 0.0070370370260614,
+            "length": 5000,
+            "t_junction": 9,
+            "type": "pipe"
+        },
+        "11": {
+            "c_ratio_max": 2,
+            "c_ratio_min": 1,
+            "f_junction": 8,
+            "t_junction": 200008,
+            "type": "compressor"
+        },
+        "111": {
+            "diameter": 0.3955,
+            "f_junction": 81,
+            "friction_factor": 0.0081907658737045,
+            "length": 5000,
+            "t_junction": 9,
+            "type": "pipe"
+        },
+        "12": {
+            "diameter": 0.89,
+            "f_junction": 9,
+            "friction_factor": 0.007037037028001,
+            "length": 20000,
+            "t_junction": 10,
+            "type": "pipe"
+        },
+        "13": {
+            "diameter": 0.3955,
+            "f_junction": 9,
+            "friction_factor": 0.0081907657978876,
+            "length": 20000,
+            "t_junction": 10,
+            "type": "pipe"
+        },
+        "14": {
+            "diameter": 0.89,
+            "f_junction": 10,
+            "friction_factor": 0.0070370370241218,
+            "length": 25000,
+            "t_junction": 11,
+            "type": "pipe"
+        },
+        "15": {
+            "diameter": 0.3955,
+            "f_junction": 10,
+            "friction_factor": 0.0081907659495215,
+            "length": 25000,
+            "t_junction": 11,
+            "type": "pipe"
+        },
+        "16": {
+            "diameter": 0.89,
+            "f_junction": 11,
+            "friction_factor": 0.0070370370283889,
+            "length": 42000,
+            "t_junction": 12,
+            "type": "pipe"
+        },
+        "17": {
+            "diameter": 0.89,
+            "f_junction": 12,
+            "friction_factor": 0.0070370370241218,
+            "length": 40000,
+            "t_junction": 13,
+            "type": "pipe"
+        },
+        "18": {
+            "diameter": 0.89,
+            "f_junction": 13,
+            "friction_factor": 0.0070370370260614,
+            "length": 5000,
+            "t_junction": 14,
+            "type": "pipe"
+        },
+        "19": {
+            "diameter": 0.89,
+            "f_junction": 14,
+            "friction_factor": 0.0070370370260614,
+            "length": 10000,
+            "t_junction": 15,
+            "type": "pipe"
+        },
+        "2": {
+            "diameter": 0.89,
+            "f_junction": 1,
+            "friction_factor": 0.0070370370264493,
+            "length": 4000,
+            "t_junction": 2,
+            "type": "pipe"
+        },
+        "20": {
+            "diameter": 0.89,
+            "f_junction": 15,
+            "friction_factor": 0.0070370370241218,
+            "length": 25000,
+            "t_junction": 16,
+            "type": "pipe"
+        },
+        "21": {
+            "diameter": 0.3955,
+            "f_junction": 11,
+            "friction_factor": 0.0081907658661228,
+            "length": 10500,
+            "t_junction": 17,
+            "type": "pipe"
+        },
+        "22": {
+            "c_ratio_max": 2,
+            "c_ratio_min": 1,
+            "f_junction": 17,
+            "t_junction": 100017,
+            "type": "compressor"
+        },
+        "221": {
+            "diameter": 0.3155,
+            "f_junction": 171,
+            "friction_factor": 0.0085629678783369,
+            "length": 26000,
+            "t_junction": 18,
+            "type": "pipe"
+        },
+        "23": {
+            "diameter": 0.3155,
+            "f_junction": 18,
+            "friction_factor": 0.0085629679809403,
+            "length": 98000,
+            "t_junction": 19,
+            "type": "pipe"
+        },
+        "24": {
+            "diameter": 0.3155,
+            "f_junction": 19,
+            "friction_factor": 0.0085629675705269,
+            "length": 6000,
+            "t_junction": 20,
+            "type": "pipe"
+        },
+        "3": {
+            "diameter": 0.89,
+            "f_junction": 2,
+            "friction_factor": 0.0070370370260614,
+            "length": 6000,
+            "t_junction": 3,
+            "type": "pipe"
+        },
+        "4": {
+            "diameter": 0.89,
+            "f_junction": 2,
+            "friction_factor": 0.0070370370260614,
+            "length": 6000,
+            "t_junction": 3,
+            "type": "pipe"
+        },
+        "5": {
+            "diameter": 0.89,
+            "f_junction": 3,
+            "friction_factor": 0.0070370370260614,
+            "length": 26000,
+            "t_junction": 4,
+            "type": "pipe"
+        },
+        "6": {
+            "diameter": 0.5901,
+            "f_junction": 5,
+            "friction_factor": 0.0075887473251455,
+            "length": 43000,
+            "t_junction": 6,
+            "type": "pipe"
+        },
+        "7": {
+            "diameter": 0.5901,
+            "f_junction": 6,
+            "friction_factor": 0.0075887473339471,
+            "length": 29000,
+            "t_junction": 7,
+            "type": "pipe"
+        },
+        "8": {
+            "diameter": 0.5901,
+            "f_junction": 7,
+            "friction_factor": 0.0075887473022613,
+            "length": 19000,
+            "t_junction": 4,
+            "type": "pipe"
+        },
+        "9": {
+            "diameter": 0.89,
+            "f_junction": 4,
+            "friction_factor": 0.0070370370241218,
+            "length": 55000,
+            "t_junction": 14,
+            "type": "pipe"
+        }
+    },
+    "consumer": {
+        "10": {
+            "dispatchable": 0,
+            "ql": 0.13747894077498,
+            "ql_junc": 10,
+            "qlmax": 0.13747894077498,
+            "qlmin": 0.13747894077498
+        },
+        "10012": {
+            "dispatchable": 1,
+            "ql": 0,
+            "ql_junc": 12,
+            "qlmax": 21599.205149251,
+            "qlmin": 0
+        },
+        "12": {
+            "dispatchable": 0,
+            "ql": 0.045790314916411,
+            "ql_junc": 12,
+            "qlmax": 0.045790314916411,
+            "qlmin": 0.045790314916411
+        },
+        "15": {
+            "dispatchable": 0,
+            "ql": 0.14791135686207,
+            "ql_junc": 15,
+            "qlmax": 0.14791135686207,
+            "qlmin": 0.14791135686207
+        },
+        "16": {
+            "dispatchable": 0,
+            "ql": 0.3372931876107,
+            "ql_junc": 16,
+            "qlmax": 0.3372931876107,
+            "qlmin": 0.3372931876107
+        },
+        "19": {
+            "dispatchable": 0,
+            "ql": 0.0047950235431336,
+            "ql_junc": 19,
+            "qlmax": 0.0047950235431336,
+            "qlmin": 0.0047950235431336
+        },
+        "20": {
+            "dispatchable": 0,
+            "ql": 0.041448874681412,
+            "ql_junc": 20,
+            "qlmax": 0.041448874681412,
+            "qlmin": 0.041448874681412
+        },
+        "3": {
+            "dispatchable": 0,
+            "ql": 0.084625685774763,
+            "ql_junc": 3,
+            "qlmax": 0.084625685774763,
+            "qlmin": 0.084625685774763
+        },
+        "4": {
+            "dispatchable": 1,
+            "ql": 0,
+            "ql_junc": 4,
+            "qlmax": 21599.205149251,
+            "qlmin": 0
+        },
+        "6": {
+            "dispatchable": 0,
+            "ql": 0.087131193572077,
+            "ql_junc": 6,
+            "qlmax": 0.087131193572077,
+            "qlmin": 0.087131193572077
+        },
+        "7": {
+            "dispatchable": 0,
+            "ql": 0.11352542226446,
+            "ql_junc": 7,
+            "qlmax": 0.11352542226446,
+            "qlmin": 0.11352542226446
+        }
+    },
+    "control_valve": {},
+    "energy_factor": 2.61590529e-08,
+    "gas_molar_mass": 0.0185674,
+    "junction": {
+        "1": {
+            "pmax": 0.9625,
+            "pmin": 0
+        },
+        "10": {
+            "pmax": 0.8275,
+            "pmin": 0.375
+        },
+        "100017": {
+            "pmax": 0.8275,
+            "pmin": 0
+        },
+        "11": {
+            "pmax": 0.8275,
+            "pmin": 0
+        },
+        "12": {
+            "pmax": 0.8275,
+            "pmin": 0.125
+        },
+        "13": {
+            "pmax": 0.8275,
+            "pmin": 0
+        },
+        "14": {
+            "pmax": 0.8275,
+            "pmin": 0
+        },
+        "15": {
+            "pmax": 0.8275,
+            "pmin": 0
+        },
+        "16": {
+            "pmax": 0.8275,
+            "pmin": 0.625
+        },
+        "17": {
+            "pmax": 0.8275,
+            "pmin": 0
+        },
+        "171": {
+            "pmax": 0.8275,
+            "pmin": 0
+        },
+        "18": {
+            "pmax": 0.7875,
+            "pmin": 0
+        },
+        "19": {
+            "pmax": 0.8275,
+            "pmin": 0
+        },
+        "2": {
+            "pmax": 0.9625,
+            "pmin": 0
+        },
+        "20": {
+            "pmax": 0.8275,
+            "pmin": 0.3125
+        },
+        "200008": {
+            "pmax": 0.8275,
+            "pmin": 0
+        },
+        "3": {
+            "pmax": 1,
+            "pmin": 0.375
+        },
+        "300008": {
+            "pmax": 0.8275,
+            "pmin": 0
+        },
+        "4": {
+            "pmax": 1,
+            "pmin": 0.9375
+        },
+        "5": {
+            "pmax": 0.9625,
+            "pmin": 0
+        },
+        "6": {
+            "pmax": 1,
+            "pmin": 0.375
+        },
+        "7": {
+            "pmax": 1,
+            "pmin": 0.375
+        },
+        "8": {
+            "pmax": 0.8275,
+            "pmin": 0.625
+        },
+        "81": {
+            "pmax": 0.8275,
+            "pmin": 0
+        },
+        "9": {
+            "pmax": 0.8275,
+            "pmin": 0
+        }
+    },
+    "multinetwork": false,
+    "ne_compressor": {},
+    "ne_connection": {
+        "28": {
+            "construction_cost": 14324097.45729,
+            "diameter": 0.89,
+            "f_junction": 1,
+            "friction_factor": 0.0070370370264493,
+            "length": 4000,
+            "t_junction": 2,
+            "type": "pipe"
+        },
+        "29": {
+            "construction_cost": 14324097.45729,
+            "diameter": 0.89,
+            "f_junction": 1,
+            "friction_factor": 0.0070370370264493,
+            "length": 4000,
+            "t_junction": 2,
+            "type": "pipe"
+        },
+        "30": {
+            "construction_cost": 21486146.185935,
+            "diameter": 0.89,
+            "f_junction": 2,
+            "friction_factor": 0.0070370370260614,
+            "length": 6000,
+            "t_junction": 3,
+            "type": "pipe"
+        },
+        "31": {
+            "construction_cost": 21486146.185935,
+            "diameter": 0.89,
+            "f_junction": 2,
+            "friction_factor": 0.0070370370260614,
+            "length": 6000,
+            "t_junction": 3,
+            "type": "pipe"
+        },
+        "32": {
+            "construction_cost": 93106633.472385,
+            "diameter": 0.89,
+            "f_junction": 3,
+            "friction_factor": 0.0070370370260614,
+            "length": 26000,
+            "t_junction": 4,
+            "type": "pipe"
+        },
+        "33": {
+            "construction_cost": 86083962.123557,
+            "diameter": 0.5901,
+            "f_junction": 5,
+            "friction_factor": 0.0075887473251455,
+            "length": 43000,
+            "t_junction": 6,
+            "type": "pipe"
+        },
+        "34": {
+            "construction_cost": 58056625.618213,
+            "diameter": 0.5901,
+            "f_junction": 6,
+            "friction_factor": 0.0075887473339471,
+            "length": 29000,
+            "t_junction": 7,
+            "type": "pipe"
+        },
+        "35": {
+            "construction_cost": 38037099.542967,
+            "diameter": 0.5901,
+            "f_junction": 7,
+            "friction_factor": 0.0075887473022613,
+            "length": 19000,
+            "t_junction": 4,
+            "type": "pipe"
+        },
+        "36": {
+            "construction_cost": 196956340.03774,
+            "diameter": 0.89,
+            "f_junction": 4,
+            "friction_factor": 0.0070370370241218,
+            "length": 55000,
+            "t_junction": 14,
+            "type": "pipe"
+        },
+        "37": {
+            "construction_cost": 17905121.821613,
+            "diameter": 0.89,
+            "f_junction": 81,
+            "friction_factor": 0.0070370370260614,
+            "length": 5000,
+            "t_junction": 9,
+            "type": "pipe"
+        },
+        "38": {
+            "construction_cost": 7226588.4367443,
+            "diameter": 0.3955,
+            "f_junction": 81,
+            "friction_factor": 0.0081907658737045,
+            "length": 5000,
+            "t_junction": 9,
+            "type": "pipe"
+        },
+        "39": {
+            "construction_cost": 71620487.28645,
+            "diameter": 0.89,
+            "f_junction": 9,
+            "friction_factor": 0.007037037028001,
+            "length": 20000,
+            "t_junction": 10,
+            "type": "pipe"
+        },
+        "40": {
+            "construction_cost": 28906353.746977,
+            "diameter": 0.3955,
+            "f_junction": 9,
+            "friction_factor": 0.0081907657978876,
+            "length": 20000,
+            "t_junction": 10,
+            "type": "pipe"
+        },
+        "41": {
+            "construction_cost": 89525609.108063,
+            "diameter": 0.89,
+            "f_junction": 10,
+            "friction_factor": 0.0070370370241218,
+            "length": 25000,
+            "t_junction": 11,
+            "type": "pipe"
+        },
+        "42": {
+            "construction_cost": 36132942.183722,
+            "diameter": 0.3955,
+            "f_junction": 10,
+            "friction_factor": 0.0081907659495215,
+            "length": 25000,
+            "t_junction": 11,
+            "type": "pipe"
+        },
+        "43": {
+            "construction_cost": 1504030233.0155,
+            "diameter": 0.89,
+            "f_junction": 11,
+            "friction_factor": 0.0070370370283889,
+            "length": 42000,
+            "t_junction": 12,
+            "type": "pipe"
+        },
+        "44": {
+            "construction_cost": 1432409745.729,
+            "diameter": 0.89,
+            "f_junction": 12,
+            "friction_factor": 0.0070370370241218,
+            "length": 40000,
+            "t_junction": 13,
+            "type": "pipe"
+        },
+        "45": {
+            "construction_cost": 179051218.21613,
+            "diameter": 0.89,
+            "f_junction": 13,
+            "friction_factor": 0.0070370370260614,
+            "length": 5000,
+            "t_junction": 14,
+            "type": "pipe"
+        },
+        "46": {
+            "construction_cost": 358102436.43225,
+            "diameter": 0.89,
+            "f_junction": 14,
+            "friction_factor": 0.0070370370260614,
+            "length": 10000,
+            "t_junction": 15,
+            "type": "pipe"
+        },
+        "47": {
+            "construction_cost": 895256091.08063,
+            "diameter": 0.89,
+            "f_junction": 15,
+            "friction_factor": 0.0070370370241218,
+            "length": 25000,
+            "t_junction": 16,
+            "type": "pipe"
+        },
+        "48": {
+            "construction_cost": 151758357.17163,
+            "diameter": 0.3955,
+            "f_junction": 11,
+            "friction_factor": 0.0081907658661228,
+            "length": 10500,
+            "t_junction": 17,
+            "type": "pipe"
+        },
+        "49": {
+            "construction_cost": 339448273.38689,
+            "diameter": 0.3155,
+            "f_junction": 171,
+            "friction_factor": 0.0085629678783369,
+            "length": 26000,
+            "t_junction": 18,
+            "type": "pipe"
+        },
+        "50": {
+            "construction_cost": 1279458876.6121,
+            "diameter": 0.3155,
+            "f_junction": 18,
+            "friction_factor": 0.0085629679809403,
+            "length": 98000,
+            "t_junction": 19,
+            "type": "pipe"
+        },
+        "51": {
+            "construction_cost": 7833421.6935435,
+            "diameter": 0.3155,
+            "f_junction": 19,
+            "friction_factor": 0.0085629675705269,
+            "length": 6000,
+            "t_junction": 20,
+            "type": "pipe"
+        }
+    },
+    "ne_pipe": {
+        "28": {
+            "construction_cost": 14324097.45729,
+            "diameter": 0.89,
+            "f_junction": 1,
+            "friction_factor": 0.0070370370264493,
+            "length": 4000,
+            "t_junction": 2,
+            "type": "pipe"
+        },
+        "29": {
+            "construction_cost": 14324097.45729,
+            "diameter": 0.89,
+            "f_junction": 1,
+            "friction_factor": 0.0070370370264493,
+            "length": 4000,
+            "t_junction": 2,
+            "type": "pipe"
+        },
+        "30": {
+            "construction_cost": 21486146.185935,
+            "diameter": 0.89,
+            "f_junction": 2,
+            "friction_factor": 0.0070370370260614,
+            "length": 6000,
+            "t_junction": 3,
+            "type": "pipe"
+        },
+        "31": {
+            "construction_cost": 21486146.185935,
+            "diameter": 0.89,
+            "f_junction": 2,
+            "friction_factor": 0.0070370370260614,
+            "length": 6000,
+            "t_junction": 3,
+            "type": "pipe"
+        },
+        "32": {
+            "construction_cost": 93106633.472385,
+            "diameter": 0.89,
+            "f_junction": 3,
+            "friction_factor": 0.0070370370260614,
+            "length": 26000,
+            "t_junction": 4,
+            "type": "pipe"
+        },
+        "33": {
+            "construction_cost": 86083962.123557,
+            "diameter": 0.5901,
+            "f_junction": 5,
+            "friction_factor": 0.0075887473251455,
+            "length": 43000,
+            "t_junction": 6,
+            "type": "pipe"
+        },
+        "34": {
+            "construction_cost": 58056625.618213,
+            "diameter": 0.5901,
+            "f_junction": 6,
+            "friction_factor": 0.0075887473339471,
+            "length": 29000,
+            "t_junction": 7,
+            "type": "pipe"
+        },
+        "35": {
+            "construction_cost": 38037099.542967,
+            "diameter": 0.5901,
+            "f_junction": 7,
+            "friction_factor": 0.0075887473022613,
+            "length": 19000,
+            "t_junction": 4,
+            "type": "pipe"
+        },
+        "36": {
+            "construction_cost": 196956340.03774,
+            "diameter": 0.89,
+            "f_junction": 4,
+            "friction_factor": 0.0070370370241218,
+            "length": 55000,
+            "t_junction": 14,
+            "type": "pipe"
+        },
+        "37": {
+            "construction_cost": 17905121.821613,
+            "diameter": 0.89,
+            "f_junction": 81,
+            "friction_factor": 0.0070370370260614,
+            "length": 5000,
+            "t_junction": 9,
+            "type": "pipe"
+        },
+        "38": {
+            "construction_cost": 7226588.4367443,
+            "diameter": 0.3955,
+            "f_junction": 81,
+            "friction_factor": 0.0081907658737045,
+            "length": 5000,
+            "t_junction": 9,
+            "type": "pipe"
+        },
+        "39": {
+            "construction_cost": 71620487.28645,
+            "diameter": 0.89,
+            "f_junction": 9,
+            "friction_factor": 0.007037037028001,
+            "length": 20000,
+            "t_junction": 10,
+            "type": "pipe"
+        },
+        "40": {
+            "construction_cost": 28906353.746977,
+            "diameter": 0.3955,
+            "f_junction": 9,
+            "friction_factor": 0.0081907657978876,
+            "length": 20000,
+            "t_junction": 10,
+            "type": "pipe"
+        },
+        "41": {
+            "construction_cost": 89525609.108063,
+            "diameter": 0.89,
+            "f_junction": 10,
+            "friction_factor": 0.0070370370241218,
+            "length": 25000,
+            "t_junction": 11,
+            "type": "pipe"
+        },
+        "42": {
+            "construction_cost": 36132942.183722,
+            "diameter": 0.3955,
+            "f_junction": 10,
+            "friction_factor": 0.0081907659495215,
+            "length": 25000,
+            "t_junction": 11,
+            "type": "pipe"
+        },
+        "43": {
+            "construction_cost": 1504030233.0155,
+            "diameter": 0.89,
+            "f_junction": 11,
+            "friction_factor": 0.0070370370283889,
+            "length": 42000,
+            "t_junction": 12,
+            "type": "pipe"
+        },
+        "44": {
+            "construction_cost": 1432409745.729,
+            "diameter": 0.89,
+            "f_junction": 12,
+            "friction_factor": 0.0070370370241218,
+            "length": 40000,
+            "t_junction": 13,
+            "type": "pipe"
+        },
+        "45": {
+            "construction_cost": 179051218.21613,
+            "diameter": 0.89,
+            "f_junction": 13,
+            "friction_factor": 0.0070370370260614,
+            "length": 5000,
+            "t_junction": 14,
+            "type": "pipe"
+        },
+        "46": {
+            "construction_cost": 358102436.43225,
+            "diameter": 0.89,
+            "f_junction": 14,
+            "friction_factor": 0.0070370370260614,
+            "length": 10000,
+            "t_junction": 15,
+            "type": "pipe"
+        },
+        "47": {
+            "construction_cost": 895256091.08063,
+            "diameter": 0.89,
+            "f_junction": 15,
+            "friction_factor": 0.0070370370241218,
+            "length": 25000,
+            "t_junction": 16,
+            "type": "pipe"
+        },
+        "48": {
+            "construction_cost": 151758357.17163,
+            "diameter": 0.3955,
+            "f_junction": 11,
+            "friction_factor": 0.0081907658661228,
+            "length": 10500,
+            "t_junction": 17,
+            "type": "pipe"
+        },
+        "49": {
+            "construction_cost": 339448273.38689,
+            "diameter": 0.3155,
+            "f_junction": 171,
+            "friction_factor": 0.0085629678783369,
+            "length": 26000,
+            "t_junction": 18,
+            "type": "pipe"
+        },
+        "50": {
+            "construction_cost": 1279458876.6121,
+            "diameter": 0.3155,
+            "f_junction": 18,
+            "friction_factor": 0.0085629679809403,
+            "length": 98000,
+            "t_junction": 19,
+            "type": "pipe"
+        },
+        "51": {
+            "construction_cost": 7833421.6935435,
+            "diameter": 0.3155,
+            "f_junction": 19,
+            "friction_factor": 0.0085629675705269,
+            "length": 6000,
+            "t_junction": 20,
+            "type": "pipe"
+        }
+    },
+    "per_unit": true,
+    "pipe": {
+        "1": {
+            "diameter": 0.89,
+            "f_junction": 1,
+            "friction_factor": 0.0070370370264493,
+            "length": 4000,
+            "t_junction": 2,
+            "type": "pipe"
+        },
+        "101": {
+            "diameter": 0.89,
+            "f_junction": 81,
+            "friction_factor": 0.0070370370260614,
+            "length": 5000,
+            "t_junction": 9,
+            "type": "pipe"
+        },
+        "111": {
+            "diameter": 0.3955,
+            "f_junction": 81,
+            "friction_factor": 0.0081907658737045,
+            "length": 5000,
+            "t_junction": 9,
+            "type": "pipe"
+        },
+        "12": {
+            "diameter": 0.89,
+            "f_junction": 9,
+            "friction_factor": 0.007037037028001,
+            "length": 20000,
+            "t_junction": 10,
+            "type": "pipe"
+        },
+        "13": {
+            "diameter": 0.3955,
+            "f_junction": 9,
+            "friction_factor": 0.0081907657978876,
+            "length": 20000,
+            "t_junction": 10,
+            "type": "pipe"
+        },
+        "14": {
+            "diameter": 0.89,
+            "f_junction": 10,
+            "friction_factor": 0.0070370370241218,
+            "length": 25000,
+            "t_junction": 11,
+            "type": "pipe"
+        },
+        "15": {
+            "diameter": 0.3955,
+            "f_junction": 10,
+            "friction_factor": 0.0081907659495215,
+            "length": 25000,
+            "t_junction": 11,
+            "type": "pipe"
+        },
+        "16": {
+            "diameter": 0.89,
+            "f_junction": 11,
+            "friction_factor": 0.0070370370283889,
+            "length": 42000,
+            "t_junction": 12,
+            "type": "pipe"
+        },
+        "17": {
+            "diameter": 0.89,
+            "f_junction": 12,
+            "friction_factor": 0.0070370370241218,
+            "length": 40000,
+            "t_junction": 13,
+            "type": "pipe"
+        },
+        "18": {
+            "diameter": 0.89,
+            "f_junction": 13,
+            "friction_factor": 0.0070370370260614,
+            "length": 5000,
+            "t_junction": 14,
+            "type": "pipe"
+        },
+        "19": {
+            "diameter": 0.89,
+            "f_junction": 14,
+            "friction_factor": 0.0070370370260614,
+            "length": 10000,
+            "t_junction": 15,
+            "type": "pipe"
+        },
+        "2": {
+            "diameter": 0.89,
+            "f_junction": 1,
+            "friction_factor": 0.0070370370264493,
+            "length": 4000,
+            "t_junction": 2,
+            "type": "pipe"
+        },
+        "20": {
+            "diameter": 0.89,
+            "f_junction": 15,
+            "friction_factor": 0.0070370370241218,
+            "length": 25000,
+            "t_junction": 16,
+            "type": "pipe"
+        },
+        "21": {
+            "diameter": 0.3955,
+            "f_junction": 11,
+            "friction_factor": 0.0081907658661228,
+            "length": 10500,
+            "t_junction": 17,
+            "type": "pipe"
+        },
+        "221": {
+            "diameter": 0.3155,
+            "f_junction": 171,
+            "friction_factor": 0.0085629678783369,
+            "length": 26000,
+            "t_junction": 18,
+            "type": "pipe"
+        },
+        "23": {
+            "diameter": 0.3155,
+            "f_junction": 18,
+            "friction_factor": 0.0085629679809403,
+            "length": 98000,
+            "t_junction": 19,
+            "type": "pipe"
+        },
+        "24": {
+            "diameter": 0.3155,
+            "f_junction": 19,
+            "friction_factor": 0.0085629675705269,
+            "length": 6000,
+            "t_junction": 20,
+            "type": "pipe"
+        },
+        "3": {
+            "diameter": 0.89,
+            "f_junction": 2,
+            "friction_factor": 0.0070370370260614,
+            "length": 6000,
+            "t_junction": 3,
+            "type": "pipe"
+        },
+        "4": {
+            "diameter": 0.89,
+            "f_junction": 2,
+            "friction_factor": 0.0070370370260614,
+            "length": 6000,
+            "t_junction": 3,
+            "type": "pipe"
+        },
+        "5": {
+            "diameter": 0.89,
+            "f_junction": 3,
+            "friction_factor": 0.0070370370260614,
+            "length": 26000,
+            "t_junction": 4,
+            "type": "pipe"
+        },
+        "6": {
+            "diameter": 0.5901,
+            "f_junction": 5,
+            "friction_factor": 0.0075887473251455,
+            "length": 43000,
+            "t_junction": 6,
+            "type": "pipe"
+        },
+        "7": {
+            "diameter": 0.5901,
+            "f_junction": 6,
+            "friction_factor": 0.0075887473339471,
+            "length": 29000,
+            "t_junction": 7,
+            "type": "pipe"
+        },
+        "8": {
+            "diameter": 0.5901,
+            "f_junction": 7,
+            "friction_factor": 0.0075887473022613,
+            "length": 19000,
+            "t_junction": 4,
+            "type": "pipe"
+        },
+        "9": {
+            "diameter": 0.89,
+            "f_junction": 4,
+            "friction_factor": 0.0070370370241218,
+            "length": 55000,
+            "t_junction": 14,
+            "type": "pipe"
+        }
+    },
+    "producer": {
+        "1": {
+            "dispatchable": 0,
+            "qg": 0.23567514795456,
+            "qg_junc": 1,
+            "qgmax": 0.23567514795456,
+            "qgmin": 0.23567514795456
+        },
+        "10001": {
+            "dispatchable": 1,
+            "qg": 0,
+            "qg_junc": 1,
+            "qgmax": 2.1599205149251,
+            "qgmin": 0
+        },
+        "10002": {
+            "dispatchable": 1,
+            "qg": 0,
+            "qg_junc": 2,
+            "qgmax": 2.1599205149251,
+            "qgmin": 0
+        },
+        "10005": {
+            "dispatchable": 1,
+            "qg": 0,
+            "qg_junc": 5,
+            "qgmax": 0.0043198410298501,
+            "qgmin": 0
+        },
+        "10008": {
+            "dispatchable": 1,
+            "qg": 0,
+            "qg_junc": 8,
+            "qgmax": 0.064797615447752,
+            "qgmin": 0
+        },
+        "10013": {
+            "dispatchable": 1,
+            "qg": 0,
+            "qg_junc": 13,
+            "qgmax": 0.0172793641194,
+            "qgmin": 0
+        },
+        "10014": {
+            "dispatchable": 1,
+            "qg": 0,
+            "qg_junc": 14,
+            "qgmax": 0.00086396820597002,
+            "qgmin": 0
+        },
+        "13": {
+            "dispatchable": 0,
+            "qg": 0.025919046179101,
+            "qg_junc": 13,
+            "qgmax": 0.025919046179101,
+            "qgmin": 0.025919046179101
+        },
+        "14": {
+            "dispatchable": 0,
+            "qg": 0.02073523694328,
+            "qg_junc": 14,
+            "qgmax": 0.02073523694328,
+            "qgmin": 0.02073523694328
+        },
+        "2": {
+            "dispatchable": 0,
+            "qg": 0.1814333232537,
+            "qg_junc": 2,
+            "qgmax": 0.1814333232537,
+            "qgmin": 0.1814333232537
+        },
+        "5": {
+            "dispatchable": 0,
+            "qg": 0.060795541924057,
+            "qg_junc": 5,
+            "qgmax": 0.060795541924057,
+            "qgmin": 0.060795541924057
+        },
+        "8": {
+            "dispatchable": 0,
+            "qg": 0.4754417037453,
+            "qg_junc": 8,
+            "qgmax": 0.4754417037453,
+            "qgmin": 0.4754417037453
+        }
+    },
+    "resistor": {},
+    "short_pipe": {},
+    "standard_density": 1,
+    "temperature": 281.15,
+    "valve": {}
 }
