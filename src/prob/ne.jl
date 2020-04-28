@@ -1,11 +1,11 @@
 # Definitions for running a feasible combined gas and power flow with network expansion
-export solve_ne
-export solve_ne_popf
+export run_ne
+export run_ne_popf
 
 " entry point for running gas and electric power expansion planning only "
-function solve_ne(gfile, pfile, gtype, ptype, optimizer; kwargs...)
+function run_ne(gfile, pfile, gtype, ptype, optimizer; kwargs...)
     pext = [_PM.ref_add_on_off_va_bounds!, _PM.ref_add_ne_branch!]
-    return solve_model(gfile, pfile, gtype, ptype, optimizer, post_ne;
+    return run_model(gfile, pfile, gtype, ptype, optimizer, post_ne;
         gext=[_GM.ref_add_ne!], pext=pext, kwargs...)
 end
 

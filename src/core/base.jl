@@ -25,7 +25,7 @@ function instantiate_model(gdata::Dict{String,<:Any}, pdata::Dict{String,<:Any},
 end
 
 ""
-function solve_model(gdata::Dict{String,<:Any}, pdata::Dict{String,<:Any}, gtype::Type, ptype::Type, optimizer, build_method; gsp=[], psp=[], gext=[], pext=[], kwargs...)
+function run_model(gdata::Dict{String,<:Any}, pdata::Dict{String,<:Any}, gtype::Type, ptype::Type, optimizer, build_method; gsp=[], psp=[], gext=[], pext=[], kwargs...)
     start_time = time()
     gm, pm = instantiate_model(gdata, pdata, gtype, ptype, build_method; gext=gext, pext=pext, kwargs...)
     Memento.debug(_LOGGER, "gpm model build time: $(time() - start_time)")
@@ -44,7 +44,7 @@ function solve_model(gdata::Dict{String,<:Any}, pdata::Dict{String,<:Any}, gtype
 end
 
 ""
-function solve_model(gfile::String, pfile::String, gtype::Type, ptype::Type, optimizer, build_method; gext=[], pext=[], kwargs...)
+function run_model(gfile::String, pfile::String, gtype::Type, ptype::Type, optimizer, build_method; gext=[], pext=[], kwargs...)
     gdata, pdata = [_GM.parse_file(gfile), _PM.parse_file(pfile)]
-    return solve_model(gdata, pdata, gtype, ptype, optimizer, build_method; gext=gext, pext=pext, kwargs...)
+    return run_model(gdata, pdata, gtype, ptype, optimizer, build_method; gext=gext, pext=pext, kwargs...)
 end

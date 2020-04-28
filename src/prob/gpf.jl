@@ -1,10 +1,10 @@
 # Definitions for running a feasible combined gas and power flow
 
-export solve_gpf
+export run_gpf
 
-" entry point into running the gas grid flow feasability problem"
-function solve_gpf(gfile, pfile, gtype, ptype, optimizer; kwargs...)
-    return solve_model(gfile, pfile, gtype, ptype, optimizer, post_gpf; kwargs...)
+"Entry point into running the gas-power flow feasibility problem."
+function run_gpf(gfile, pfile, gtype, ptype, optimizer; kwargs...)
+    return run_model(gfile, pfile, gtype, ptype, optimizer, post_gpf; kwargs...)
 end
 
 "Construct the gas grid flow feasbility problem."
