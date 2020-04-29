@@ -43,7 +43,6 @@ function objective_min_ne_opf_cost(pm::_PM.AbstractPowerModel, gm::_GM.AbstractG
         end
     end
 
-
     obj = JuMP.@objective(gm.model, Min,
       gas_ne_weight * normalization    * sum(pipe["construction_cost"] * zp[i] for (i,pipe) in _GM.ref(gm,n,:ne_pipe)) +
       gas_ne_weight * normalization    * sum(compressor["construction_cost"] * zc[i] for (i,compressor) in _GM.ref(gm,n,:ne_compressor)) +

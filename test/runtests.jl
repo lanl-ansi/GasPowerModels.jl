@@ -1,15 +1,11 @@
 using GasPowerModels
 
 import Memento
-import MathOptInterface
-import InfrastructureModels
-import GasModels
-import PowerModels
 
-const _MOI = MathOptInterface
-const _IM = InfrastructureModels
-const _GM = GasModels
-const _PM = PowerModels
+const _MOI = GasPowerModels._MOI
+const _GM = GasPowerModels._GM
+const _PM = GasPowerModels._PM
+const _IM = GasPowerModels._IM
 
 # Suppress warnings during testing.
 Memento.setlevel!(Memento.getlogger(_IM), "error")
@@ -25,7 +21,7 @@ import Juniper
 using Test
 
 # Setup for optimizers.
-ipopt = JuMP.with_optimizer(Ipopt.Optimizer, tol=1.0e-4, print_level=0, sb="yes")
+ipopt = JuMP.with_optimizer(Ipopt.Optimizer, tol=1.0e-8, print_level=0, sb="yes")
 cbc = JuMP.with_optimizer(Cbc.Optimizer, logLevel=0)
 juniper = JuMP.with_optimizer(Juniper.Optimizer, nl_solver=ipopt, mip_solver=cbc, log_levels=[])
 

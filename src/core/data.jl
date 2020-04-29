@@ -7,10 +7,10 @@ function add_junction_generators(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGas
             delivery["gens"] = []
         end
 
-        # assumes that network numbers are linked between power and gas...
+        # Assumes that network numbers are linked between power and gas.
         for (i, gen) in _PM.ref(pm, k, :gen)
-            if haskey(gen, "delivery") && haskey(_GM.ref(gm, k, :delivery), gen["delivery"])
-                delivery = gen["delivery"]
+            if haskey(gen, "consumer") && haskey(_GM.ref(gm, k, :delivery), gen["consumer"])
+                delivery = gen["consumer"]
                 push!(_GM.ref(gm, k, :delivery, delivery)["gens"], i)
             end
         end

@@ -10,9 +10,9 @@
 # Constraint templates should always be defined over "GenericFooModel"
 # and should never refer to model variables
 
-" Assumption is J/s"
+"Assumption is J/s."
 function constraint_heat_rate_curve(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel, n, j)
-    delivery = _GM.ref(gm,n,:delivery,j)
+    delivery = _GM.ref(gm, n, :delivery, j)
     generators = delivery["gens"]
     standard_density = gm.data["standard_density"]
 
@@ -64,4 +64,7 @@ function constraint_pressure_price(gm::_GM.AbstractGasModel, n::Int, i)
 
     constraint_pressure_price(gm, n, i, cost_p)
 end
-constraint_pressure_price(gm::_GM.AbstractGasModel, i::Int) = constraint_pressure_price(gm, gm.cnw, i)
+
+function constraint_pressure_price(gm::_GM.AbstractGasModel, i::Int)
+    constraint_pressure_price(gm, gm.cnw, i)
+end

@@ -12,9 +12,9 @@ end
 
 @testset "Test QP Gas-Power Flow" begin
     @testset "IEEE 14 (Power) and Belgian (Gas)" begin
-        gfile, pfile = ["../test/data/matgas/belgian.m", "../test/data/case14.m"]
-        gtype, ptype = [_GM.MISOCPGasModel, _PM.SOCWRPowerModel]
-        result = run_gpf(gfile, pfile, gtype, ptype, juniper, psp=[_PM.sol_data_model!])
+        gfile, pfile = "../test/data/matgas/belgian.m", "../test/data/case14.m"
+        gtype, ptype = _GM.MISOCPGasModel, _PM.SOCWRPowerModel
+        result = run_gpf(gfile, pfile, gtype, ptype, juniper, pm_solution_processors=[_PM.sol_data_model!])
 
         @test result["termination_status"] == _MOI.LOCALLY_SOLVED
         @test isapprox(result["objective"], 0.0, atol=1.0e-6)
