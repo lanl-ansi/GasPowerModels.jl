@@ -15,7 +15,7 @@ end
 @testset "test qp ne" begin
     @testset "IEEE 14 and Belgian Network Expansion" begin
         gfile, pfile = "../test/data/matgas/belgian_ne.m", "../test/data/case14-ne.m"
-        gtype, ptype = _GM.MISOCPGasModel, _PM.SOCWRPowerModel
+        gtype, ptype = MISOCPGasModel, SOCWRPowerModel
 
         result = run_ne(gfile, pfile, gtype, ptype, juniper,
             gas_ne_weight=1.0, power_ne_weight=1.0, obj_normalization=1.0e-8,

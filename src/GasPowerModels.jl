@@ -3,6 +3,7 @@ module GasPowerModels
     import JuMP
     import Memento
     import InfrastructureModels
+    import InteractiveUtils
     import GasModels
     import PowerModels
 
