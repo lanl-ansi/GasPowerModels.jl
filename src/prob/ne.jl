@@ -9,7 +9,7 @@ end
 
 # construct the gas flow feasbility problem with demand being the cost model
 function build_ne(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel; kwargs...)
-    kwargs = Dict(kwargs)
+    kwargs = Dict(kwargs[:kwargs])
     gweight = haskey(kwargs, :gas_ne_weight) ? kwargs[:gas_ne_weight] : 1.0
     pweight = haskey(kwargs, :power_ne_weight) ? kwargs[:power_ne_weight] : 1.0
     obj_normalization = haskey(kwargs, :obj_normalization) ? kwargs[:obj_normalization] : 1.0
