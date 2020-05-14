@@ -3,11 +3,9 @@ module GasPowerModels
     import JuMP
     import Memento
     import InfrastructureModels
-    import MathOptInterface
     import GasModels
     import PowerModels
 
-    const _MOI = MathOptInterface
     const _IM = InfrastructureModels
     const _GM = GasModels
     const _PM = PowerModels

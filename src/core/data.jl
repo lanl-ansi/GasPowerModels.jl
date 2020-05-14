@@ -1,8 +1,8 @@
 # TODO These values should be stored in ref...
 " Assign generator numbers to the junctions for easy access "
-function add_junction_generators(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel)
+function add_junction_generators(gm::_GM.AbstractGasModel, pm::_PM.AbstractPowerModel)
     for k in keys(gm.ref[:nw])
-        # create a gens field
+        # Create a gens field.
         for (j, delivery) in _GM.ref(gm, k, :delivery)
             delivery["gens"] = []
         end
@@ -30,18 +30,16 @@ function gas_grid_per_unit(gas_data::Dict{String,Any}, power_data::Dict{String,A
         for (i, zone) in gas_data["price_zone"]
             zone["cost_p"][1] = zone["cost_p"][1] * p_base^4
             zone["cost_p"][2] = zone["cost_p"][2] * p_base^2
-
             zone["cost_q"][1] = zone["cost_q"][1] * q_base^2
             zone["cost_q"][2] = zone["cost_q"][2] * q_base
-
             zone["min_cost"] = zone["min_cost"] * q_base
         end
     end
 
-    gas_data["energy_factor"] = gas_data["energy_factor"] / q_base
+    gas_data["energy_factor"] *= inv(q_base)
 
-    # convert the heat rate curve from real power units to per unit power units (will result in
-    # real gas units)
+    # Convert the heat rate curve from real power units to per unit power units
+    # (will result in real gas units).
     for (i, gen) in power_data["gen"]
         gen["heat_rate_quad_coeff"] = gen["heat_rate_quad_coeff"] * mvaBase^2
         gen["heat_rate_linear_coeff"] = gen["heat_rate_linear_coeff"] * mvaBase

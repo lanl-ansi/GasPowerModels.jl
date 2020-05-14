@@ -20,15 +20,12 @@ function build_ne(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel; kwargs..
     # Power-only-related variables and constraints.
     _PM.build_tnep(pm)
 
-    # Add a feasibility-only objective.
-    JuMP.@objective(gm.model, _MOI.FEASIBILITY_SENSE, 0.0)
-
     # Gas-power related parts of the problem formulation.
     for i in _GM.ids(gm, :delivery)
        constraint_heat_rate_curve(pm, gm, i)
     end
 
     # This objective function minimizes demand and pressure cost.
-    objective_min_ne_cost(pm, gm; gas_ne_weight=gweight,
+    objective_min_ne_cost(pm, gm, gas_ne_weight=gweight,
         power_ne_weight=pweight, normalization=obj_normalization)
 end

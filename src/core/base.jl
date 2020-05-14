@@ -13,7 +13,7 @@ function instantiate_model(gdata::Dict{String,<:Any}, pdata::Dict{String,<:Any},
     pm = _PM.instantiate_model(pdata, ptype, m->nothing; ref_extensions=pm_ref_extensions, jump_model=gm.model)
 
     # Assign generator numbers to junctions.
-    add_junction_generators(pm, gm)
+    add_junction_generators(gm, pm)
 
     # TODO: The below is a bit of a hack.
     gas_grid_per_unit(gm.data, pm.data)

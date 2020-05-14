@@ -14,17 +14,16 @@ end
 # something is built on both sides.
 @testset "test qp ne" begin
     @testset "IEEE 14 and Belgian Network Expansion" begin
-        normalization = 1.0e-8
-        gas_ne_weight, power_ne_weight = [1.0, 1.0]
         gfile, pfile = "../test/data/matgas/belgian_ne.m", "../test/data/case14-ne.m"
         gtype, ptype = _GM.MISOCPGasModel, _PM.SOCWRPowerModel
 
         result = run_ne(gfile, pfile, gtype, ptype, juniper,
-            gas_ne_weight=gas_ne_weight, power_ne_weight=power_ne_weight,
-            obj_normalization=normalization, pm_solution_processors=[_PM.sol_data_model!])
+            gas_ne_weight=1.0, power_ne_weight=1.0, obj_normalization=1.0e-8,
+            gm_solution_processors=[_GM.sol_psqr_to_p!],
+            pm_solution_processors=[_PM.sol_data_model!])
 
-        @test result["termination_status"] == _MOI.LOCALLY_SOLVED
-        @test isapprox(result["objective"], 0.07226588*normalization, atol=1.0)
+        @test result["termination_status"] == LOCALLY_SOLVED
+        @test isapprox(result["objective"], 0.07226588*1.0e-8, atol=1.0)
         @test isapprox(result["solution"]["junction"]["4"]["p"], 0.937914, rtol=1.0e-2)
         @test isapprox(result["solution"]["junction"]["15"]["p"], 0.65232, rtol=1.0e-2)
         @test isapprox(result["solution"]["junction"]["171"]["p"], 0.821771, rtol=1.0e-2)

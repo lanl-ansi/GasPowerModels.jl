@@ -34,15 +34,15 @@ export with_optimizer
 import JuMP: optimizer_with_attributes
 export optimizer_with_attributes
 
-import MathOptInterface: TerminationStatusCode
+import InfrastructureModels._MOI: TerminationStatusCode
 export TerminationStatusCode
 
-import MathOptInterface: ResultStatusCode
+import InfrastructureModels._MOI: ResultStatusCode
 export ResultStatusCode
 
 for status_code_enum in [TerminationStatusCode, ResultStatusCode]
     for status_code in instances(status_code_enum)
-        @eval import MathOptInterface: $(Symbol(status_code))
+        @eval import InfrastructureModels._MOI: $(Symbol(status_code))
         @eval export $(Symbol(status_code))
     end
 end

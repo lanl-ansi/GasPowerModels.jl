@@ -18,7 +18,8 @@ function constraint_zone_pressure(gm::_GM.AbstractGasModel, n::Int, i)
     gm.con[:nw][n][:zone_pressure][i] = Dict{Int,ConstraintRef}()
 
     for j in gm.ref[:nw][n][:price_zone][i]["junctions"]
-        gm.con[:nw][n][:zone_pressure][i][j] = JuMP.@constraint(gm.model, zone_p[i] >= p[j])
+        c = JuMP.@constraint(gm.model, zone_p[i] >= p[j])
+        gm.con[:nw][n][:zone_pressure][i][j] = c
     end
 end
 

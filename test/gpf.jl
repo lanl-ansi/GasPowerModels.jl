@@ -14,9 +14,11 @@ end
     @testset "IEEE 14 (Power) and Belgian (Gas)" begin
         gfile, pfile = "../test/data/matgas/belgian.m", "../test/data/case14.m"
         gtype, ptype = _GM.MISOCPGasModel, _PM.SOCWRPowerModel
-        result = run_gpf(gfile, pfile, gtype, ptype, juniper, pm_solution_processors=[_PM.sol_data_model!])
+        result = run_gpf(gfile, pfile, gtype, ptype, juniper,
+            gm_solution_processors=[_GM.sol_psqr_to_p!],
+            pm_solution_processors=[_PM.sol_data_model!])
 
-        @test result["termination_status"] == _MOI.LOCALLY_SOLVED
+        @test result["termination_status"] == LOCALLY_SOLVED
         @test isapprox(result["objective"], 0.0, atol=1.0e-6)
         @test isapprox(result["solution"]["junction"]["4"]["p"], 0.749184, rtol=1.0e-2)
         @test isapprox(result["solution"]["junction"]["15"]["p"], 0.653442, rtol=1.0e-2)

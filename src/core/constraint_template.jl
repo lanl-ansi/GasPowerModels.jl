@@ -18,8 +18,8 @@ function constraint_heat_rate_curve(pm::_PM.AbstractPowerModel, gm::_GM.Abstract
 
     # convert from J/s in per unit to cubic meters per second at standard density in per unit to kg per second in per unit.
     constant = gm.data["energy_factor"] * standard_density
-
     heat_rates = Dict{Int, Any}()
+
     for i in generators
         heat_rates[i] = [_PM.ref(pm, n, :gen, i)["heat_rate_quad_coeff"],
                          _PM.ref(pm, n, :gen, i)["heat_rate_linear_coeff"],
@@ -29,13 +29,17 @@ function constraint_heat_rate_curve(pm::_PM.AbstractPowerModel, gm::_GM.Abstract
     dispatchable = delivery["is_dispatchable"]
     constraint_heat_rate_curve(pm, gm, n, j, generators, heat_rates, constant, dispatchable)
 end
-constraint_heat_rate_curve(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel, k::Int) = constraint_heat_rate_curve(pm, gm, gm.cnw, k)
+
+function constraint_heat_rate_curve(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel, k::Int)
+    constraint_heat_rate_curve(pm, gm, gm.cnw, k)
+end
 
 " constraints associated with bounding the demand zone prices
  This is equation 23 in the HICCS paper "
 function constraint_zone_demand(gm::_GM.AbstractGasModel, n::Int, i)
    price_zone = _GM.ref(gm,n,:price_zone,i)
    loads = Set()
+
    for i in price_zone["junctions"]
        loads = union(loads,_GM.ref(gm,n,:junction_dispatchable_deliveries,i))
    end
@@ -60,7 +64,7 @@ constraint_zone_demand_price(gm::_GM.AbstractGasModel, i::Int) = constraint_zone
  This is equation 25 in the HICCS paper"
 function constraint_pressure_price(gm::_GM.AbstractGasModel, n::Int, i)
     price_zone = _GM.ref(gm,n,:price_zone,i)
-    cost_p     = price_zone["cost_p"]
+    cost_p = price_zone["cost_p"]
 
     constraint_pressure_price(gm, n, i, cost_p)
 end

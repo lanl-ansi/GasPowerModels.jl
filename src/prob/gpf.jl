@@ -19,5 +19,5 @@ function build_gpf(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel; kwargs.
     end
 
     # Add a feasibility-only objective.
-    JuMP.@objective(gm.model, _MOI.FEASIBILITY_SENSE, 0.0)
+    JuMP.@objective(gm.model, _IM._MOI.FEASIBILITY_SENSE, 0.0)
 end
