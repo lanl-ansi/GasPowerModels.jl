@@ -6,13 +6,7 @@ function run_ne_opf(power_file, gas_file, power_model_constructor, gas_model_con
 end
 
 " Construct the gas flow feasbility problem with demand being the cost model"
-function build_ne_opf(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel; kwargs...)
-    kwargs = Dict(kwargs)
-    gas_ne_weight    = haskey(kwargs, :gas_ne_weight)      ? kwargs[:gas_ne_weight] : 1.0
-    power_ne_weight  = haskey(kwargs, :power_ne_weight)    ? kwargs[:power_ne_weight] : 1.0
-    power_opf_weight = haskey(kwargs, :power_opf_weight)   ? kwargs[:power_opf_weight] : 1.0
-    gas_price_weight = haskey(kwargs, :gas_price_weight)   ? kwargs[:gas_price_weight] : 1.0
-
+function build_ne_opf(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel)
     # Gas-only-related variables and constraints.
     _GM.build_nels(gm)
 
@@ -24,6 +18,6 @@ function build_ne_opf(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel; kwar
        constraint_heat_rate_curve(pm, gm, i)
     end
     
-    # Object function minimizes demand and pressure cost
-    objective_min_ne_opf_cost(pm, gm; gas_ne_weight = gas_ne_weight, power_ne_weight = power_ne_weight, power_opf_weight = power_opf_weight, gas_price_weight = gas_price_weight)
+    # Objective function minimizes demand and pressure cost.
+    objective_min_ne_opf_cost(pm, gm)
 end

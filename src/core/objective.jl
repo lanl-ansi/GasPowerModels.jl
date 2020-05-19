@@ -4,7 +4,13 @@
 
 " function for congestion costs based on demand "
 # This is equation 27 in the HICCS paper
-function objective_min_ne_opf_cost(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel, n::Int=gm.cnw; normalization = 1.0, gas_ne_weight = 1.0, power_ne_weight = 1.0, power_opf_weight = 1.0, gas_price_weight = 1.0)
+function objective_min_ne_opf_cost(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel, n::Int=gm.cnw)
+    gas_ne_weight = get(_PM.ref(pm, n), :gas_ne_weight, 1.0)
+    power_ne_weight = get(_PM.ref(pm, n), :power_ne_weight, 1.0)
+    power_opf_weight = get(_PM.ref(pm, n), :power_opf_weight, 1.0)
+    gas_price_weight = get(_PM.ref(pm, n), :gas_price_weight, 1.0)
+    ne_normalization = get(_PM.ref(pm, n), :ne_normalization, 1.0)
+
     zp = _GM.var(gm, n, :zp)
     zc = _GM.var(gm, n, :zc)
 
@@ -44,12 +50,12 @@ function objective_min_ne_opf_cost(pm::_PM.AbstractPowerModel, gm::_GM.AbstractG
     end
 
     obj = JuMP.@objective(gm.model, Min,
-      gas_ne_weight * normalization    * sum(pipe["construction_cost"] * zp[i] for (i,pipe) in _GM.ref(gm,n,:ne_pipe)) +
-      gas_ne_weight * normalization    * sum(compressor["construction_cost"] * zc[i] for (i,compressor) in _GM.ref(gm,n,:ne_compressor)) +
-      power_ne_weight * normalization  * sum(branches[i]["construction_cost"]*line_ne[i] for (i,branch) in branches) +
-      power_opf_weight * normalization * sum(gen_cost[(n,i)] for (i,gen) in _PM.ref(pm, :gen, nw=n)) +
-      gas_price_weight * normalization * sum(zone_cost[i] for (i,zone) in _GM.ref(gm,n,:price_zone)) +
-      gas_price_weight * normalization * sum(zone["constant_p"] * p_cost[i] for (i,zone) in _GM.ref(gm,n,:price_zone))
+      gas_ne_weight * ne_normalization    * sum(pipe["construction_cost"] * zp[i] for (i,pipe) in _GM.ref(gm,n,:ne_pipe)) +
+      gas_ne_weight * ne_normalization    * sum(compressor["construction_cost"] * zc[i] for (i,compressor) in _GM.ref(gm,n,:ne_compressor)) +
+      power_ne_weight * ne_normalization  * sum(branches[i]["construction_cost"]*line_ne[i] for (i,branch) in branches) +
+      power_opf_weight * ne_normalization * sum(gen_cost[(n,i)] for (i,gen) in _PM.ref(pm, :gen, nw=n)) +
+      gas_price_weight * ne_normalization * sum(zone_cost[i] for (i,zone) in _GM.ref(gm,n,:price_zone)) +
+      gas_price_weight * ne_normalization * sum(zone["constant_p"] * p_cost[i] for (i,zone) in _GM.ref(gm,n,:price_zone))
     )
 end
 
