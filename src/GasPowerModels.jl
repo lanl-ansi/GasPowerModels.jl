@@ -36,7 +36,6 @@ module GasPowerModels
     include("core/constraint.jl")
     include("core/constraint_template.jl")
     include("core/objective.jl")
-    include("core/solution.jl")
     include("core/data.jl")
 
     include("form/qp.jl")
