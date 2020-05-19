@@ -55,9 +55,9 @@ end
 
 "Objective that minimizes expansion costs only (as in the HICCS paper)."
 function objective_min_ne_cost(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel, n::Int=gm.cnw)
-    gas_ne_weight = :gas_ne_weight in keys(_PM.ref(pm, n)) ? _PM.ref(pm, n, :gas_ne_weight) : 1.0
-    power_ne_weight = :power_ne_weight in keys(_PM.ref(pm, n)) ? _PM.ref(pm, n, :power_ne_weight) : 1.0
-    ne_normalization = :ne_normalization in keys(_PM.ref(pm, n)) ? _PM.ref(pm, n, :ne_normalization) : 1.0
+    gas_ne_weight = get(_PM.ref(pm, n), :gas_ne_weight, 1.0)
+    power_ne_weight = get(_PM.ref(pm, n), :power_ne_weight, 1.0)
+    ne_normalization = get(_PM.ref(pm, n), :ne_normalization, 1.0)
 
     zc = _GM.var(gm, n, :zc)
     ne_comps = _GM.ref(gm, n, :ne_compressor)
