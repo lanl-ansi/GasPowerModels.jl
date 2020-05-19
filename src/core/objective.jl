@@ -54,20 +54,24 @@ function objective_min_ne_opf_cost(pm::_PM.AbstractPowerModel, gm::_GM.AbstractG
 end
 
 "Objective that minimizes expansion costs only (as in the HICCS paper)."
-function objective_min_ne_cost(pm::_PM.AbstractPowerModel,gm::_GM.AbstractGasModel,n::Int=gm.cnw; gas_ne_weight=1.0, power_ne_weight=1.0, normalization=1.0)
+function objective_min_ne_cost(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel, n::Int=gm.cnw)
+    gas_ne_weight = :gas_ne_weight in keys(_PM.ref(pm, n)) ? _PM.ref(pm, n, :gas_ne_weight) : 1.0
+    power_ne_weight = :power_ne_weight in keys(_PM.ref(pm, n)) ? _PM.ref(pm, n, :power_ne_weight) : 1.0
+    ne_normalization = :ne_normalization in keys(_PM.ref(pm, n)) ? _PM.ref(pm, n, :ne_normalization) : 1.0
+
     zc = _GM.var(gm, n, :zc)
     ne_comps = _GM.ref(gm, n, :ne_compressor)
-    c_cost = length(ne_comps) > 0 ? gas_ne_weight * normalization *
+    c_cost = length(ne_comps) > 0 ? gas_ne_weight * ne_normalization *
         sum(comp["construction_cost"] * zc[i] for (i, comp) in ne_comps) : 0.0
 
     zp = _GM.var(gm, n, :zp)
     ne_pipes = _GM.ref(gm, n, :ne_pipe)
-    p_cost = length(ne_pipes) > 0 ? gas_ne_weight * normalization *
+    p_cost = length(ne_pipes) > 0 ? gas_ne_weight * ne_normalization *
         sum(pipe["construction_cost"] * zp[i] for (i, pipe) in ne_pipes) : 0.0
 
     zb = _PM.var(pm, n, :branch_ne)
     ne_lines = _PM.ref(pm, n, :ne_branch)
-    l_cost = length(ne_lines) > 0 ? power_ne_weight  * normalization *
+    l_cost = length(ne_lines) > 0 ? power_ne_weight * ne_normalization *
         sum(line["construction_cost"] * zb[i] for (i, line) in ne_lines) : 0.0
 
     obj = JuMP.@objective(gm.model, _IM._MOI.MIN_SENSE, c_cost + p_cost + l_cost)

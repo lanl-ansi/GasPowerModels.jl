@@ -8,12 +8,7 @@ function run_ne(gfile, pfile, gtype, ptype, optimizer; kwargs...)
 end
 
 # construct the gas flow feasbility problem with demand being the cost model
-function build_ne(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel; kwargs...)
-    kwargs = Dict(kwargs[:kwargs])
-    gweight = haskey(kwargs, :gas_ne_weight) ? kwargs[:gas_ne_weight] : 1.0
-    pweight = haskey(kwargs, :power_ne_weight) ? kwargs[:power_ne_weight] : 1.0
-    obj_normalization = haskey(kwargs, :obj_normalization) ? kwargs[:obj_normalization] : 1.0
-
+function build_ne(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel)
     # Gas-only-related variables and constraints.
     _GM.build_nels(gm)
 
@@ -26,6 +21,5 @@ function build_ne(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel; kwargs..
     end
 
     # This objective function minimizes demand and pressure cost.
-    objective_min_ne_cost(pm, gm, gas_ne_weight=gweight,
-        power_ne_weight=pweight, normalization=obj_normalization)
+    objective_min_ne_cost(pm, gm)
 end

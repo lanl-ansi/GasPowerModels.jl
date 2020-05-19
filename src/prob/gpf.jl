@@ -6,7 +6,7 @@ function run_gpf(gfile, pfile, gtype, ptype, optimizer; kwargs...)
 end
 
 "Construct the gas-power flow feasbility problem."
-function build_gpf(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel; kwargs...)
+function build_gpf(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel)
     # Gas-only related variables and constraints
     _GM.build_gf(gm)
 

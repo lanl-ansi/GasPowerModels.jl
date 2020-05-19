@@ -19,7 +19,7 @@ function instantiate_model(gdata::Dict{String,<:Any}, pdata::Dict{String,<:Any},
     gas_grid_per_unit(gm.data, pm.data)
 
     # Build the corresponding problem.
-    build_method(pm, gm, kwargs=kwargs)
+    build_method(pm, gm)
 
     # Return the two individual *Models objects.
     return gm, pm

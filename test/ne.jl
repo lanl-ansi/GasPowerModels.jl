@@ -18,7 +18,6 @@ end
         gtype, ptype = MISOCPGasModel, SOCWRPowerModel
 
         result = run_ne(gfile, pfile, gtype, ptype, juniper,
-            gas_ne_weight=1.0, power_ne_weight=1.0, obj_normalization=1.0e-8,
             gm_solution_processors=[_GM.sol_psqr_to_p!],
             pm_solution_processors=[_PM.sol_data_model!])
 
