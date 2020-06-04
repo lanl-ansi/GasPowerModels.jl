@@ -42,6 +42,7 @@ module GasPowerModels
     include("form/nlp.jl")
 
     include("prob/gpf.jl")
+    include("prob/ogpf.jl")
     include("prob/ne.jl")
     include("prob/neopf.jl")
 
