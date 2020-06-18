@@ -3,19 +3,19 @@ function mgc = belgian
 %% required global data
 mgc.gas_molar_mass = 0.0185674; % kg/mol
 mgc.gas_specific_gravity = 0.6;
-mgc.specific_heat_capacity_ratio = 1.4;  % unitless
-mgc.temperature = 281.15;  % K
-mgc.compressibility_factor = 0.8;  % unitless
+mgc.specific_heat_capacity_ratio = 1.4; % unitless
+mgc.temperature = 281.15; % K
+mgc.compressibility_factor = 0.8; % unitless
 mgc.standard_density = 1.0; %
 mgc.units = 'si';
 
 %% optional global data (that was either provided or computed based on required global data)
 mgc.energy_factor = 2.61590529e-8;
-mgc.sound_speed = 317.3536522338898;  % m/s
-mgc.R = 8.314;  % J/(mol K)
-mgc.base_pressure = 8000000;  % Pa
-mgc.base_length = 5000;  % m
-mgc.base_flow = 535.8564814814815;  % kg/s
+mgc.sound_speed = 317.3536522338898; % m/s
+mgc.R = 8.314; % J/(mol K)
+mgc.base_pressure = 8000000; % Pa
+mgc.base_length = 5000; % m
+mgc.base_flow = 535.8564814814815; % kg/s
 mgc.is_per_unit = 0;
 
 %% junction data

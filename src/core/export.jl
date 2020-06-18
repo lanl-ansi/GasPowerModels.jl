@@ -47,39 +47,17 @@ for status_code_enum in [TerminationStatusCode, ResultStatusCode]
     end
 end
 
-# Export final GasModels model types.
-function _recursive_export_gas_models(model_type)
-    subtypes = InteractiveUtils.subtypes(GasModels, model_type)
+# Export GasModels modeling types for ease of use.
+gas_models = filter(x -> endswith(string(x), "GasModel") &&
+    !occursin("Abstract", string(x)), names(GasModels))
+for x in gas_models @eval import GasModels: $(x) end
+for x in gas_models @eval export $(x) end
 
-    if length(subtypes) > 0
-        for model_type in subtypes
-            _recursive_export_gas_models(model_type)
-        end
-    else
-        model_type_str = replace("$(model_type)", "GasModels." => "")
-        @eval import GasModels: $(Symbol(model_type_str))
-        @eval export $(Symbol(model_type_str))
-    end
-end
-
-_recursive_export_gas_models(GasModels.AbstractGasModel)
-
-# Export final PowerModels model types.
-function _recursive_export_power_models(model_type)
-    subtypes = InteractiveUtils.subtypes(PowerModels, model_type)
-
-    if length(subtypes) > 0
-        for model_type in subtypes
-            _recursive_export_power_models(model_type)
-        end
-    else
-        model_type_str = replace("$(model_type)", "PowerModels." => "")
-        @eval import PowerModels: $(Symbol(model_type_str))
-        @eval export $(Symbol(model_type_str))
-    end
-end
-
-_recursive_export_power_models(PowerModels.AbstractPowerModel)
+# Export PowerModels modeling types for ease of use.
+power_models = filter(x -> endswith(string(x), "PowerModel") &&
+    !occursin("Abstract", string(x)), names(PowerModels))
+for x in power_models @eval import PowerModels: $(x) end
+for x in power_models @eval export $(x) end
 
 # Export from InfrastructureModels.
 export ids, ref, var, con, sol, nw_ids, nws, optimize_model!
