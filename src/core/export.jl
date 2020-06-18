@@ -21,8 +21,7 @@ for sym in names(@__MODULE__, all=true)
     @eval export $sym
 end
 
-
-# the follow items are also exported for user-friendlyness when calling
+# The following items are also exported for user friendliness when calling
 # `using GasPowerModels`
 
 # so that users do not need to import JuMP to use a solver with GasPowerModels

@@ -3,12 +3,12 @@ using GasPowerModels
 import Memento
 
 const _GM = GasPowerModels._GM
-const _PM = GasPowerModels._PM
 const _IM = GasPowerModels._IM
+const _PM = GasPowerModels._PM
 
 # Suppress warnings during testing.
-Memento.setlevel!(Memento.getlogger(_IM), "error")
 Memento.setlevel!(Memento.getlogger(_GM), "error")
+Memento.setlevel!(Memento.getlogger(_IM), "error")
 Memento.setlevel!(Memento.getlogger(_PM), "error")
 GasPowerModels.logger_config!("error")
 
