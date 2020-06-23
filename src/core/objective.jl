@@ -26,6 +26,7 @@ function objective_min_opf_cost(gm::_GM.AbstractGasModel, pm::_PM.AbstractPowerM
     end
 
     gen_cost = Dict()
+
     for (i, gen) in _PM.ref(pm, :gen, nw=n)
         pg = sum(_PM.var(pm, n, c, :pg, i) for c in _PM.conductor_ids(pm, n))
 

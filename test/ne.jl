@@ -10,8 +10,6 @@ function check_pressure_status_ne(sol)
     end
 end
 
-# Check the qp gas and power flow model. This is contrived to make sure
-# something is built on both sides.
 @testset "test qp ne" begin
     @testset "IEEE 14 and Belgian Network Expansion" begin
         g_file, p_file = "../test/data/matgas/belgian-ne.m", "../test/data/case14-ne.m"

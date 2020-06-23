@@ -32,4 +32,8 @@ juniper = JuMP.optimizer_with_attributes(Juniper.Optimizer, "nl_solver"=>ipopt, 
 
     include("ne.jl")
 
+    include("neopf.jl")
+
+    include("ogpf.jl")
+
 end
