@@ -12,9 +12,9 @@ end
 
 @testset "Test QP Gas-Power Flow" begin
     @testset "IEEE 14 (Power) and Belgian (Gas)" begin
-        gfile, pfile = "../test/data/matgas/belgian.m", "../test/data/case14.m"
-        gtype, ptype = MISOCPGasModel, SOCWRPowerModel
-        result = run_gpf(gfile, pfile, gtype, ptype, juniper,
+        g_file, p_file = "../test/data/matgas/belgian.m", "../test/data/case14.m"
+        g_type, p_type = MISOCPGasModel, SOCWRPowerModel
+        result = run_gpf(g_file, p_file, g_type, p_type, juniper,
             gm_solution_processors=[_GM.sol_psqr_to_p!],
             pm_solution_processors=[_PM.sol_data_model!])
 

@@ -1,8 +1,8 @@
 # Definitions for solving a optimal combined gas and power flow.
 
 "Entry point into running the optimal gas-power flow problem."
-function run_ogpf(gfile, pfile, gtype, ptype, optimizer; kwargs...)
-    return run_model(gfile, pfile, gtype, ptype, optimizer, build_gpf; kwargs...)
+function run_ogpf(g_file, p_file, g_type, p_type, optimizer; kwargs...)
+    return run_model(g_file, p_file, g_type, p_type, optimizer, build_gpf; kwargs...)
 end
 
 "Construct the optimal gas-power flow problem."

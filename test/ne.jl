@@ -14,10 +14,10 @@ end
 # something is built on both sides.
 @testset "test qp ne" begin
     @testset "IEEE 14 and Belgian Network Expansion" begin
-        gfile, pfile = "../test/data/matgas/belgian-ne.m", "../test/data/case14-ne.m"
-        gtype, ptype = MISOCPGasModel, SOCWRPowerModel
+        g_file, p_file = "../test/data/matgas/belgian-ne.m", "../test/data/case14-ne.m"
+        g_type, p_type = MISOCPGasModel, SOCWRPowerModel
 
-        result = run_ne(gfile, pfile, gtype, ptype, juniper,
+        result = run_ne(g_file, p_file, g_type, p_type, juniper,
             gm_solution_processors=[_GM.sol_psqr_to_p!],
             pm_solution_processors=[_PM.sol_data_model!])
 

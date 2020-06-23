@@ -1,9 +1,9 @@
-# Definitions for solving a feasible combined gas and power flow with network expansion.
+# Definitions for solving a combined gas and power flow with network expansion.
 
 "Entry point for running gas and electric power expansion planning only."
-function run_ne(gfile, pfile, gtype, ptype, optimizer; kwargs...)
+function run_ne(g_file, p_file, g_type, p_type, optimizer; kwargs...)
     pm_ref_extensions = [_PM.ref_add_on_off_va_bounds!, _PM.ref_add_ne_branch!]
-    return run_model(gfile, pfile, gtype, ptype, optimizer, build_ne;
+    return run_model(g_file, p_file, g_type, p_type, optimizer, build_ne;
         gm_ref_extensions=[_GM.ref_add_ne!], pm_ref_extensions=pm_ref_extensions, kwargs...)
 end
 
