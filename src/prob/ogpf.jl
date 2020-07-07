@@ -2,7 +2,7 @@
 
 "Entry point into running the optimal gas-power flow problem."
 function run_ogpf(g_file, p_file, g_type, p_type, optimizer; kwargs...)
-    return run_model(g_file, p_file, g_type, p_type, optimizer, build_gpf; kwargs...)
+    return run_model(g_file, p_file, g_type, p_type, optimizer, build_ogpf; kwargs...)
 end
 
 "Construct the optimal gas-power flow problem."

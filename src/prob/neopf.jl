@@ -4,17 +4,9 @@
 demand-based pricing and a pressure penalty (in TPS paper)."
 function run_neopf(g_file, p_file, g_type, p_type, optimizer; kwargs...)
     pm_ref_extensions = [_PM.ref_add_on_off_va_bounds!, _PM.ref_add_ne_branch!]
-    return run_model(g_file, p_file, g_type, p_type, optimizer, build_ne;
+    return run_model(g_file, p_file, g_type, p_type, optimizer, build_neopf;
         gm_ref_extensions=[_GM.ref_add_ne!], pm_ref_extensions=pm_ref_extensions, kwargs...)
 end
-
-#" entry point for running gas and electric power expansion planning with demand-based pricing and a pressure penalty (in TPS paper) "
-#function run_neopf(power_file, gas_file, power_model_constructor, gas_model_constructor, solver; solution_builder=get_neopf_solution, kwargs...)
-#    return run_generic_model(power_file, gas_file, power_model_constructor,
-#        gas_model_constructor, solver, build_neopf;
-#        power_ref_extensions=[_PM.ref_add_on_off_va_bounds!,_PM.ref_add_ne_branch!],
-#        solution_builder=solution_builder, kwargs...)
-#end
 
 " Construct the gas flow feasbility problem with demand being the cost model"
 function build_neopf(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel)
