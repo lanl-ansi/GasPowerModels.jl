@@ -26,14 +26,18 @@ juniper = JuMP.optimizer_with_attributes(Juniper.Optimizer, "nl_solver"=>ipopt, 
 
 @testset "GasPowerModels" begin
 
+    include("GasPowerModels.jl")
+
+    include("base.jl")
+
     include("data.jl")
 
     include("gpf.jl")
 
+    #include("ogpf.jl")
+
     include("ne.jl")
 
-    include("neopf.jl")
-
-    include("ogpf.jl")
+    #include("ne_ogpf.jl")
 
 end

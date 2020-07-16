@@ -2,13 +2,14 @@ module GasPowerModels
     import JSON
     import JuMP
     import Memento
-    import InfrastructureModels
     import GasModels
     import PowerModels
 
-    const _IM = InfrastructureModels
     const _GM = GasModels
     const _PM = PowerModels
+
+    const _IM = _GM._IM # InfrastructureModels
+    const _MOI = _IM._MOI # MathOptInterface
 
     # Create our module level logger (this will get precompiled)
     const _LOGGER = Memento.getlogger(@__MODULE__)
@@ -19,10 +20,12 @@ module GasPowerModels
 
     "Suppresses information and warning messages output. For fine-grained control use the Memento package."
     function silence()
-        Memento.info(_LOGGER, "Suppressing information and warning messages for the rest of this session. Use the Memento package for more fine-grained control of logging.")
-        Memento.setlevel!(Memento.getlogger(InfrastructureModels), "error")
-        Memento.setlevel!(Memento.getlogger(GasModels), "error")
-        Memento.setlevel!(Memento.getlogger(PowerModels), "error")
+        Memento.info(_LOGGER, "Suppressing information and warning messages for the rest "
+            * "of this session. Use the Memento package for more fine-grained control of "
+            * "logging.")
+        Memento.setlevel!(Memento.getlogger(_IM), "error")
+        Memento.setlevel!(Memento.getlogger(_GM), "error")
+        Memento.setlevel!(Memento.getlogger(_PM), "error")
     end
 
     "Allows the user to set the logging level without the need to add Memento."
@@ -36,6 +39,7 @@ module GasPowerModels
     include("core/constraint_template.jl")
     include("core/objective.jl")
     include("core/data.jl")
+    include("core/ref.jl")
 
     include("form/qp.jl")
     include("form/nlp.jl")
@@ -43,7 +47,7 @@ module GasPowerModels
     include("prob/gpf.jl")
     include("prob/ogpf.jl")
     include("prob/ne.jl")
-    include("prob/neopf.jl")
+    include("prob/ne_ogpf.jl")
 
     # This must come last to support automated export.
     include("core/export.jl")

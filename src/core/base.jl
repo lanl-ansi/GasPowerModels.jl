@@ -1,25 +1,32 @@
-""
-function instantiate_model(g_file::String, p_file::String, g_type::Type, p_type::Type, build_method; gm_ref_extensions=[], pm_ref_extensions=[], kwargs...)
-    g_data, p_data = _GM.parse_file(g_file), _PM.parse_file(p_file)
+"""
+    instantiate_model(
+        g_data, p_data, g_type, p_type, build_method;
+        gm_ref_extensions, pm_ref_extensions, kwargs...)
 
-    return instantiate_model(g_data, p_data, g_type, p_type,
-        build_method; gm_ref_extensions=gm_ref_extensions,
-        pm_ref_extensions=pm_ref_extensions, kwargs...)
-end
+    Instantiates and returns GasModels and PowerModels modeling objects from gas and power
+    input data `g_data` and `p_data`, respectively. Here, `g_type` and `p_type` are the gas
+    and power modeling types, `build_method` is the build method for the problem
+    specification being considered, and `gm_ref_extensions` and `pm_ref_extensions` are
+    arrays of functions used to define gas and power modeling extensions.
+"""
+function instantiate_model(
+    g_data::Dict{String,<:Any}, p_data::Dict{String,<:Any}, g_type::Type, p_type::Type,
+    build_method::Function; gm_ref_extensions::Vector{<:Function}=Vector{Function}([]),
+    pm_ref_extensions::Vector{<:Function}=Vector{Function}([]), kwargs...)
+    # Ensure the two datasets use the same units for power.
+    resolve_units!(g_data, p_data)
 
-""
-function instantiate_model(g_data::Dict{String,<:Any}, p_data::Dict{String,<:Any}, g_type::Type, p_type::Type, build_method; gm_ref_extensions=[], pm_ref_extensions=[], kwargs...)
     # Instantiate the GasModels object.
-    gm = _GM.instantiate_model(g_data, g_type, m->nothing; ref_extensions=gm_ref_extensions)
+    gm = _GM.instantiate_model(
+        g_data, g_type, m->nothing; ref_extensions=gm_ref_extensions)
 
     # Instantiate the PowerModels object.
-    pm = _PM.instantiate_model(p_data, p_type, m->nothing; ref_extensions=pm_ref_extensions, jump_model=gm.model)
+    pm = _PM.instantiate_model(
+        p_data, p_type, m->nothing; ref_extensions=pm_ref_extensions, jump_model=gm.model)
 
-    # Assign generator numbers to junctions.
-    add_junction_generators(gm, pm)
-
-    # TODO: The below is a bit of a hack.
-    gas_grid_per_unit(gm.data, pm.data)
+    # TODO: Change this to a function on g_data and p_data.
+    # Assign generator numbers to deliveries.
+    _assign_delivery_generators!(gm, pm)
 
     # Build the corresponding problem.
     build_method(pm, gm)
@@ -28,17 +35,70 @@ function instantiate_model(g_data::Dict{String,<:Any}, p_data::Dict{String,<:Any
     return gm, pm
 end
 
-""
-function run_model(g_data::Dict{String,<:Any}, p_data::Dict{String,<:Any}, g_type::Type, p_type::Type, optimizer, build_method; gm_solution_processors=[], pm_solution_processors=[], gm_ref_extensions=[], pm_ref_extensions=[], kwargs...)
-    start_time = time()
-    gm, pm = instantiate_model(g_data, p_data, g_type, p_type,
-        build_method; gm_ref_extensions=gm_ref_extensions,
+
+"""
+    instantiate_model(
+        g_file, p_file, g_type, p_type, build_method;
+        gm_ref_extensions, pm_ref_extensions, kwargs...)
+
+    Instantiates and returns GasModels and PowerModels modeling objects from gas and power
+    input files `g_file` and `p_file`, respectively. Here, `g_type` and `p_type` are the gas
+    and power modeling types, `build_method` is the build method for the problem
+    specification being considered, and `gm_ref_extensions` and `pm_ref_extensions` are
+    arrays of functions used to define gas and power modeling extensions.
+"""
+function instantiate_model(
+    g_file::String, p_file::String, g_type::Type, p_type::Type, build_method::Function;
+    gm_ref_extensions::Vector{<:Function}=Vector{Function}([]),
+    pm_ref_extensions::Vector{<:Function}=Vector{Function}([]), kwargs...)
+    # Read gas and power data from files.
+    g_data, p_data = _GM.parse_file(g_file), _PM.parse_file(p_file)
+
+    # Instantiate GasModels and PowerModels modeling objects.
+    return instantiate_model(
+        g_data, p_data, g_type, p_type, build_method; gm_ref_extensions=gm_ref_extensions,
         pm_ref_extensions=pm_ref_extensions, kwargs...)
+end
+
+
+"""
+    run_model(
+        g_data, p_data, g_type, p_type, optimizer, build_method; gm_solution_processors,
+        pm_solution_processors, gm_ref_extensions, pm_ref_extensions, kwargs...)
+
+    Instantiates and solves the joint GasModels and PowerModels modeling objects from gas
+    and power input data `g_data` and `p_data`, respectively. Here, `g_type` and `p_type`
+    are the gas and power modeling types, `optimizer` it the optimization solver,
+    `build_method` is the build method for the problem specification being considered,
+    `gm_solution_processors` and `pm_solution_processors` are arrays of gas and power model
+    solution processors, and `gm_ref_extensions` and `pm_ref_extensions` are arrays of gas
+    and power modeling extensions. Returns a dictionary of combined results.
+"""
+function run_model(
+    g_data::Dict{String,<:Any}, p_data::Dict{String,<:Any}, g_type::Type, p_type::Type,
+    optimizer::Union{_MOI.AbstractOptimizer, _MOI.OptimizerWithAttributes},
+    build_method::Function; gm_solution_processors::Vector{<:Function}=Vector{Function}([]),
+    pm_solution_processors::Vector{<:Function}=Vector{Function}([]),
+    gm_ref_extensions::Vector{<:Function}=Vector{Function}([]),
+    pm_ref_extensions::Vector{<:Function}=Vector{Function}([]), kwargs...)
+    start_time = time()
+
+    gm, pm = instantiate_model(
+        g_data, p_data, g_type, p_type, build_method; gm_ref_extensions=gm_ref_extensions,
+        pm_ref_extensions=pm_ref_extensions, kwargs...)
+
     Memento.debug(_LOGGER, "gpm model build time: $(time() - start_time)")
 
     start_time = time()
-    gas_result = _IM.optimize_model!(gm, optimizer=optimizer, solution_processors=gm_solution_processors)
-    power_result = _IM.build_result(pm, gas_result["solve_time"]; solution_processors=pm_solution_processors)
+
+    # Solve the optimization model and store the gas modeling result.
+    gas_result = _IM.optimize_model!(
+        gm, optimizer=optimizer, solution_processors=gm_solution_processors)
+
+    # Build the power modeling result using the same model as above.
+    power_result = _IM.build_result(
+        pm, gas_result["solve_time"]; solution_processors=pm_solution_processors)
+
     Memento.debug(_LOGGER, "gpm model solution time: $(time() - start_time)")
 
     # Create a combined gas-power result object.
@@ -51,11 +111,32 @@ function run_model(g_data::Dict{String,<:Any}, p_data::Dict{String,<:Any}, g_typ
     return result
 end
 
-""
-function run_model(g_file::String, p_file::String, g_type::Type, p_type::Type, optimizer, build_method; gm_ref_extensions=[], pm_ref_extensions=[], kwargs...)
+
+"""
+    run_model(
+        g_file, p_file, g_type, p_type, optimizer, build_method; gm_solution_processors,
+        pm_solution_processors, gm_ref_extensions, pm_ref_extensions, kwargs...)
+
+    Instantiates and solves the joint GasModels and PowerModels modeling objects from gas
+    and power input files `g_file` and `p_file`, respectively. Here, `g_type` and `p_type`
+    are the gas and power modeling types, `optimizer` it the optimization solver,
+    `build_method` is the build method for the problem specification being considered,
+    `gm_solution_processors` and `pm_solution_processors` are arrays of gas and power model
+    solution processors, and `gm_ref_extensions` and `pm_ref_extensions` are arrays of gas
+    and power modeling extensions. Returns a dictionary of combined results.
+"""
+function run_model(
+    g_file::String, p_file::String, g_type::Type, p_type::Type,
+    optimizer::Union{_MOI.AbstractOptimizer, _MOI.OptimizerWithAttributes},
+    build_method::Function; gm_solution_processors::Vector{<:Function}=Vector{Function}([]),
+    pm_solution_processors::Vector{<:Function}=Vector{Function}([]),
+    gm_ref_extensions::Vector{<:Function}=Vector{Function}([]),
+    pm_ref_extensions::Vector{<:Function}=Vector{Function}([]), kwargs...)
     g_data, p_data = _GM.parse_file(g_file), _PM.parse_file(p_file)
 
-    return run_model(g_data, p_data, g_type, p_type, optimizer,
-        build_method; gm_ref_extensions=gm_ref_extensions,
+    return run_model(
+        g_data, p_data, g_type, p_type, optimizer, build_method;
+        gm_solution_processors=gm_solution_processors,
+        pm_solution_processors=pm_solution_processors, gm_ref_extensions=gm_ref_extensions,
         pm_ref_extensions=pm_ref_extensions, kwargs...)
 end

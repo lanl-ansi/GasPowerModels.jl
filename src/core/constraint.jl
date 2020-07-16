@@ -6,18 +6,19 @@
 
 " constraints associated with bounding the maximum pressure in a zone
  This is equation 24 in the HICCS paper "
-function constraint_zone_pressure(gm::_GM.AbstractGasModel, n::Int, i)
+function constraint_zone_pressure(gm::_GM.AbstractGasModel, n::Int, i::Int)
+    junctions = filter(x -> x.second["price_zone"] != 0, _GM.ref(gm, n, :junction))
     price_zone = _GM.ref(gm, n, :price_zone, i)
     zone_p = _GM.var(gm, n, :zone_p)
-    p = _GM.var(gm, n, :p)
+    p = _GM.var(gm, n, :psqr) # TODO: Should this be :p?
 
     if !haskey(gm.con[:nw][n], :zone_pressure)
-        gm.con[:nw][n][:zone_pressure] = Dict{Int,Dict{Int,ConstraintRef}}()
+        gm.con[:nw][n][:zone_pressure] = Dict{Int,Dict{Int,JuMP.ConstraintRef}}()
     end
 
-    gm.con[:nw][n][:zone_pressure][i] = Dict{Int,ConstraintRef}()
+    gm.con[:nw][n][:zone_pressure][i] = Dict{Int,JuMP.ConstraintRef}()
 
-    for j in gm.ref[:nw][n][:price_zone][i]["junctions"]
+    for (j, junc) in filter(x -> x.second["price_zone"] == i, junctions)
         c = JuMP.@constraint(gm.model, zone_p[i] >= p[j])
         gm.con[:nw][n][:zone_pressure][i][j] = c
     end
@@ -32,7 +33,7 @@ function constraint_zone_demand(gm::_GM.AbstractGasModel, n::Int, i, loads)
     fl = _GM.var(gm, n, :fl)
     zone_fl = _GM.var(gm, n, :zone_fl)
     c = JuMP.@constraint(gm.model, zone_fl[i] == sum(fl[j] for j in loads))
-    _GM.add_constraint(gm, n, :zone_demand, i, c)
+    _GM._add_constraint!(gm, n, :zone_demand, i, c)
 end
 
 " constraints associated with bounding the demand zone prices
@@ -47,20 +48,18 @@ function constraint_zone_demand_price(gm::_GM.AbstractGasModel, n::Int, i, min_c
 
     rhs_1 = 86400.0^2 * cost_q[1] * (zone_fl[i] / standard_density)^2 + 86400.0 * cost_q[2] * zone_fl[i] / standard_density + cost_q[3]
     c_1 = JuMP.@constraint(gm.model, zone_cost[i] >= rhs_1)
-    _GM.add_constraint(gm, n, :zone_demand_price1, i, c_1)
+    _GM._add_constraint!(gm, n, :zone_demand_price_1, i, c_1)
 
     rhs_2 = 86400.0 * min_cost * zone_fl[i] / standard_density
     c_2 = JuMP.@constraint(gm.model, zone_cost[i] >= rhs_2)
-    _GM.add_constraint(gm, n, :zone_demand_price2, i, c_2)
+    _GM._add_constraint!(gm, n, :zone_demand_price_2, i, c_2)
 end
 
 " constraints associated with pressure prices
  This is equation 25 in the HICCS paper"
 function constraint_pressure_price(gm::_GM.AbstractGasModel, n::Int, i, cost_p)
-    zone_p = _GM.var(gm, n, :zone_p)
-    p_cost = _GM.var(gm, n, :p_cost)
-
+    zone_p, p_cost = _GM.var(gm, n, :zone_p), _GM.var(gm, n, :p_cost)
     rhs = cost_p[1] * zone_p[i]^2 + cost_p[2] * zone_p[i] + cost_p[3]
     c = JuMP.@constraint(gm.model, p_cost[i] >= rhs)
-    _GM.add_constraint(gm, n, :pressure_price, i, c)
+    _GM._add_constraint!(gm, n, :pressure_price, i, c)
 end

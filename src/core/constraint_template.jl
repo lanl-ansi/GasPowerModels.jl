@@ -36,16 +36,28 @@ end
 
 " constraints associated with bounding the demand zone prices
  This is equation 23 in the HICCS paper "
-function constraint_zone_demand(gm::_GM.AbstractGasModel, n::Int, i)
-   price_zone = _GM.ref(gm,n,:price_zone,i)
-   loads = Set()
+function constraint_zone_demand(gm::_GM.AbstractGasModel, n::Int, i::Int)
+    loads = Set()
+    junctions = filter(x -> x.second["price_zone"] != 0, _GM.ref(gm, n, :junction))
 
-   for i in price_zone["junctions"]
-       loads = union(loads,_GM.ref(gm,n,:junction_dispatchable_deliveries,i))
-   end
+    for (i, price_zone) in _GM.ref(gm, n, :price_zone)
+        junc_ids = keys(filter(x -> x.second["price_zone"] == i, junctions))
+        load_i = [_GM.ref(gm, n, :dispatchable_deliveries_in_junction, i) for i in junc_ids]
+        loads = union(loads, load_i...)
+    end
 
-   constraint_zone_demand(gm, n, i, loads)
+    constraint_zone_demand(gm, n, i, loads)
+
+
+   #price_zone = _GM.ref(gm, n, :price_zone, i)
+   #loads = Set()
+
+   #for i in price_zone["junctions"]
+   #    loads = union(loads,_GM.ref(gm,n,:junction_dispatchable_deliveries,i))
+   #end
+
 end
+
 constraint_zone_demand(gm::_GM.AbstractGasModel, i::Int) = constraint_zone_demand(gm, gm.cnw, i)
 
 " constraints associated with bounding the demand zone prices
