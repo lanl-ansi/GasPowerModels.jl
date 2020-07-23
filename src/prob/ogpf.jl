@@ -26,6 +26,14 @@ function build_ogpf(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel)
     variable_zone_pressure(gm)
     variable_pressure_price(gm)
 
+    # Constraints related to price zones.
+    for (i, price_zone) in _GM.ref(gm, :price_zone)
+        constraint_zone_demand(gm, i)
+        constraint_zone_demand_price(gm, i)
+        constraint_zone_pressure(gm, i)
+        constraint_pressure_price(gm, i)
+    end
+
     # This objective function minimizes operation cost.
     objective_min_ogpf_cost(gm, pm)
 end

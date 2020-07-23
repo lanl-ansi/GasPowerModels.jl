@@ -11,7 +11,7 @@ end
 " function for creating variables associated with zonal demand "
 function variable_zone_demand(gm::_GM.AbstractGasModel, n::Int=gm.cnw)
     junctions = filter(x -> x.second["price_zone"] != 0, _GM.ref(gm, n, :junction))
-    fl_max = Dict{Int,Float64}(i=>0.0 for i in _GM.ids(gm, n, :price_zone))
+    fl_max = Dict{Int,Float64}(i => 0.0 for i in _GM.ids(gm, n, :price_zone))
 
     for (i, price_zone) in _GM.ref(gm, n, :price_zone)
         for (j, junc) in filter(x -> x.second["price_zone"] == i, junctions)
@@ -22,7 +22,7 @@ function variable_zone_demand(gm::_GM.AbstractGasModel, n::Int=gm.cnw)
         end
     end
 
-    gm.var[:nw][n][:zone_fl] = JuMP.@variable(
+    _GM.var(gm, n)[:zone_fl] = JuMP.@variable(
         gm.model, [i in _GM.ids(gm, n, :price_zone)], base_name="$(n)_zone_fl",
         lower_bound=0.0, upper_bound=fl_max[i],
         start=getstart(_GM.ref(gm, n, :price_zone), i, "zone_fl_start", 0.0))

@@ -1,5 +1,6 @@
 @testset "src/core/base.jl" begin
-    g_file, p_file = "../test/data/matgas/belgian.m", "../test/data/case14.m"
+    g_file = "../test/data/matgas/GasLib-11-GPF.m"
+    p_file = "../test/data/matpower/case5-GPF.m"
     g_type, p_type = MISOCPGasModel, SOCWRPowerModel
 
     @testset "instantiate_model (with file inputs)" begin

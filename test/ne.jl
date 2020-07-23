@@ -1,27 +1,38 @@
-function check_voltage_status_ne(sol)
-    for (idx,val) in sol["bus"]
-        @test val["vm"] >= 0.94 && val["vm"] <= 1.06
-    end
-end
-
-function check_pressure_status_ne(sol)
-    for (idx,val) in sol["junction"]
-        @test val["p"] >= 0.0
-    end
-end
-
-@testset "test qp ne" begin
-    @testset "IEEE 14 and Belgian Network Expansion" begin
-        g_file, p_file = "../test/data/matgas/belgian-ne.m", "../test/data/case14-ne.m"
+@testset "Gas-Power Network Expansion Problems" begin
+    @testset "Quadratic Programming (QP) Formulation" begin
+        # Set up problem metadata.
+        g_file = "../test/data/matgas/GasLib-11-NE.m"
+        p_file = "../test/data/matpower/case5-NE.m"
         g_type, p_type = MISOCPGasModel, SOCWRPowerModel
 
-        result = run_ne(g_file, p_file, g_type, p_type, juniper,
+        # Solve the gas-flow feasibility problem.
+        result = run_ne(g_file, p_file, g_type, p_type, juniper;
             gm_solution_processors=[_GM.sol_psqr_to_p!],
             pm_solution_processors=[_PM.sol_data_model!])
 
+        # Ensure the problem has been solved to local optimality.
         @test result["termination_status"] == LOCALLY_SOLVED
-        @test isapprox(result["solution"]["ne_pipe"]["16"]["z"], 1.0, atol=1.0e-4)
-        check_voltage_status_ne(result["solution"])
-        check_pressure_status_ne(result["solution"])
+        @test isapprox(result["solution"]["ne_pipe"]["4"]["z"], 1.0, atol=1.0e-4)
+        @test all([x["p"] >= 0.0 for (i, x) in result["solution"]["junction"]])
+        @test all([x["vm"] >= 0.0 for (i, x) in result["solution"]["bus"]])
+    end
+
+    @testset "Nonlinear Programming (NLP) Formulation" begin
+        # Set up problem metadata.
+        g_file = "../test/data/matgas/GasLib-11-NE.m"
+        p_file = "../test/data/matpower/case5-NE.m"
+        g_type, p_type = MINLPGasModel, SOCWRPowerModel
+
+        # Solve the gas-flow feasibility problem.
+        result = run_ne(g_file, p_file, g_type, p_type, juniper;
+            gm_solution_processors=[_GM.sol_psqr_to_p!],
+            pm_solution_processors=[_PM.sol_data_model!])
+
+        # Ensure the problem has been solved to local optimality.
+        @test result["termination_status"] == LOCALLY_SOLVED
+        @test isapprox(result["solution"]["ne_pipe"]["4"]["z"], 1.0, atol=1.0e-4)
+        @test all([x["p"] >= 0.0 for (i, x) in result["solution"]["junction"]])
+        @test all([x["vm"] >= 0.0 for (i, x) in result["solution"]["bus"]])
     end
 end
+

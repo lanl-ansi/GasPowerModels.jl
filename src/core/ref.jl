@@ -6,11 +6,10 @@ function ref_add_price_zones!(ref::Dict{Symbol,<:Any}, data::Dict{String,<:Any})
     for (n, nw_data) in nws_data
         for (i, x) in nw_data["price_zone"]
             entry = Dict{String,Any}()
-            # TODO: Use the correct column names, here.
-            entry["cost_p"] = [x["col_5"]*p_base^4, x["col_6"]*p_base^2, x["col_7"]]
-            entry["cost_q"] = [x["col_2"]*q_base^2, x["col_3"]*q_base, x["col_4"]]
-            entry["min_cost"], entry["constant_p"] = x["col_8"] * q_base, x["col_9"]
-            ref[:nw][parse(Int, n)][:price_zone][x["col_1"]] = entry
+            entry["cost_p"] = [x["cost_p_1"]*p_base^4, x["cost_p_2"]*p_base^2, x["cost_p_3"]]
+            entry["cost_q"] = [x["cost_q_1"]*q_base^2, x["cost_q_2"]*q_base, x["cost_q_3"]]
+            entry["min_cost"], entry["constant_p"] = x["min_cost"] * q_base, x["constant_p"]
+            ref[:nw][parse(Int, n)][:price_zone][x["id"]] = entry
         end
     end
 end

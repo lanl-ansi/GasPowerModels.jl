@@ -28,6 +28,14 @@ function build_ne_ogpf(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel)
     variable_zone_demand_price(gm)
     variable_zone_pressure(gm)
     variable_pressure_price(gm)
+
+    # Constraints related to price zones.
+    for (i, price_zone) in _GM.ref(gm, :price_zone)
+        constraint_zone_demand(gm, i)
+        constraint_zone_demand_price(gm, i)
+        constraint_zone_pressure(gm, i)
+        constraint_pressure_price(gm, i)
+    end
     
     # Objective function minimizes demand and pressure cost.
     objective_min_ne_ogpf_cost(pm, gm)
