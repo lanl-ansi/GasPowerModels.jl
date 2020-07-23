@@ -5,7 +5,7 @@
         p_file = "../test/data/matpower/case5-NE.m"
         g_type, p_type = MISOCPGasModel, SOCWRPowerModel
 
-        # Solve the gas-flow feasibility problem.
+        # Solve the joint gas-power network expansion planning problem.
         result = run_ne(g_file, p_file, g_type, p_type, juniper;
             gm_solution_processors=[_GM.sol_psqr_to_p!],
             pm_solution_processors=[_PM.sol_data_model!])
@@ -23,7 +23,7 @@
         p_file = "../test/data/matpower/case5-NE.m"
         g_type, p_type = MINLPGasModel, SOCWRPowerModel
 
-        # Solve the gas-flow feasibility problem.
+        # Solve the joint gas-power network expansion planning problem.
         result = run_ne(g_file, p_file, g_type, p_type, juniper;
             gm_solution_processors=[_GM.sol_psqr_to_p!],
             pm_solution_processors=[_PM.sol_data_model!])
