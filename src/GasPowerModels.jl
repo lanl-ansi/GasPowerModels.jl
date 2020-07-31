@@ -1,41 +1,54 @@
 module GasPowerModels
+    import JSON
+    import JuMP
+    import Memento
+    import GasModels
+    import PowerModels
 
-using JSON
-using JuMP
-using PowerModels
-using GasModels
-using InfrastructureModels
-using Memento
+    const _GM = GasModels
+    const _PM = PowerModels
 
+    const _IM = _GM._IM # InfrastructureModels
+    const _MOI = _IM._MOI # MathOptInterface
 
-# Create our module level logger (this will get precompiled)
-const LOGGER = getlogger(@__MODULE__)
+    # Create our module level logger (this will get precompiled)
+    const _LOGGER = Memento.getlogger(@__MODULE__)
 
-# Register the module level logger at runtime so that folks can access the logger via `getlogger(GasModels)`
-# NOTE: If this line is not included then the precompiled `GasModels.LOGGER` won't be registered at runtime.
-__init__() = Memento.register(LOGGER)
+    # Register the module level logger at runtime so that folks can access the logger via `getlogger(GasPowerModels)`
+    # NOTE: If this line is not included then the precompiled `GasPowerModels._LOGGER` won't be registered at runtime.
+    __init__() = Memento.register(_LOGGER)
 
-"Suppresses information and warning messages output by GasModels, for fine grained control use the Memento package"
-function silence()
-    Memento.info(LOGGER, "Suppressing information and warning messages for the rest of this session.  Use the Memento package for more fine-grained control of logging.")
-    setlevel!(getlogger(InfrastructureModels), "error")
-#    setlevel!(getlogger(GasModels), "error")
-    setlevel!(getlogger(PowerModels), "error")
-end
+    "Suppresses information and warning messages output. For fine-grained control use the Memento package."
+    function silence()
+        Memento.info(_LOGGER, "Suppressing information and warning messages for the rest "
+            * "of this session. Use the Memento package for more fine-grained control of "
+            * "logging.")
+        Memento.setlevel!(Memento.getlogger(_IM), "error")
+        Memento.setlevel!(Memento.getlogger(_GM), "error")
+        Memento.setlevel!(Memento.getlogger(_PM), "error")
+    end
 
-include("core/base.jl")
-include("core/variable.jl")
-include("core/constraint.jl")
-include("core/constraint_template.jl")
-include("core/objective.jl")
-include("core/solution.jl")
-include("core/data.jl")
+    "Allows the user to set the logging level without the need to add Memento."
+    function logger_config!(level)
+        Memento.config!(Memento.getlogger("GasPowerModels"), level)
+    end
 
-include("form/qp.jl")
-include("form/nlp.jl")
+    include("core/base.jl")
+    include("core/variable.jl")
+    include("core/constraint.jl")
+    include("core/constraint_template.jl")
+    include("core/objective.jl")
+    include("core/data.jl")
+    include("core/ref.jl")
 
-include("prob/gpf.jl")
-include("prob/ne.jl")
-include("prob/neopf.jl")
+    include("form/qp.jl")
+    include("form/nlp.jl")
 
+    include("prob/gpf.jl")
+    include("prob/ogpf.jl")
+    include("prob/ne.jl")
+    include("prob/ne_ogpf.jl")
+
+    # This must come last to support automated export.
+    include("core/export.jl")
 end

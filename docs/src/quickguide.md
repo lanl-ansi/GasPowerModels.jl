@@ -46,10 +46,10 @@ For more information about GasPowerModels result data see the [GasPowerModels Re
 The following example demonstrates how to break a `run_gpf` call into separate model building and solving steps.  This allows inspection of the JuMP model created by GasPowerModels for the gas flow problem,
 
 ```julia
-pm, gm = build_generic_model("../test/data/case14.m", "../test/data/belgian.json", SOCWRPowerModel, MISOCPGasModel, GasPowerModels.post_gpf)
+pm, gm = build_generic_model("../test/data/case14.m", "../test/data/belgian.json", SOCWRPowerModel, MISOCPGasModel, GasPowerModels.build_gpf)
 
 print(gm.model)
 print(pm.model)
 
-solve_generic_model(pm, gm, PavitoSolver())
+run_generic_model(pm, gm, PavitoSolver())
 ```
