@@ -1,4 +1,2 @@
 # Network Formulations
-
-The network formulations for coupled gas grid modeling directly use the formulations defined in GasModels.jl and PowerModels.jl
-
+The network formulations for joint gas-power modeling use the formulations defined in GasModels.jl and PowerModels.jl.

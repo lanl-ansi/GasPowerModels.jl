@@ -24,6 +24,6 @@ function build_ne(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel)
        constraint_heat_rate_curve(pm, gm, i)
     end
 
-    # This objective function minimizes demand and pressure cost.
+    # This objective function minimizes cost of network expansion.
     objective_min_ne_cost(pm, gm)
 end

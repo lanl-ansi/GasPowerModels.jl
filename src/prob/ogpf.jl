@@ -20,7 +20,7 @@ function build_ogpf(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel)
         constraint_heat_rate_curve(pm, gm, i)
     end
 
-    # Variables related to the ogpf problem.
+    # Variables related to the OGPF problem.
     variable_zone_demand(gm)
     variable_zone_demand_price(gm)
     variable_zone_pressure(gm)

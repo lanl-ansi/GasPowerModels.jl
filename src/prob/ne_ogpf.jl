@@ -10,7 +10,7 @@ function run_ne_ogpf(g_file, p_file, g_type, p_type, optimizer; kwargs...)
         gm_ref_extensions=gm_ref_extensions, pm_ref_extensions=pm_ref_extensions, kwargs...)
 end
 
-"Construct the gas flow feasbility problem with demand being the cost model."
+"Construct the expansion planning with optimal gas-power flow problem."
 function build_ne_ogpf(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel)
     # Gas-only-related variables and constraints.
     _GM.build_nels(gm)
@@ -23,7 +23,7 @@ function build_ne_ogpf(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel)
        constraint_heat_rate_curve(pm, gm, i)
     end
 
-    # Variables related to the ne_ogpf problem.
+    # Variables related to the NE OGPF problem.
     variable_zone_demand(gm)
     variable_zone_demand_price(gm)
     variable_zone_pressure(gm)
@@ -37,6 +37,6 @@ function build_ne_ogpf(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel)
         constraint_pressure_price(gm, i)
     end
     
-    # Objective function minimizes demand and pressure cost.
+    # Objective function minimizes network expansion, demand, and pressure cost.
     objective_min_ne_ogpf_cost(pm, gm)
 end

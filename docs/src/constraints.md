@@ -1,5 +1,4 @@
 # Constraints
-
 ```@autodocs
 Modules = [GasPowerModels]
 Pages   = ["core/constraint_template.jl"]
