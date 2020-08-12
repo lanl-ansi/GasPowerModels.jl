@@ -133,7 +133,11 @@ function run_model(
     pm_solution_processors::Vector{<:Function}=Vector{Function}([]),
     gm_ref_extensions::Vector{<:Function}=Vector{Function}([]),
     pm_ref_extensions::Vector{<:Function}=Vector{Function}([]), kwargs...)
+    # Read gas and power data from files.
     g_data, p_data = _GM.parse_file(g_file), _PM.parse_file(p_file)
+
+    # Ensure the two datasets use the same units for power.
+    resolve_units!(g_data, p_data)
 
     return run_model(
         g_data, p_data, g_type, p_type, optimizer, build_method;
