@@ -3,7 +3,7 @@
 Internally, GasPowerModels uses a dictionary to store network data for power systems (see PowerModels) and gas models (see GasModels.jl).
 The dictionary uses strings as key values so it can be serialized to JSON for algorithmic data exchange.
 The I/O for GasPowerModels utilizes the serializations available in PowerModels.jl and GasModels.jl to construct the two network models.
-All data is assumed to be in per_unit (non-dimenisionalized) or SI units.
+All data is assumed to be in per unit (non-dimenisionalized) or SI units.
 
 Besides the standard network data supported by GasModels.jl and PowerModels.jl, there are a few extra fields that are required to couple the two systems together.
 These are discussed as follows:
@@ -28,7 +28,7 @@ These are discussed as follows:
             ...
         },
         ...
-    }
+    },
     "junction": {
         "1": {
           "price_zone": <Int64>        # Index of the corresponding price zone for the junction. -1 implies no zone.
