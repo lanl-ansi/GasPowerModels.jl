@@ -13,8 +13,6 @@ function instantiate_model(
     g_data::Dict{String,<:Any}, p_data::Dict{String,<:Any}, g_type::Type, p_type::Type,
     build_method::Function; gm_ref_extensions::Vector{<:Function}=Vector{Function}([]),
     pm_ref_extensions::Vector{<:Function}=Vector{Function}([]), kwargs...)
-    # Ensure the two datasets use the same units for power.
-    resolve_units!(g_data, p_data)
 
     # Instantiate the GasModels object.
     gm = _GM.instantiate_model(
@@ -53,6 +51,9 @@ function instantiate_model(
     pm_ref_extensions::Vector{<:Function}=Vector{Function}([]), kwargs...)
     # Read gas and power data from files.
     g_data, p_data = _GM.parse_file(g_file), _PM.parse_file(p_file)
+
+    # Ensure the two datasets use the same units for power.
+    resolve_units!(g_data, p_data)
 
     # Instantiate GasModels and PowerModels modeling objects.
     return instantiate_model(
