@@ -27,11 +27,11 @@ Installation of the JuMP interfaces to Juniper, Ipopt, and Cbc can be performed 
 ```
 
 ## Solving a Problem
-Once the above dependencies have been installed, obtain the files [`belgian-ne_ogpf.m`](https://raw.githubusercontent.com/lanl-ansi/GasPowerModels.jl/master/examples/data/matgas/belgian-ne_ogpf.m) and [`case14-ne.m`](https://raw.githubusercontent.com/lanl-ansi/GasPowerModels.jl/master/examples/data/matpower/case14-ne.m).
-Here, `belgian-ne_ogpf.m` is a MATGAS file describing a portion of the Belgian gas network.
+Once the above dependencies have been installed, obtain the files [`belgian-ne_opf.m`](https://raw.githubusercontent.com/lanl-ansi/GasPowerModels.jl/master/examples/data/matgas/belgian-ne_opf.m) and [`case14-ne.m`](https://raw.githubusercontent.com/lanl-ansi/GasPowerModels.jl/master/examples/data/matpower/case14-ne.m).
+Here, `belgian-ne_opf.m` is a MATGAS file describing a portion of the Belgian gas network.
 In accord, `case14-ne.m` is a MATPOWER file specifying a 14-bus power network.
 The combination of data from these two files provides the required information to set up the problem.
-After downloading the data, the optimal gas-power flow with network expansion problem can be solved with
+After downloading the data, the optimal power flow with network expansion problem can be solved with
 ```julia
 using JuMP, Juniper, Ipopt, Cbc
 using GasPowerModels
@@ -42,14 +42,14 @@ cbc = JuMP.optimizer_with_attributes(Cbc.Optimizer, "logLevel"=>0)
 juniper = JuMP.optimizer_with_attributes(Juniper.Optimizer, "nl_solver"=>ipopt, "mip_solver"=>cbc)
 
 # Specify paths to the gas and power network files.
-g_file = "examples/data/matgas/belgian-ne_ogpf.m" # Gas network.
+g_file = "examples/data/matgas/belgian-ne_opf.m" # Gas network.
 p_file = "examples/data/matpower/case14-ne.m" # Power network.
 
 # Specify the gas and power formulation types separately.
 g_type, p_type = MISOCPGasModel, SOCWRPowerModel
 
-# Solve the optimal gas-power flow with network expansion problem.
-result = run_ne_ogpf(g_file, p_file, g_type, p_type, juniper;
+# Solve the optimal power flow with network expansion problem.
+result = run_ne_opf(g_file, p_file, g_type, p_type, juniper;
     gm_solution_processors=[GasPowerModels._GM.sol_psqr_to_p!],
     pm_solution_processors=[GasPowerModels._PM.sol_data_model!])
 ```
@@ -58,7 +58,7 @@ result = run_ne_ogpf(g_file, p_file, g_type, p_type, juniper;
 The `run` commands in GasPowerModels return detailed results data in the form of a Julia `Dict`.
 This dictionary can be saved for further processing as follows:
 ```julia
-result = run_ne_ogpf(g_file, p_file, g_type, p_type, juniper;
+result = run_ne_opf(g_file, p_file, g_type, p_type, juniper;
     gm_solution_processors=[GasPowerModels._GM.sol_psqr_to_p!],
     pm_solution_processors=[GasPowerModels._PM.sol_data_model!])
 ```
@@ -91,8 +91,8 @@ To solve the preceding problem using the mixed-integer nonconvex model for natur
 # Specify the gas and power formulation types separately.
 g_type, p_type = MINLPGasModel, SOCWRPowerModel
 
-# Solve the optimal gas-power flow with network expansion problem.
-result = run_ne_ogpf(g_file, p_file, g_type, p_type, juniper;
+# Solve the optimal power flow with network expansion problem.
+result = run_ne_opf(g_file, p_file, g_type, p_type, juniper;
     gm_solution_processors=[GasPowerModels._GM.sol_psqr_to_p!],
     pm_solution_processors=[GasPowerModels._PM.sol_data_model!])
 ```
@@ -113,13 +113,13 @@ g_data["junction"]["2"]["p_min"] *= 0.1
 g_data["junction"]["3"]["p_min"] *= 0.1
 
 # Solve the problem using `g_data` and `p_data`.
-result_mod = run_ne_ogpf(g_data, p_data, g_type, p_type, juniper;
+result_mod = run_ne_opf(g_data, p_data, g_type, p_type, juniper;
     gm_solution_processors=[GasPowerModels._GM.sol_psqr_to_p!],
     pm_solution_processors=[GasPowerModels._PM.sol_data_model!])
 ```
 
 ## Alternate Methods for Building and Solving Models
-The following example demonstrates how to decompose a `run_ne_ogpf` call into separate model building and solving steps.
+The following example demonstrates how to decompose a `run_ne_opf` call into separate model building and solving steps.
 This allows inspection of the JuMP model created by GasPowerModels:
 ```julia
 # Read in the gas and power network data.
@@ -134,7 +134,7 @@ gm_ref_extensions = [GasPowerModels._GM.ref_add_ne!, ref_add_price_zones!]
 pm_ref_extensions = [GasPowerModels._PM.ref_add_on_off_va_bounds!, GasPowerModels._PM.ref_add_ne_branch!]
 
 # Instantiate the model.
-gm, pm = instantiate_model(g_data, p_data, g_type, p_type, build_ne_ogpf,
+gm, pm = instantiate_model(g_data, p_data, g_type, p_type, build_ne_opf,
     gm_ref_extensions=gm_ref_extensions, pm_ref_extensions=pm_ref_extensions)
 
 # Print the contents of the JuMP model.

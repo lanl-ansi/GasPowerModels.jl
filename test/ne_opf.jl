@@ -6,7 +6,7 @@
         g_type, p_type = MISOCPGasModel, SOCWRPowerModel
 
         # Solve the joint network expansion, optimal gas-power flow problem.
-        result = run_ne_ogpf(g_file, p_file, g_type, p_type, juniper;
+        result = run_ne_opf(g_file, p_file, g_type, p_type, juniper;
             gm_solution_processors=[_GM.sol_psqr_to_p!],
             pm_solution_processors=[_PM.sol_data_model!])
 
@@ -24,7 +24,7 @@
         g_type, p_type = MINLPGasModel, SOCWRPowerModel
 
         # Solve the joint network expansion, optimal gas-power flow problem.
-        result = run_ne_ogpf(g_file, p_file, g_type, p_type, juniper;
+        result = run_ne_opf(g_file, p_file, g_type, p_type, juniper;
             gm_solution_processors=[_GM.sol_psqr_to_p!],
             pm_solution_processors=[_PM.sol_data_model!])
 

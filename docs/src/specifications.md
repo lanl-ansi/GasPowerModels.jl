@@ -23,7 +23,7 @@ end
 ### Objective
 ```julia
 # This objective function minimizes operation cost.
-objective_min_ogpf_cost(gm, pm)
+objective_min_opf_cost(gm, pm)
 ```
 
 ### Inherited Variables and Constraints
@@ -88,7 +88,7 @@ end
 ### Objective
 ```julia
 # Objective function minimizes network expansion, demand, and pressure cost.
-objective_min_ne_ogpf_cost(pm, gm)
+objective_min_ne_opf_cost(pm, gm)
 ```
 
 ### Inherited Variables and Constraints
