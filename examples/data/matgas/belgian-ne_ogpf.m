@@ -151,31 +151,31 @@ mgc.price_zone = [
 %% junction data (extended)
 %column_names% price_zone
 mgc.junction_data = [
-  0
+  -1
   1
   2
-  0
+  -1
   1
   2
-  0
+  -1
   1
   2
-  0
+  -1
   1
   2
-  0
+  -1
   1
   2
-  0
+  -1
   1
   2
-  0
+  -1
   1
   2
-  0
+  -1
   1
   2
-  0
+  -1
 ];
 
 %% ne_compressor data

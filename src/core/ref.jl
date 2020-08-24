@@ -1,7 +1,7 @@
 "Add price zone information to GasModels data reference dictionary."
 function ref_add_price_zones!(ref::Dict{Symbol,<:Any}, data::Dict{String,<:Any})
     nws_data = _IM.ismultinetwork(data) ? data["nw"] : Dict("0" => data)
-    q_base, p_base = ref[:base_flow], ref[:base_pressure]
+    q_base, p_base = Float64(ref[:base_flow]), Float64(ref[:base_pressure])
 
     for (n, nw_data) in nws_data
         for (i, x) in nw_data["price_zone"]

@@ -2,7 +2,7 @@
 # This file defines objectives used in gas-power problem specifications. #
 ##########################################################################
 
-function objective_min_ogpf_cost(gm::_GM.AbstractGasModel, pm::_PM.AbstractPowerModel; n::Int=gm.cnw)
+function objective_min_opf_cost(gm::_GM.AbstractGasModel, pm::_PM.AbstractPowerModel; n::Int=gm.cnw)
     gen_cost = Dict{Tuple{Int,Int},Any}()
 
     for (i, gen) in _PM.ref(pm, :gen, nw=n)
@@ -37,7 +37,7 @@ end
 
 " function for congestion costs based on demand "
 # This is equation 27 in the HICCS paper
-function objective_min_ne_ogpf_cost(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel; n::Int=gm.cnw)
+function objective_min_ne_opf_cost(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel; n::Int=gm.cnw)
     gen_cost = Dict{Tuple{Int,Int},Any}()
 
     for (i, gen) in _PM.ref(pm, :gen, nw=n)

@@ -7,8 +7,8 @@
 # extract the required parameters from a given network data structure and
 # pass the data as named arguments to the Gas Flow or Power Flow formulations.
 #
-# Constraint templates should always be defined over "GenericFooModel"
-# and should never refer to model variables
+# Constraint templates should always be defined over "AbstractGasModel" and
+# "AbstractWaterModel" and should never refer to model variables.
 
 function constraint_heat_rate_curve(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel, n::Int, j::Int)
     delivery = _GM.ref(gm, n, :delivery, j)

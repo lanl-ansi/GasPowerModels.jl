@@ -1,5 +1,4 @@
 # Objective
-
 ```@autodocs
 Modules = [GasPowerModels]
 Pages   = ["core/objective.jl"]

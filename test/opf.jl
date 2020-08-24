@@ -6,7 +6,7 @@
         g_type, p_type = MISOCPGasModel, SOCWRPowerModel
 
         # Solve the optimal gas-power flow problem.
-        result = run_ogpf(g_file, p_file, g_type, p_type, juniper;
+        result = run_opf(g_file, p_file, g_type, p_type, juniper;
             gm_solution_processors=[_GM.sol_psqr_to_p!],
             pm_solution_processors=[_PM.sol_data_model!])
 
@@ -23,7 +23,7 @@
         g_type, p_type = MINLPGasModel, SOCWRPowerModel
 
         # Solve the optimal gas-power flow problem.
-        result = run_ogpf(g_file, p_file, g_type, p_type, juniper;
+        result = run_opf(g_file, p_file, g_type, p_type, juniper;
             gm_solution_processors=[_GM.sol_psqr_to_p!],
             pm_solution_processors=[_PM.sol_data_model!])
 
