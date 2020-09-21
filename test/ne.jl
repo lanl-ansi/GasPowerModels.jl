@@ -3,7 +3,7 @@
         # Set up problem metadata.
         g_file = "../test/data/matgas/GasLib-11-NE.m"
         p_file = "../test/data/matpower/case5-NE.m"
-        g_type, p_type = MISOCPGasModel, SOCWRPowerModel
+        g_type, p_type = CRDWPGasModel, SOCWRPowerModel
 
         # Solve the joint gas-power network expansion planning problem.
         result = run_ne(g_file, p_file, g_type, p_type, juniper;
@@ -21,7 +21,7 @@
         # Set up problem metadata.
         g_file = "../test/data/matgas/GasLib-11-NE.m"
         p_file = "../test/data/matpower/case5-NE.m"
-        g_type, p_type = MINLPGasModel, SOCWRPowerModel
+        g_type, p_type = DWPGasModel, SOCWRPowerModel
 
         # Solve the joint gas-power network expansion planning problem.
         result = run_ne(g_file, p_file, g_type, p_type, juniper;

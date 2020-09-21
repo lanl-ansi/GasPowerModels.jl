@@ -41,8 +41,8 @@ module GasPowerModels
     include("core/data.jl")
     include("core/ref.jl")
 
-    include("form/qp.jl")
-    include("form/nlp.jl")
+    include("form/relaxed.jl")
+    include("form/exact.jl")
 
     include("prob/gpf.jl")
     include("prob/opf.jl")

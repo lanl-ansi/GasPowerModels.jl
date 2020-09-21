@@ -53,7 +53,7 @@ g_file = "examples/data/matgas/belgian.m" # Gas network.
 p_file = "examples/data/matpower/case14.m" # Power network.
 
 # Specify the gas and power formulation types separately.
-g_type, p_type = MISOCPGasModel, SOCWRPowerModel
+g_type, p_type = CRDWPGasModel, SOCWRPowerModel
 
 # Solve the gas-power flow feasibility problem.
 result = run_gpf(g_file, p_file, g_type, p_type, juniper;

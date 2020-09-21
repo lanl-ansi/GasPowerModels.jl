@@ -3,7 +3,7 @@
         # Set up problem metadata.
         g_file = "../test/data/matgas/GasLib-11-GPF.m"
         p_file = "../test/data/matpower/case5-GPF.m"
-        g_type, p_type = MISOCPGasModel, SOCWRPowerModel
+        g_type, p_type = CRDWPGasModel, SOCWRPowerModel
 
         # Solve the optimal gas-power flow problem.
         result = run_opf(g_file, p_file, g_type, p_type, juniper;
@@ -20,7 +20,7 @@
         # Set up problem metadata.
         g_file = "../test/data/matgas/GasLib-11-GPF.m"
         p_file = "../test/data/matpower/case5-GPF.m"
-        g_type, p_type = MINLPGasModel, SOCWRPowerModel
+        g_type, p_type = DWPGasModel, SOCWRPowerModel
 
         # Solve the optimal gas-power flow problem.
         result = run_opf(g_file, p_file, g_type, p_type, juniper;

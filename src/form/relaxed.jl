@@ -1,5 +1,5 @@
 function constraint_heat_rate_curve(
-    pm::_PM.AbstractPowerModel, gm::_GM.AbstractMISOCPModel, n::Int, j::Int,
+    pm::_PM.AbstractPowerModel, gm::_GM.AbstractCRDWPModel, n::Int, j::Int,
     generators::Array, heat_rates::Dict{Int,Any}, constant::Float64, dispatchable::Int)
     # If flow is not dispatchable, gas will not be consumed by the generator.
     fl = dispatchable == 1 ? _GM.var(gm, n, :fl, j) : 0.0
