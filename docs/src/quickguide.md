@@ -46,7 +46,7 @@ g_file = "examples/data/matgas/belgian-ne_opf.m" # Gas network.
 p_file = "examples/data/matpower/case14-ne.m" # Power network.
 
 # Specify the gas and power formulation types separately.
-g_type, p_type = MISOCPGasModel, SOCWRPowerModel
+g_type, p_type = CRDWPGasModel, SOCWRPowerModel
 
 # Solve the optimal power flow with network expansion problem.
 result = run_ne_opf(g_file, p_file, g_type, p_type, juniper;
@@ -89,7 +89,7 @@ For more information about GasPowerModels result data, see the [GasPowerModels R
 To solve the preceding problem using the mixed-integer nonconvex model for natural gas flow, the following can be executed:
 ```julia
 # Specify the gas and power formulation types separately.
-g_type, p_type = MINLPGasModel, SOCWRPowerModel
+g_type, p_type = DWPGasModel, SOCWRPowerModel
 
 # Solve the optimal power flow with network expansion problem.
 result = run_ne_opf(g_file, p_file, g_type, p_type, juniper;

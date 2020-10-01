@@ -1,7 +1,7 @@
 @testset "src/core/base.jl" begin
     g_file = "../test/data/matgas/GasLib-11-GPF.m"
     p_file = "../test/data/matpower/case5-GPF.m"
-    g_type, p_type = MISOCPGasModel, SOCWRPowerModel
+    g_type, p_type = CRDWPGasModel, SOCWRPowerModel
 
     @testset "instantiate_model (with file inputs)" begin
         gm, pm = instantiate_model(g_file, p_file, g_type, p_type, build_gpf)

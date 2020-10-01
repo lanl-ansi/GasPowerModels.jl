@@ -17,8 +17,8 @@ This decoupling enables the definition of a variety of optimization formulations
 * Optimal Power Flow with Network Expansion Planning (`opf_ne`)
 
 **Core Network Formulations**
-* Mixed-integer nonconvex nonlinear program (`MINLP`)
-* Mixed-integer second-order cone program (`MISOCP`)
+* Directed flow, mixed-integer nonconvex formulation (`D`)
+* Convexly relaxed, directed flow mixed-integer formulation (`CRD`)
 
 ## Documentation
 The package [documentation](https://lanl-ansi.github.io/GasPowerModels.jl/stable/) includes a [quick start guide](https://lanl-ansi.github.io/GasPowerModels.jl/stable/quickguide).
@@ -65,7 +65,7 @@ g_file = "examples/data/matgas/belgian.m" # Gas network.
 p_file = "examples/data/matpower/case14.m" # Power network.
 
 # Specify the gas and power formulation types separately.
-g_type, p_type = MISOCPGasModel, SOCWRPowerModel
+g_type, p_type = CRDWPGasModel, SOCWRPowerModel
 
 # Solve the gas-power flow feasibility problem.
 result = run_gpf(g_file, p_file, g_type, p_type, juniper;
