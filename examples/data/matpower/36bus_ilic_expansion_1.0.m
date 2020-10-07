@@ -491,7 +491,8 @@ mpc.ne_branch = [
 	79800	79584	0.00594	0.04362	0	9.99999999e8	9.99999999e8	9.99999999e8	1	0.0	1	-27.64	27.64	9.4941635495571e7
 ];
 
-%column_names%  consumer  heat_rate_quad_coeff   heat_rate_linear_coeff   heat_rate_constant_coeff
+%% gas network linking data
+%column_names%  delivery  heat_rate_quad_coeff   heat_rate_linear_coeff   heat_rate_constant_coeff
 mpc.gen_gas = [
 	-1	0	0	0
 	-1	0	0	0
