@@ -1,4 +1,4 @@
-function mgc = TC_PennToNortheast_wValves_expansion_1.0
+function mgc = TC_PennToNortheast_wValves_expansion_1.0_jul
 
 %% required global data
 mgc.gas_molar_mass = 0.0185674;  % kg/mol
@@ -616,8 +616,8 @@ mgc.ne_pipe = [
 %% price_zone data
 %column_names% id  cost_q_1  cost_q_2  cost_q_3  cost_p_1  cost_p_2  cost_p_3  min_cost  constant_p  comment
 mgc.price_zone = [
-1	4.918164853928605e-8	-0.16392715145447787	0	8.850206050625368e-24 -1.3462994463224278e-10	0	     0.015891600024669866	175	'Transco Zone 6 Non New York'
-2	2.0078723538962e-11	  0.034282419013219476	0	0                      1.0517964424393967e-12	794.37 0.01871677336238895	600	'Transco Leidy Zone'
+1	4.927393584002414e-10	0.01685109951949271	0	0.0	6.3107786546363796e-12	407.23	0.015891600024669866	175	'Transco Zone 6 Non New York'
+2	1.217194669194218e-10	0.026193594600662513	0	0.0	6.3107786546363796e-12	0	0.01871677336238895	600	'Transco Leidy Zone'
 ];
 
 %% junction data (extended)

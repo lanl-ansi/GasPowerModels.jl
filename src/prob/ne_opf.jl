@@ -36,7 +36,15 @@ function build_ne_opf(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel)
         constraint_zone_pressure(gm, i)
         constraint_pressure_price(gm, i)
     end
-    
+
     # Objective function minimizes network expansion, demand, and pressure cost.
     objective_min_ne_opf_cost(pm, gm)
+
+stream = open("temp.txt", "w")
+
+
+println(stream,gm.model)
+close(stream)
+
+
 end
