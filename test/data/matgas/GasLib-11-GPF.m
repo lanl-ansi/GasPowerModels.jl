@@ -10,11 +10,12 @@ mgc.units = 'si';
 mgc.standard_density = 0.785;
 
 %% optional global data (that was either provided or computed based on required global data)
-mgc.energy_factor = 2.61590529e-8;
+mgc.energy_factor = 2.3286259e-12;
 mgc.sound_speed = 356.0719;  % m/s
 mgc.R = 8.3140;  % J/(mol K)
 mgc.base_pressure = 4000000.0000;  % Pa
 mgc.base_length = 5000.0000;  % m
+mgc.base_flow = 11233.68623022485
 mgc.is_per_unit = 1;
 
 %% junction data
@@ -54,17 +55,17 @@ mgc.compressor = [
 ];
 
 %% short_pipe data
-% 
+%
 mgc.short_pipe = [
 ];
 
 %% resistor data
-% 
+%
 mgc.resistor = [
 ];
 
 %% regulator data
-% 
+%
 mgc.regulator = [
 ];
 

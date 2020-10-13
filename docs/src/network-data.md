@@ -1,6 +1,6 @@
 # GasPowerModels Network Data Format
 ## The Network Data Dictionary
-Internally, GasPowerModels uses a dictionary to store network data for power systems (see PowerModels) and gas models (see GasModels.jl).
+Internally, GasPowerModels uses a dictionary to store network data for power systems (see PowerModels.jl) and gas models (see GasModels.jl).
 The dictionary uses strings as key values so it can be serialized to JSON for algorithmic data exchange.
 The I/O for GasPowerModels utilizes the serializations available in PowerModels.jl and GasModels.jl to construct the two network models.
 All data is assumed to be in per unit (non-dimenisionalized) or SI units.

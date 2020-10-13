@@ -42,8 +42,8 @@ cbc = JuMP.optimizer_with_attributes(Cbc.Optimizer, "logLevel"=>0)
 juniper = JuMP.optimizer_with_attributes(Juniper.Optimizer, "nl_solver"=>ipopt, "mip_solver"=>cbc)
 
 # Specify paths to the gas and power network files.
-g_file = "examples/data/matgas/belgian-ne_opf.m" # Gas network.
-p_file = "examples/data/matpower/case14-ne.m" # Power network.
+g_file = "test/data/matgas/GasLib-11-NE.m" # Gas network.
+p_file = "test/data/matpower/case5-NE.m" # Power network.
 
 # Specify the gas and power formulation types separately.
 g_type, p_type = CRDWPGasModel, SOCWRPowerModel
