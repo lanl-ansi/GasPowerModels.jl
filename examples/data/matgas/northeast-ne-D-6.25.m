@@ -10,7 +10,7 @@ mgc.units = 'si';
 mgc.standard_density = 0.717;
 
 %% optional global data (that was either provided or computed based on required global data)
-mgc.energy_factor = 2.61590529e-8;
+mgc.energy_factor = 5.8811473e-10;
 mgc.sound_speed = 317.3536522338898;  % m/s
 mgc.R = 8.314;  % J/(mol K)
 mgc.base_pressure = 8.273712e6;  % Pa
@@ -807,4 +807,3 @@ mgc.junction_data = [
 -1
 -1
 ];
-
