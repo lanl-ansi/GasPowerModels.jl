@@ -39,4 +39,6 @@ function build_ne_opf(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel)
 
     # Objective function minimizes network expansion, demand, and pressure cost.
     objective_min_ne_opf_cost(pm, gm)
+
+
 end
