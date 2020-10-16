@@ -33,5 +33,5 @@ minlp_solver = scip_solver
 nlp_solver = scip_solver
 
 @testset "Examples" begin
-    include("neopf.jl")
+    include("neopf_belgian.jl")
 end
