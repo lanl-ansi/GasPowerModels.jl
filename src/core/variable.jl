@@ -10,7 +10,7 @@ end
 
 " function for creating variables associated with zonal demand "
 function variable_zone_demand(gm::_GM.AbstractGasModel, n::Int=gm.cnw)
-    junctions = filter(x -> x.second["price_zone"] != 0, _GM.ref(gm, n, :junction))
+    junctions = filter(x -> haskey(x.second, "price_zone") && x.second["price_zone"] != 0, _GM.ref(gm, n, :junction))
     fl_max = Dict{Int,Float64}(i => 0.0 for i in _GM.ids(gm, n, :price_zone))
 
     for (i, price_zone) in _GM.ref(gm, n, :price_zone)
@@ -38,7 +38,7 @@ end
 
 "Initializes variables associated with zonal demand."
 function variable_zone_pressure(gm::_GM.AbstractGasModel, n::Int=gm.cnw)
-    junctions = filter(x -> x.second["price_zone"] != 0, _GM.ref(gm, n, :junction))
+    junctions = filter(x -> haskey(x.second, "price_zone") && x.second["price_zone"] != 0, _GM.ref(gm, n, :junction))
     p_min, p_max = Dict{Int,Any}(), Dict{Int,Any}()
 
     for (i, price_zone) in _GM.ref(gm, n, :price_zone)
@@ -56,7 +56,7 @@ end
 
 "Initializes variables associated with zonal pressure cost."
 function variable_pressure_price(gm::_GM.AbstractGasModel, n::Int=gm.cnw)
-    junctions = filter(x -> x.second["price_zone"] != 0, _GM.ref(gm, n, :junction))
+    junctions = filter(x -> haskey(x.second, "price_zone") && x.second["price_zone"] != 0, _GM.ref(gm, n, :junction))
     p_min, p_max = Dict{Int,Any}(), Dict{Int,Any}()
     c_min, c_max = Dict{Int,Any}(), Dict{Int,Any}()
 

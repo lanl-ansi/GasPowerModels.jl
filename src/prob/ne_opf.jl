@@ -20,7 +20,7 @@ function build_ne_opf(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel)
 
     # Gas-power related constraints of the problem formulation.
     for i in _GM.ids(gm, :delivery)
-       constraint_heat_rate_curve(pm, gm, i)
+        constraint_heat_rate_curve(pm, gm, i)
     end
 
     # Variables related to the NE OGPF problem.
