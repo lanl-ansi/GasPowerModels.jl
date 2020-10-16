@@ -34,4 +34,5 @@ nlp_solver = scip_solver
 
 @testset "Examples" begin
     include("neopf_belgian.jl")
+    include("neopf_northeast.jl")
 end

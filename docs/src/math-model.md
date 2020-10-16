@@ -9,6 +9,6 @@ This is expressed in terms of a heat rate curve, i.e.
 ```math
 f = e * \rho (h_2 * pg^2 + h_1 * pg + h_0)
 ```
-where $h$ is a quadratic function used to convert MW ($pg$) into Joules consumed per second (J/s).
+where $h$ is a quadratic function used to convert MW ($pg$) into Joules consumed per second (J/s). $h$ is in units of (J/MW^2, J/MW, J).
 This is then converted to mass flow, $f$, (kg/s) of gas consumed to produce this energy.
 Here, $e$ is an energy factor (m^3/J) and $\rho$ is standard density (kg/m^3).
