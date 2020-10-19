@@ -3,7 +3,7 @@
 # This will hopefully make everything more compositional
 ################################################################################
 
-" extracts the start value "
+" Function for extracting the start/initial value of a variable "
 function getstart(set, item_key, value_key, default=0.0)
     return get(get(set, item_key, Dict()), value_key, default)
 end
@@ -36,7 +36,7 @@ function variable_zone_demand_price(gm::_GM.AbstractGasModel, n::Int=gm.cnw)
         start=getstart(_GM.ref(gm,n,:price_zone), i, "zone_cost_start", 0.0))
 end
 
-"Function for creatinf variables associated with zonal pressure: ``\\rho`` "
+"Function for creating variables associated with zonal pressure: ``\\rho`` "
 function variable_zone_pressure(gm::_GM.AbstractGasModel, n::Int=gm.cnw)
     junctions = filter(x -> haskey(x.second, "price_zone") && x.second["price_zone"] != 0, _GM.ref(gm, n, :junction))
     p_min, p_max = Dict{Int,Any}(), Dict{Int,Any}()

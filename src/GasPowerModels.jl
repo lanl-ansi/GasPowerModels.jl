@@ -40,6 +40,7 @@ module GasPowerModels
     include("core/objective.jl")
     include("core/data.jl")
     include("core/ref.jl")
+    include("core/types.jl")
 
     include("form/relaxed.jl")
     include("form/exact.jl")
