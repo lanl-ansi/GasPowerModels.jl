@@ -15,4 +15,6 @@ where $h$ is a quadratic function used to convert MW ($pg$) into Joules consumed
 This is then converted to mass flow, $f$, (kg/s) of gas consumed to produce this energy.
 Here, $e$ is an energy factor (m^3/J) and $\rho$ is standard density (kg/m^3).
 
-## Mathematical Models of Gas Flows and Power flows
+## Co Optimization of Natural Gas and Electric Power
+
+mention per unit, all the things that go into weighting
