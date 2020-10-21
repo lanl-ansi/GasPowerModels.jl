@@ -3,12 +3,12 @@
         "components": [
             {
                 "component_type": "gen",
-                "infrastructure_type": "power",
+                "infrastructure_type": "power_transmission",
                 "source_id": "3"
             },
             {
                 "component_type": "delivery",
-                "infrastructure_type": "gas",
+                "infrastructure_type": "natural_gas",
                 "source_id": "1"
             }
         ],
@@ -23,12 +23,12 @@
         "components": [
             {
                 "component_type": "gen",
-                "infrastructure_type": "power",
+                "infrastructure_type": "power_transmission",
                 "source_id": "5"
             },
             {
                 "component_type": "delivery",
-                "infrastructure_type": "gas",
+                "infrastructure_type": "natural_gas",
                 "source_id": "3"
             }
         ],
