@@ -2,11 +2,11 @@
 
 "Entry point for running gas and electric power expansion planning with demand-based pricing
 and a pressure penalty (in TPS paper)."
-function run_ne_opf(g_file, p_file, g_type, p_type, optimizer; kwargs...)
+function run_ne_opf(g_file, p_file, link_file, g_type, p_type, optimizer; kwargs...)
     gm_ref_extensions = [_GM.ref_add_ne!, ref_add_price_zones!]
     pm_ref_extensions = [_PM.ref_add_on_off_va_bounds!, _PM.ref_add_ne_branch!]
 
-    return run_model(g_file, p_file, g_type, p_type, optimizer, build_ne_opf;
+    return run_model(g_file, p_file, link_file, g_type, p_type, optimizer, build_ne_opf;
         gm_ref_extensions=gm_ref_extensions, pm_ref_extensions=pm_ref_extensions, kwargs...)
 end
 
@@ -37,8 +37,6 @@ function build_ne_opf(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel)
         constraint_pressure_price(gm, i)
     end
 
-    # Objective function minimizes network expansion, demand, and pressure cost.
+    # Objective minimizes network expansion, demand, and pressure cost.
     objective_min_ne_opf_cost(pm, gm)
-
-
 end

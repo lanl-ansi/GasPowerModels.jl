@@ -1,9 +1,9 @@
 # Definitions for solving an optimal joint power flow problem.
 
 "Entry point into running the optimal power flow problem."
-function run_opf(g_file, p_file, g_type, p_type, optimizer; kwargs...)
+function run_opf(g_file, p_file, link_file, g_type, p_type, optimizer; kwargs...)
     return run_model(
-        g_file, p_file, g_type, p_type, optimizer, build_opf;
+        g_file, p_file, link_file, g_type, p_type, optimizer, build_opf;
         gm_ref_extensions=[ref_add_price_zones!], kwargs...)
 end
 
@@ -34,6 +34,6 @@ function build_opf(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel)
         constraint_pressure_price(gm, i)
     end
 
-    # This objective function minimizes operation cost.
+    # Objective minimizes operation cost.
     objective_min_opf_cost(gm, pm)
 end

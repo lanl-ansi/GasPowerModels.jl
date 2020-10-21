@@ -2,11 +2,11 @@
 
 
 "Entry point for running gas and electric power expansion planning only."
-function run_ne(g_file, p_file, g_type, p_type, optimizer; kwargs...)
+function run_ne(g_file, p_file, link_file, g_type, p_type, optimizer; kwargs...)
     pm_ref_extensions = [_PM.ref_add_on_off_va_bounds!, _PM.ref_add_ne_branch!]
 
     return run_model(
-        g_file, p_file, g_type, p_type, optimizer, build_ne;
+        g_file, p_file, link_file, g_type, p_type, optimizer, build_ne;
         gm_ref_extensions=[_GM.ref_add_ne!], pm_ref_extensions=pm_ref_extensions, kwargs...)
 end
 
@@ -24,6 +24,6 @@ function build_ne(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel)
        constraint_heat_rate_curve(pm, gm, i)
     end
 
-    # This objective function minimizes cost of network expansion.
+    # Objective minimizes cost of network expansion.
     objective_min_ne_cost(pm, gm)
 end

@@ -1,17 +1,19 @@
 """
     instantiate_model(
-        g_data, p_data, g_type, p_type, build_method;
+        g_data, p_data, link_data, g_type, p_type, build_method;
         gm_ref_extensions, pm_ref_extensions, kwargs...)
 
     Instantiates and returns GasModels and PowerModels modeling objects from gas and power
-    input data `g_data` and `p_data`, respectively. Here, `g_type` and `p_type` are the gas
-    and power modeling types, `build_method` is the build method for the problem
-    specification being considered, and `gm_ref_extensions` and `pm_ref_extensions` are
-    arrays of functions used to define gas and power modeling extensions.
+    input data `g_data` and `p_data`, respectively. Here, `link_data` is a dictionary of
+    data that links gas and power networks, `g_type` and `p_type` are the gas and power
+    modeling types, `build_method` is the build method for the problem specification being
+    considered, and `gm_ref_extensions` and `pm_ref_extensions` are arrays of functions used
+    to define gas and power modeling extensions.
 """
 function instantiate_model(
-    g_data::Dict{String,<:Any}, p_data::Dict{String,<:Any}, g_type::Type, p_type::Type,
-    build_method::Function; gm_ref_extensions::Vector{<:Function}=Vector{Function}([]),
+    g_data::Dict{String,<:Any}, p_data::Dict{String,<:Any}, link_data::Array{<:Any},
+    g_type::Type, p_type::Type, build_method::Function;
+    gm_ref_extensions::Vector{<:Function}=Vector{Function}([]),
     pm_ref_extensions::Vector{<:Function}=Vector{Function}([]), kwargs...)
 
     # Instantiate the GasModels object.
@@ -36,22 +38,24 @@ end
 
 """
     instantiate_model(
-        g_file, p_file, g_type, p_type, build_method;
+        g_file, p_file, link_file, g_type, p_type, build_method;
         gm_ref_extensions, pm_ref_extensions, kwargs...)
 
     Instantiates and returns GasModels and PowerModels modeling objects from gas and power
-    input files `g_file` and `p_file`, respectively. Here, `g_type` and `p_type` are the gas
-    and power modeling types, `build_method` is the build method for the problem
-    specification being considered, and `gm_ref_extensions` and `pm_ref_extensions` are
-    arrays of functions used to define gas and power modeling extensions.
+    input files `g_file` and `p_file`, respectively. Here, `link_file` is an input file that
+    links gas and power networks, `g_type` and `p_type` are the gas and power modeling
+    types, `build_method` is the build method for the problem specification being
+    considered, and `gm_ref_extensions` and `pm_ref_extensions` are arrays of functions used
+    to define gas and power modeling extensions.
 """
 function instantiate_model(
-    g_file::String, p_file::String, g_type::Type, p_type::Type, build_method::Function;
-    gm_ref_extensions::Vector{<:Function}=Vector{Function}([]),
+    g_file::String, p_file::String, link_file::String, g_type::Type, p_type::Type,
+    build_method::Function; gm_ref_extensions::Vector{<:Function}=Vector{Function}([]),
     pm_ref_extensions::Vector{<:Function}=Vector{Function}([]), kwargs...)
     # Read gas and power data from files.
     g_data = _GM.parse_file(g_file, skip_correct=true)
     p_data = _PM.parse_file(p_file, validate=false)
+    link_data = parse_file(link_file)
 
     # Store whether or not each network uses per-unit data.
     g_per_unit = get(g_data, "is_per_unit", 0) != 0
@@ -67,27 +71,29 @@ function instantiate_model(
 
     # Instantiate GasModels and PowerModels modeling objects.
     return instantiate_model(
-        g_data, p_data, g_type, p_type, build_method; gm_ref_extensions=gm_ref_extensions,
-        pm_ref_extensions=pm_ref_extensions, kwargs...)
+        g_data, p_data, link_data, g_type, p_type, build_method;
+        gm_ref_extensions=gm_ref_extensions, pm_ref_extensions=pm_ref_extensions, kwargs...)
 end
 
 
 """
     run_model(
-        g_data, p_data, g_type, p_type, optimizer, build_method; gm_solution_processors,
-        pm_solution_processors, gm_ref_extensions, pm_ref_extensions, kwargs...)
+        g_data, p_data, link_data, g_type, p_type, optimizer, build_method;
+        gm_solution_processors, pm_solution_processors, gm_ref_extensions,
+        pm_ref_extensions, kwargs...)
 
     Instantiates and solves the joint GasModels and PowerModels modeling objects from gas
-    and power input data `g_data` and `p_data`, respectively. Here, `g_type` and `p_type`
-    are the gas and power modeling types, `optimizer` it the optimization solver,
-    `build_method` is the build method for the problem specification being considered,
-    `gm_solution_processors` and `pm_solution_processors` are arrays of gas and power model
-    solution processors, and `gm_ref_extensions` and `pm_ref_extensions` are arrays of gas
-    and power modeling extensions. Returns a dictionary of combined results.
+    and power input data `g_data` and `p_data`, respectively. Here, `link_data` is a
+    dictionary of data that links gas and power networks, `g_type` and `p_type` are the gas
+    and power modeling types, `optimizer` it the optimization solver, `build_method` is the
+    build method for the problem specification being considered, `gm_solution_processors`
+    and `pm_solution_processors` are arrays of gas and power model solution processors, and
+    `gm_ref_extensions` and `pm_ref_extensions` are arrays of gas and power modeling
+    extensions. Returns a dictionary of combined results.
 """
 function run_model(
-    g_data::Dict{String,<:Any}, p_data::Dict{String,<:Any}, g_type::Type, p_type::Type,
-    optimizer::Union{_MOI.AbstractOptimizer, _MOI.OptimizerWithAttributes},
+    g_data::Dict{String,<:Any}, p_data::Dict{String,<:Any}, link_data::Array{<:Any},
+    g_type::Type, p_type::Type, optimizer::Union{_MOI.AbstractOptimizer, _MOI.OptimizerWithAttributes},
     build_method::Function; gm_solution_processors::Vector{<:Function}=Vector{Function}([]),
     pm_solution_processors::Vector{<:Function}=Vector{Function}([]),
     gm_ref_extensions::Vector{<:Function}=Vector{Function}([]),
@@ -95,8 +101,8 @@ function run_model(
     start_time = time()
 
     gm, pm = instantiate_model(
-        g_data, p_data, g_type, p_type, build_method; gm_ref_extensions=gm_ref_extensions,
-        pm_ref_extensions=pm_ref_extensions, kwargs...)
+        g_data, p_data, link_data, g_type, p_type, build_method;
+        gm_ref_extensions=gm_ref_extensions, pm_ref_extensions=pm_ref_extensions, kwargs...)
 
     Memento.debug(_LOGGER, "gpm model build time: $(time() - start_time)")
 
@@ -125,19 +131,21 @@ end
 
 """
     run_model(
-        g_file, p_file, g_type, p_type, optimizer, build_method; gm_solution_processors,
-        pm_solution_processors, gm_ref_extensions, pm_ref_extensions, kwargs...)
+        g_file, p_file, link_file, g_type, p_type, optimizer, build_method;
+        gm_solution_processors, pm_solution_processors, gm_ref_extensions,
+        pm_ref_extensions, kwargs...)
 
     Instantiates and solves the joint GasModels and PowerModels modeling objects from gas
-    and power input files `g_file` and `p_file`, respectively. Here, `g_type` and `p_type`
-    are the gas and power modeling types, `optimizer` it the optimization solver,
-    `build_method` is the build method for the problem specification being considered,
-    `gm_solution_processors` and `pm_solution_processors` are arrays of gas and power model
-    solution processors, and `gm_ref_extensions` and `pm_ref_extensions` are arrays of gas
-    and power modeling extensions. Returns a dictionary of combined results.
+    and power input files `g_file` and `p_file`, respectively. Here, `link_file` is an input
+    file that links gas and power networks, `g_type` and `p_type` are the gas and power
+    modeling types, `optimizer` it the optimization solver, `build_method` is the build
+    method for the problem specification being considered, `gm_solution_processors` and
+    `pm_solution_processors` are arrays of gas and power model solution processors, and
+    `gm_ref_extensions` and `pm_ref_extensions` are arrays of gas and power modeling
+    extensions. Returns a dictionary of combined results.
 """
 function run_model(
-    g_file::String, p_file::String, g_type::Type, p_type::Type,
+    g_file::String, p_file::String, link_file::String, g_type::Type, p_type::Type,
     optimizer::Union{_MOI.AbstractOptimizer, _MOI.OptimizerWithAttributes},
     build_method::Function; gm_solution_processors::Vector{<:Function}=Vector{Function}([]),
     pm_solution_processors::Vector{<:Function}=Vector{Function}([]),
@@ -146,6 +154,7 @@ function run_model(
     # Read gas and power data from files.
     g_data = _GM.parse_file(g_file, skip_correct = true)
     p_data = _PM.parse_file(p_file, validate = false)
+    link_data = parse_file(link_file)
 
     # Store whether or not each network uses per-unit data.
     g_per_unit = get(g_data, "is_per_unit", 0) != 0
@@ -160,7 +169,7 @@ function run_model(
     !p_per_unit && resolve_pm_units!(p_data)
 
     return run_model(
-        g_data, p_data, g_type, p_type, optimizer, build_method;
+        g_data, p_data, link_data, g_type, p_type, optimizer, build_method;
         gm_solution_processors=gm_solution_processors,
         pm_solution_processors=pm_solution_processors, gm_ref_extensions=gm_ref_extensions,
         pm_ref_extensions=pm_ref_extensions, kwargs...)

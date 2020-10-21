@@ -3,10 +3,11 @@
         # Set up problem metadata.
         g_file = "../test/data/matgas/GasLib-11-NE.m"
         p_file = "../test/data/matpower/case5-NE.m"
+        link_file = "../test/data/json/GasLib-11-case5.json"
         g_type, p_type = CRDWPGasModel, SOCWRPowerModel
 
         # Solve the joint gas-power network expansion planning problem.
-        result = run_ne(g_file, p_file, g_type, p_type, juniper;
+        result = run_ne(g_file, p_file, link_file, g_type, p_type, juniper;
             gm_solution_processors=[_GM.sol_psqr_to_p!],
             pm_solution_processors=[_PM.sol_data_model!])
 
@@ -21,10 +22,11 @@
         # Set up problem metadata.
         g_file = "../test/data/matgas/GasLib-11-NE.m"
         p_file = "../test/data/matpower/case5-NE.m"
+        link_file = "../test/data/json/GasLib-11-case5.json"
         g_type, p_type = DWPGasModel, SOCWRPowerModel
 
         # Solve the joint gas-power network expansion planning problem.
-        result = run_ne(g_file, p_file, g_type, p_type, juniper;
+        result = run_ne(g_file, p_file, link_file, g_type, p_type, juniper;
             gm_solution_processors=[_GM.sol_psqr_to_p!],
             pm_solution_processors=[_PM.sol_data_model!])
 
