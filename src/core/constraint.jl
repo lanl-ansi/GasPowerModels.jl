@@ -4,17 +4,22 @@
 
 "Constraints that bound the maximum pressure in a gas price zone."
 function constraint_zone_pressure(gm::_GM.AbstractGasModel, i::Int; nw::Int=gm.cnw)
-    if !haskey(_GM.con(gm, nw), :zone_pressure)
-        _GM.con(gm, nw)[:zone_pressure] = Dict{Int,Dict{Int, JuMP.ConstraintRef}}()
+    junctions = filter(x -> x.second["price_zone"] == i, _GM.ref(gm, nw, :junction))
+    constraint_zone_pressure(gm, nw, i, keys(junctions))
+end
+
+"Constraints that bound the maximum pressure in a gas price zone."
+function constraint_zone_pressure(gm::_GM.AbstractGasModel, n::Int, i::Int, junction_ids)
+    if !haskey(_GM.con(gm, n), :zone_pressure)
+        _GM.con(gm, n)[:zone_pressure] = Dict{Int,Dict{Int, JuMP.ConstraintRef}}()
     end
 
-    _GM.con(gm, nw, :zone_pressure)[i] = Dict{Int, JuMP.ConstraintRef}()
-    p_sqr, zone_p = _GM.var(gm, nw, :psqr), _GM.var(gm, nw, :zone_p)
-    junctions = filter(x -> x.second["price_zone"] != -1, _GM.ref(gm, nw, :junction))
+    p_sqr, zone_p = _GM.var(gm, n, :psqr), _GM.var(gm, n, :zone_p)
 
-    for (j, junction) in filter(x -> x.second["price_zone"] == i, junctions)
+    _GM.con(gm, n, :zone_pressure)[i] = Dict{Int, JuMP.ConstraintRef}()
+    for j in junction_ids
         c = JuMP.@constraint(gm.model, zone_p[i] >= p_sqr[j])
-        _GM.con(gm, nw, :zone_pressure, i)[j] = c
+        _GM.con(gm, n, :zone_pressure, i)[j] = c
     end
 end
 

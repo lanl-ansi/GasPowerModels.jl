@@ -24,3 +24,5 @@ instantiate_model
 ```@docs
 constraint_heat_rate_curve
 ```
+
+The convention adopting when deriving a relaxation or approximation of a non convex constraint that links a natural gas model and an electric power model is to relax or approximate the linking constraint according to the most "complex" infrastructure model.  So, for example, if the natural gas formulation uses a linear representation and the electric power model uses a quadractic representation, then the linking constraint uses the tightest possible relaxation using linear and quadractic equations.
