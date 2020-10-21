@@ -42,6 +42,7 @@ module GasPowerModels
     include("core/ref.jl")
     include("core/types.jl")
 
+    include("io/common.jl")
     include("io/json.jl")
 
     include("form/relaxed.jl")
