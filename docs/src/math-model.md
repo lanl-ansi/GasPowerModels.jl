@@ -1,6 +1,8 @@
 # The GasPowerModels Mathematical Model
 As GasPowerModels implements a variety of coupled gas grid network optimization problems, the implementation is the best reference for precise mathematical formulations.
-This section provides a mathematical specification for a prototypical coupled gas grid flow problem to provide an overview of the typical mathematical models in GasPowerModels.
+This section provides a mathematical specification for constraints and physics that couple electric power and natural gas and provides an overview of the typical mathematical models in
+GasPowerModels.
+
 
 ## Coupled Gas Electric Power Flow
 GasPowerModels implements a steady-state model of gas flow and power flow based on the implementations of gas flows in GasModels.jl and power flows in PowerModels.jl.
@@ -12,3 +14,5 @@ f = e * \rho (h_2 * pg^2 + h_1 * pg + h_0)
 where $h$ is a quadratic function used to convert MW ($pg$) into Joules consumed per second (J/s). $h$ is in units of (J/MW^2, J/MW, J).
 This is then converted to mass flow, $f$, (kg/s) of gas consumed to produce this energy.
 Here, $e$ is an energy factor (m^3/J) and $\rho$ is standard density (kg/m^3).
+
+## Mathematical Models of Gas Flows and Power flows

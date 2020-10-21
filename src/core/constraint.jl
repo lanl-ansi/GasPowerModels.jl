@@ -3,12 +3,6 @@
 #################################################################################
 
 "Constraints that bound the maximum pressure in a gas price zone."
-function constraint_zone_pressure(gm::_GM.AbstractGasModel, i::Int; nw::Int=gm.cnw)
-    junctions = filter(x -> x.second["price_zone"] == i, _GM.ref(gm, nw, :junction))
-    constraint_zone_pressure(gm, nw, i, keys(junctions))
-end
-
-"Constraints that bound the maximum pressure in a gas price zone."
 function constraint_zone_pressure(gm::_GM.AbstractGasModel, n::Int, i::Int, junction_ids)
     if !haskey(_GM.con(gm, n), :zone_pressure)
         _GM.con(gm, n)[:zone_pressure] = Dict{Int,Dict{Int, JuMP.ConstraintRef}}()

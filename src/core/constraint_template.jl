@@ -71,3 +71,11 @@ function constraint_pressure_price(gm::_GM.AbstractGasModel, i::Int; nw::Int=gm.
     price_zone = _GM.ref(gm, nw, :price_zone, i)
     constraint_pressure_price(gm, nw, i, price_zone["cost_p"])
 end
+
+"Constraint this used to compute the maximum pressure in a price zone. Since the maximum pressure typically appears in a minimization
+objective function, the max is modeled as a lower bound of the form
+``\\pi_z \\ge \\pi_i \\forall i \\in z`` "
+function constraint_zone_pressure(gm::_GM.AbstractGasModel, i::Int; nw::Int=gm.cnw)
+    junctions = filter(x -> x.second["price_zone"] == i, _GM.ref(gm, nw, :junction))
+    constraint_zone_pressure(gm, nw, i, keys(junctions))
+end

@@ -2,6 +2,12 @@
 # This file defines objectives used in gas-power problem specifications. #
 ##########################################################################
 
+"Objective function for minimizing the gas grid optimal flow as defined in reference
+Russell Bent, Seth Blumsack, Pascal Van Hentenryck, Conrado Borraz-Sánchez, Mehdi Shahriari.
+Joint Electricity and Natural Gas Transmission Planning With Endogenous Market Feedbacks.
+IEEE Transactions on Power Systems. 33 (6):  6397 - 6409, 2018. More formally, this objective
+is stated as ``min \\lambda \\sum_{g \\in G} (c^1_g pg_g^2 + c^2_g pg_g + c^3_g) + \\gamma \\sum_{z \\in Z} cost_z + \\gamma \\sum_{z \\in Z} pc_z ``
+where ``\\lambda`` and ``\\gamma`` are weighting terms"
 function objective_min_opf_cost(gm::_GM.AbstractGasModel, pm::_PM.AbstractPowerModel; n::Int=gm.cnw)
     gen_cost = Dict{Tuple{Int,Int},Any}()
 
@@ -34,8 +40,12 @@ function objective_min_opf_cost(gm::_GM.AbstractGasModel, pm::_PM.AbstractPowerM
     )
 end
 
-" function for congestion costs based on demand "
-# This is equation 27 in the HICCS paper
+"Objective function for minimizing the gas grid optimal flow combined with network expansion costs as defined in reference
+Russell Bent, Seth Blumsack, Pascal Van Hentenryck, Conrado Borraz-Sánchez, Mehdi Shahriari.
+Joint Electricity and Natural Gas Transmission Planning With Endogenous Market Feedbacks.
+IEEE Transactions on Power Systems. 33 (6):  6397 - 6409, 2018. More formally, this objective
+is stated as ``min \\alpha \\sum_{(i,j) \\in Pipe \\cup Compressors} \\kappa_{ij} z_{ij} +  \\beta \\sum_{(i,j) \\in Branches} \\kappa_{ij} z_{ij} + \\lambda \\sum_{g \\in G} (c^1_g pg_g^2 + c^2_g pg_g + c^3_g) + \\gamma \\sum_{z \\in Z} cost_z + \\gamma \\sum_{z \\in Z} pc_z ``
+where ``\\lambda, \\alpha, \\beta`` and ``\\gamma`` are weighting terms"
 function objective_min_ne_opf_cost(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel; n::Int=gm.cnw)
     gen_cost = Dict{Tuple{Int,Int},Any}()
 
@@ -73,7 +83,9 @@ function objective_min_ne_opf_cost(pm::_PM.AbstractPowerModel, gm::_GM.AbstractG
     )
 end
 
-"Objective that minimizes expansion costs only (as in the HICCS paper)."
+"Objective for minimizing the costs of expansions.  Formally stated as
+``min \\alpha \\sum_{(i,j) \\in Pipe \\cup Compressors} \\kappa_{ij} z_{ij} + \\beta \\sum_{(i,j) \\in Branches} \\kappa_{ij} z_{ij} ``
+where ``\\alpha`` and ``\\beta`` are weighting terms"
 function objective_min_ne_cost(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel; n::Int=gm.cnw)
     gas_ne_weight = get(pm.data, "gas_ne_weight", 1.0)
     power_ne_weight = get(pm.data, "power_ne_weight", 1.0)

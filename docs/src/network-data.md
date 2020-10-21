@@ -1,4 +1,5 @@
 # GasPowerModels Network Data Format
+
 ## The Network Data Dictionary
 Internally, GasPowerModels uses a dictionary to store network data for power systems (see PowerModels.jl) and gas models (see GasModels.jl).
 The dictionary uses strings as key values so it can be serialized to JSON for algorithmic data exchange.
@@ -59,3 +60,5 @@ These are discussed as follows:
     ...
 }
 ```
+
+Further, the global parameters, ``gas_ne_weight``, ``power_ne_weight``, ``power_opf_weight``, and ``gas_price_weight`` may be included at the top level of the dictionary to weight the costs associated with expansion of gas components, expansion of power components, the generation cost, and the cost of gas zones.
