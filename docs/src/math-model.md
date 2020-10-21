@@ -17,4 +17,20 @@ Here, $e$ is an energy factor (m^3/J) and $\rho$ is standard density (kg/m^3).
 
 ## Co Optimization of Natural Gas and Electric Power
 
-mention per unit, all the things that go into weighting
+One of the largest challenges associated with modeling coupled natural gas and electric power systems is defining objective functions that span both systems. Each system has its own units, both in terms of actual quantities and methods for non dimensionalizing the equations to improve numerical performance. Further, the importance of optimizing the gas system relative to the electric power system may be problem specific. Thus, the native implementations of ``GasPowerModels`` support the ability to model a wide variety of components of a joint objective function and define weights on each component.  Each component of the objective function is defined in the space of non dimensionalized units, and these weighting constants can be used to transform the quantities into their real units.
+
+### Expansion costs of electric power components
+
+Some gas grid problems include network expansions on electric power lines. Objective functions which model the cost of electric power lines minimize a function of the form
+
+```math
+foo
+```
+
+### Expansion costs of natural gas=components
+
+### Operation costs of non natural gas generators
+
+### Cost for gas in a pricing zone
+
+### Cost for gas
