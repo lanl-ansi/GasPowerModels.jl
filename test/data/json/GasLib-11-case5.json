@@ -1,0 +1,42 @@
+[
+    {
+        "components": [
+            {
+                "component_type": "gen",
+                "infrastructure_type": "power",
+                "source_id": "3"
+            },
+            {
+                "component_type": "delivery",
+                "infrastructure_type": "gas",
+                "source_id": "1"
+            }
+        ],
+        "heat_rate_curve_coefficients": [
+            1.0,
+            100000.0,
+            0.0
+        ],
+        "status": true
+    },
+    {
+        "components": [
+            {
+                "component_type": "gen",
+                "infrastructure_type": "power",
+                "source_id": "5"
+            },
+            {
+                "component_type": "delivery",
+                "infrastructure_type": "gas",
+                "source_id": "3"
+            }
+        ],
+        "heat_rate_curve_coefficients": [
+            0.0,
+            100000.0,
+            0.0
+        ],
+        "status": false
+    }
+]
