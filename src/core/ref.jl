@@ -1,7 +1,6 @@
 "Add price zone information to GasModels data reference dictionary."
 function ref_add_price_zones!(ref::Dict{Symbol,<:Any}, data::Dict{String,<:Any})
     nws_data = _IM.ismultinetwork(data) ? data["nw"] : Dict("0" => data)
-    q_base, p_base = Float64(ref[:base_flow]), Float64(ref[:base_pressure])
 
     for (n, nw_data) in nws_data
         if !haskey(nw_data, "price_zone")
@@ -9,9 +8,9 @@ function ref_add_price_zones!(ref::Dict{Symbol,<:Any}, data::Dict{String,<:Any})
         else
             for (i, x) in nw_data["price_zone"]
                 entry = Dict{String,Any}()
-                entry["cost_p"] = [x["cost_p_1"]*p_base^4, x["cost_p_2"]*p_base^2, x["cost_p_3"]]
-                entry["cost_q"] = [x["cost_q_1"]*q_base^2, x["cost_q_2"]*q_base, x["cost_q_3"]]
-                entry["min_cost"], entry["constant_p"] = x["min_cost"] * q_base, x["constant_p"]
+                entry["cost_p"] = [x["cost_p_1"], x["cost_p_2"], x["cost_p_3"]]
+                entry["cost_q"] = [x["cost_q_1"], x["cost_q_2"], x["cost_q_3"]]
+                entry["min_cost"], entry["constant_p"] = x["min_cost"], x["constant_p"]
                 ref[:nw][parse(Int, n)][:price_zone][x["id"]] = entry
             end
         end

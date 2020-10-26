@@ -38,13 +38,13 @@ function constraint_zone_demand_price(gm::_GM.AbstractGasModel, n::Int, i::Int, 
     zone_fl, zone_cost = _GM.var(gm, n, :zone_fl), _GM.var(gm, n, :zone_cost)
 
     # The cost is in terms of m^3 at standard density. We have consumption in terms of m^3
-    # per second. We convert this to a daily cost, where 1 day = 86400 seconds.
-    rhs_1_quad = 86400.0^2 * cost_q[1] * (zone_fl[i] * (1.0/standard_density))^2
-    rhs_1_linear = 86400.0 * cost_q[2] * zone_fl[i] * (1.0/standard_density) + cost_q[3]
+    # per second.
+    rhs_1_quad = cost_q[1] * (zone_fl[i] * (1.0/standard_density))^2
+    rhs_1_linear = cost_q[2] * zone_fl[i] * (1.0/standard_density) + cost_q[3]
     c_1 = JuMP.@constraint(gm.model, zone_cost[i] >= rhs_1_quad + rhs_1_linear)
     _GM._add_constraint!(gm, n, :zone_demand_price_1, i, c_1)
 
-    rhs_2 = 86400.0 * min_cost * zone_fl[i] * (1.0/standard_density)
+    rhs_2 =  min_cost * zone_fl[i] * (1.0/standard_density)
     c_2 = JuMP.@constraint(gm.model, zone_cost[i] >= rhs_2)
     _GM._add_constraint!(gm, n, :zone_demand_price_2, i, c_2)
 end

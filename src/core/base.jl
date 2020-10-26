@@ -49,10 +49,9 @@ function instantiate_model(
     g_file::String, p_file::String, g_type::Type, p_type::Type, build_method::Function;
     gm_ref_extensions::Vector{<:Function}=Vector{Function}([]),
     pm_ref_extensions::Vector{<:Function}=Vector{Function}([]), kwargs...)
-    # Read gas and power data from files.
-#    g_data, p_data = _GM.parse_file(g_file, skip_correct=true), _PM.parse_file(p_file, validate=false)
-    g_data, p_data = _GM.parse_file(g_file, skip_correct=true), _PM.parse_file(p_file, validate=false)
 
+    # Read gas and power data from files.
+    g_data, p_data = _GM.parse_file(g_file, skip_correct=true), _PM.parse_file(p_file, validate=false)
 
     g_per_unit = get(g_data,"is_per_unit",false)
     p_per_unit = get(p_data,"per_unit", false)
@@ -147,8 +146,8 @@ function run_model(
     pm_solution_processors::Vector{<:Function}=Vector{Function}([]),
     gm_ref_extensions::Vector{<:Function}=Vector{Function}([]),
     pm_ref_extensions::Vector{<:Function}=Vector{Function}([]), kwargs...)
+
     # Read gas and power data from files.
-#    g_data, p_data = _GM.parse_file(g_file, skip_correct=true), _PM.parse_file(p_file, validate=false)
     g_data, p_data = _GM.parse_file(g_file, skip_correct=true), _PM.parse_file(p_file, validate=false)
 
     # Ensure the two datasets use the same units for power.
