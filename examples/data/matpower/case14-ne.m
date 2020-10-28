@@ -138,8 +138,8 @@ mpc.ne_branch = [
 %column_names%  delivery  heat_rate_quad_coeff   heat_rate_linear_coeff   heat_rate_constant_coeff
 mpc.gen_gas = [
 	-1	  0   0             0;
-	4	    0	  1392087.5     0;
-	10012	0	  60138.1944444 0;
+	4	    0	  5011515000    0;
+	10012	0	  216497500     0;
 	-1	  0	  0	            0;
 	-1	  0	  0	            0;
 ];

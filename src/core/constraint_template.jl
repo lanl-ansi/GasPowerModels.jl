@@ -11,7 +11,7 @@
 # "AbstractPowerModel" and should never refer to model variables.
 
 "Constraint for coupling the production of power at natural gas generators with the gas consumption required to produce this power.
-The full non convex constraint is stated as ``fl = e * \\rho (h_2 * pg^2 + h_1 * pg + h_0)``
+The full non convex constraint is stated as ``fl = e * \\rho \\frac{h_2 * pg^2 + h_1 * pg + h_0}{3600}``
 where ``h`` is a quadratic function used to convert MW (``pg``) into Joules consumed per second (J/s). ``h`` is in units of (J/MW^2, J/MW, J).
 This is then converted to mass flow, ``fl``, (kg/s) of gas consumed to produce this energy.
 Here, ``e`` is an energy factor (m^3/J) and ``\\rho`` is standard density (kg/m^3). This constraint can be relaxed to

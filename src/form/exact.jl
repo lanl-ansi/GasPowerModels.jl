@@ -3,6 +3,7 @@ function constraint_heat_rate_curve(
     generators::Array, heat_rates::Dict{Int,Any}, constant::Float64, dispatchable::Int)
     # If flow is not dispatchable, gas will not be consumed by the generator.
     fl = dispatchable == 1 ? _GM.var(gm, n, :fl, j) : 0.0
+    seconds_per_hour = 3600.0
 
     if length(generators) == 0 && dispatchable == 1
         # If there are no generators to serve, no gas is required.
@@ -16,7 +17,7 @@ function constraint_heat_rate_curve(
         sum_1 = sum(heat_rates[i][1] == 0.0 ? 0.0 : heat_rates[i][1]*pg[i]^2 for i in generators)
         sum_2 = sum(heat_rates[i][2]*pg[i] for i in generators)
         sum_3 = sum(heat_rates[i][3] for i in generators)
-        c = JuMP.@constraint(gm.model, fl == constant * (sum_1 + sum_2 + sum_3))
+        c = JuMP.@constraint(gm.model, fl == constant * ((sum_1 + sum_2 + sum_3) / seconds_per_hour))
         _GM._add_constraint!(gm, n, :heat_rate_curve, j, c)
     end
 end

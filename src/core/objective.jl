@@ -5,7 +5,7 @@
 "Helper function for constructing the expression associated with opf cost"
 function objective_expression_opf_cost(pm::_PM.AbstractPowerModel; n::Int=gm.cnw)
     gen_cost = Dict{Tuple{Int,Int},Any}()
-    seconds_per_hour = 3600
+    seconds_per_hour = 3600.0
 
     for (i, gen) in _PM.ref(pm, :gen, nw=n)
         pg = sum(_PM.var(pm, n, :pg, i)[c] for c in _PM.conductor_ids(pm, n))
