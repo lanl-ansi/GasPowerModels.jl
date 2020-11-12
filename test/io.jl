@@ -1,26 +1,71 @@
-@testset "parse_json" begin
-    data = parse_json("../test/data/json/GasLib-11-case5.json")
-    @test data[1]["status"] == true
-    @test data[2]["status"] == true
-end
+@testset "src/io/common.jl" begin
+    @testset "parse_json" begin
+        data = parse_json("../test/data/json/GasLib-11-case5.json")
+        delivery_gens = data["component_link"]["delivery_gen"]
+
+        @test delivery_gens[1]["status"] == 1
+        @test delivery_gens[1]["heat_rate_curve_coefficients"] == [1.0, 100000.0, 0.0]
+        @test delivery_gens[1]["delivery_id"] == "1"
+        @test delivery_gens[1]["gen_id"] == "3"
+
+        @test delivery_gens[2]["status"] == 1
+        @test delivery_gens[2]["heat_rate_curve_coefficients"] == [0.0, 100000.0, 0.0]
+        @test delivery_gens[2]["delivery_id"] == "3"
+        @test delivery_gens[2]["gen_id"] == "5"
+    end
 
 
-@testset "parse_file (.json)" begin
-    data = parse_file("../test/data/json/GasLib-11-case5.json")
+    @testset "parse_link_file" begin
+        data = parse_link_file("../test/data/json/GasLib-11-case5.json")
+        delivery_gens = data["component_link"]["delivery_gen"]
 
-    @test data[1]["status"] == true
-    @test data[1]["heat_rate_curve_coefficients"] == [1.0, 100000.0, 0.0]
-    @test data[1]["components"][1]["infrastructure_type"] == "power_transmission"
-    @test data[1]["components"][2]["infrastructure_type"] == "natural_gas"
+        @test haskey(data, "multiinfrastructure")
+        @test data["multiinfrastructure"] == true
 
-    @test data[2]["status"] == true
-    @test data[2]["heat_rate_curve_coefficients"] == [0.0, 100000.0, 0.0]
-    @test data[2]["components"][1]["infrastructure_type"] == "power_transmission"
-    @test data[2]["components"][2]["infrastructure_type"] == "natural_gas"
-end
+        @test delivery_gens[1]["status"] == 1
+        @test delivery_gens[1]["heat_rate_curve_coefficients"] == [1.0, 100000.0, 0.0]
+        @test delivery_gens[1]["delivery_id"] == "1"
+        @test delivery_gens[1]["gen_id"] == "3"
+
+        @test delivery_gens[2]["status"] == 1
+        @test delivery_gens[2]["heat_rate_curve_coefficients"] == [0.0, 100000.0, 0.0]
+        @test delivery_gens[2]["delivery_id"] == "3"
+        @test delivery_gens[2]["gen_id"] == "5"
+    end
 
 
-@testset "parse_file (invalid extension)" begin
-    path = "../examples/data/json/no_file.txt"
-    @test_throws ErrorException parse_file(path)
+    @testset "parse_link_file (invalid extension)" begin
+        path = "../examples/data/json/no_file.txt"
+        @test_throws ErrorException parse_link_file(path)
+    end
+
+
+    @testset "parse_gas_file" begin
+        path = "../test/data/matgas/GasLib-11-GPF.m"
+        data = parse_gas_file(path)
+        @test haskey(data, "multiinfrastructure")
+        @test data["multiinfrastructure"] == true
+    end
+
+
+    @testset "parse_power_file" begin
+        path = "../test/data/matpower/case5-GPF.m"
+        data = parse_power_file(path)
+        @test haskey(data, "multiinfrastructure")
+        @test data["multiinfrastructure"] == true
+    end
+
+
+    @testset "parse_files" begin
+        gas_path = "../test/data/matgas/GasLib-11-GPF.m"
+        power_path = "../test/data/matpower/case5-GPF.m"
+        link_path = "../test/data/json/GasLib-11-case5.json"
+        data = parse_files(gas_path, power_path, link_path)
+
+        @test haskey(data, "multiinfrastructure")
+        @test data["multiinfrastructure"] == true
+        @test haskey(data, "component_link")
+        @test haskey(data["it"], "ep")
+        @test haskey(data["it"], "ng")
+    end
 end

@@ -19,7 +19,7 @@ a convex quadractic of the form ``fl \\ge e * \\rho (h_2 * pg^2 + h_1 * pg + h_0
 function constraint_heat_rate_curve(pm::_PM.AbstractPowerModel, gm::_GM.AbstractGasModel, j::Int; nw::Int=gm.cnw)
     delivery = _GM.ref(gm, nw, :delivery, j)
     generators = collect(delivery["gens"])
-    standard_density = gm.data["standard_density"]
+    standard_density = gm.data["it"]["ng"]["standard_density"]
     heat_rates = Dict{Int, Any}()
 
     for i in generators
@@ -30,7 +30,7 @@ function constraint_heat_rate_curve(pm::_PM.AbstractPowerModel, gm::_GM.Abstract
 
     # convert from J/s in per unit to cubic meters per second at standard density in per
     # unit to kg per second in per unit.
-    constant = gm.data["energy_factor"] * standard_density
+    constant = gm.data["it"]["ng"]["energy_factor"] * standard_density
 
     dispatchable = delivery["is_dispatchable"]
     constraint_heat_rate_curve(pm, gm, nw, j, generators, heat_rates, constant, dispatchable)
@@ -57,7 +57,7 @@ end
 function constraint_zone_demand_price(gm::_GM.AbstractGasModel, i::Int; nw::Int=gm.cnw)
     price_zone = _GM.ref(gm, nw, :price_zone, i)
     min_cost, cost_q = price_zone["min_cost"], price_zone["cost_q"]
-    standard_density = gm.data["standard_density"]
+    standard_density = gm.data["it"]["ng"]["standard_density"]
     constraint_zone_demand_price(gm, nw, i, min_cost, cost_q, standard_density)
 end
 

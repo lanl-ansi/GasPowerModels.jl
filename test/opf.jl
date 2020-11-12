@@ -13,8 +13,8 @@
 
         # Ensure the problem has been solved to local optimality.
         @test result["termination_status"] == LOCALLY_SOLVED
-        @test all([x["p"] >= 0.0 for (i, x) in result["solution"]["junction"]])
-        @test all([x["vm"] >= 0.0 for (i, x) in result["solution"]["bus"]])
+        @test all([x["p"] >= 0.0 for (i, x) in result["solution"]["it"]["ng"]["junction"]])
+        @test all([x["vm"] >= 0.0 for (i, x) in result["solution"]["it"]["ep"]["bus"]])
     end
 
     @testset "Nonlinear Programming (NLP) Formulation" begin
@@ -31,7 +31,7 @@
 
         # Ensure the problem has been solved to local optimality.
         @test result["termination_status"] == LOCALLY_SOLVED
-        @test all([x["p"] >= 0.0 for (i, x) in result["solution"]["junction"]])
-        @test all([x["vm"] >= 0.0 for (i, x) in result["solution"]["bus"]])
+        @test all([x["p"] >= 0.0 for (i, x) in result["solution"]["it"]["ng"]["junction"]])
+        @test all([x["vm"] >= 0.0 for (i, x) in result["solution"]["it"]["ep"]["bus"]])
     end
 end

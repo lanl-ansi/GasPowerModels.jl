@@ -30,9 +30,9 @@ juniper = JuMP.optimizer_with_attributes(Juniper.Optimizer, "nl_solver"=>ipopt, 
 
     include("GasPowerModels.jl")
 
-    include("base.jl")
-
     include("io.jl")
+
+    include("base.jl")
 
     include("gpf.jl")
 

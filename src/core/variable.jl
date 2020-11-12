@@ -23,17 +23,17 @@ function variable_zone_demand(gm::_GM.AbstractGasModel, n::Int=gm.cnw)
     end
 
     _GM.var(gm, n)[:zone_fl] = JuMP.@variable(
-        gm.model, [i in _GM.ids(gm, n, :price_zone)], base_name="$(n)_zone_fl",
-        lower_bound=0.0, upper_bound=max(0.0, fl_max[i]),
-        start=getstart(_GM.ref(gm, n, :price_zone), i, "zone_fl_start", 0.0))
+        gm.model, [i in _GM.ids(gm, n, :price_zone)], base_name = "$(n)_zone_fl",
+        lower_bound = 0.0, upper_bound = max(0.0, fl_max[i]),
+        start = getstart(_GM.ref(gm, n, :price_zone), i, "zone_fl_start", 0.0))
 end
 
 "Function for creating variables associated with zonal demand price: ``\\gamma`` "
 function variable_zone_demand_price(gm::_GM.AbstractGasModel, n::Int=gm.cnw)
-    gm.var[:nw][n][:zone_cost] = JuMP.@variable(gm.model,
-        [i in keys(gm.ref[:nw][n][:price_zone])],
-        base_name="$(n)_zone_cost", lower_bound=0.0, upper_bound=Inf,
-        start=getstart(_GM.ref(gm,n,:price_zone), i, "zone_cost_start", 0.0))
+    _GM.var(gm, n)[:zone_cost] = JuMP.@variable(gm.model,
+        [i in keys(_GM.ref(gm, n, :price_zone))],
+        base_name="$(n)_zone_cost", lower_bound = 0.0, upper_bound = Inf,
+        start = getstart(_GM.ref(gm, n, :price_zone), i, "zone_cost_start", 0.0))
 end
 
 "Function for creating variables associated with zonal pressure: ``\\rho`` "
@@ -48,10 +48,10 @@ function variable_zone_pressure(gm::_GM.AbstractGasModel, n::Int=gm.cnw)
     end
 
     # Variables for normalized zone-based demand pricing.
-    gm.var[:nw][n][:zone_p] = JuMP.@variable(
-        gm.model, [i in _GM.ids(gm, n, :price_zone)], base_name="$(n)_zone_p",
-        lower_bound=p_min[i], upper_bound=p_max[i],
-        start=getstart(_GM.ref(gm, n, :price_zone), i, "zone_p_start", 0.0))
+    _GM.var(gm, n)[:zone_p] = JuMP.@variable(
+        gm.model, [i in _GM.ids(gm, n, :price_zone)], base_name = "$(n)_zone_p",
+        lower_bound = p_min[i], upper_bound = p_max[i],
+        start = getstart(_GM.ref(gm, n, :price_zone), i, "zone_p_start", 0.0))
 end
 
 "Function for creating variables associated with zonal pressure price: ``\\omega`` "
@@ -68,8 +68,8 @@ function variable_pressure_price(gm::_GM.AbstractGasModel, n::Int=gm.cnw)
         c_max[i] = sum(price_zone["cost_p"] .* [p_max[i]^2, p_max[i], 1.0])
     end
 
-    gm.var[:nw][n][:p_cost] = JuMP.@variable(
-        gm.model, [i in _GM.ids(gm, n, :price_zone)], base_name="$(n)_p_cost",
-        lower_bound=max(0.0, c_min[i]), upper_bound=max(0.0, c_max[i]),
-        start=getstart(_GM.ref(gm, n, :price_zone), i, "p_cost_start", 0.0))
+    _GM.var(gm, n)[:p_cost] = JuMP.@variable(
+        gm.model, [i in _GM.ids(gm, n, :price_zone)], base_name = "$(n)_p_cost",
+        lower_bound = max(0.0, c_min[i]), upper_bound = max(0.0, c_max[i]),
+        start = getstart(_GM.ref(gm, n, :price_zone), i, "p_cost_start", 0.0))
 end

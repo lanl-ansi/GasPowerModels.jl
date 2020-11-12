@@ -10,9 +10,21 @@
     end
 
     @testset "instantiate_model (with network inputs)" begin
-        g_data, p_data = _GM.parse_file(g_file), _PM.parse_file(p_file)
-        link_data = parse_file(link_file)
-        gm, pm = instantiate_model(g_data, p_data, link_data, g_type, p_type, build_gpf)
+        # Parse the three data files into one data dictionary.
+        data = parse_files(g_file, p_file, link_file)
+
+        # Store whether or not each network uses per-unit data.
+        g_per_unit = get(data["it"]["ng"], "is_per_unit", 0) != 0
+        p_per_unit = get(data["it"]["ep"], "per_unit", false)
+
+        # Correct the network data.
+        correct_network_data!(data)
+
+        # Ensure all datasets use the same units for power.
+        resolve_units!(data, g_per_unit)
+
+        # Instantiate the model.
+        gm, pm = instantiate_model(data, g_type, p_type, build_gpf)
         @test gm.model == pm.model
     end
 
@@ -22,10 +34,20 @@
     end
 
     @testset "run_model (with network inputs)" begin
-        g_data, p_data = _GM.parse_file(g_file), _PM.parse_file(p_file)
-        link_data = parse_file(link_file)
-        resolve_gm_units!(g_data), resolve_pm_units!(p_data)
-        result = run_model(g_data, p_data, link_data, g_type, p_type, juniper, build_gpf)
+        # Parse the three data files into one data dictionary.
+        data = parse_files(g_file, p_file, link_file)
+
+        # Store whether or not each network uses per-unit data.
+        g_per_unit = get(data["it"]["ng"], "is_per_unit", 0) != 0
+        p_per_unit = get(data["it"]["ep"], "per_unit", false)
+
+        # Correct the network data.
+        correct_network_data!(data)
+
+        # Ensure all datasets use the same units for power.
+        resolve_units!(data, g_per_unit)
+
+        result = run_model(data, g_type, p_type, juniper, build_gpf)
         @test result["termination_status"] == LOCALLY_SOLVED
     end
 end
