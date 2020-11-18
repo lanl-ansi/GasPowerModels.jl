@@ -4,12 +4,11 @@
         g_file = "../test/data/matgas/GasLib-11-GPF.m"
         p_file = "../test/data/matpower/case5-GPF.m"
         link_file = "../test/data/json/GasLib-11-case5.json"
-        g_type, p_type = CRDWPGasModel, SOCWRPowerModel
+        gpm_type = GasPowerModel{CRDWPGasModel, SOCWRPowerModel}
 
         # Solve the optimal gas-power flow problem.
-        result = run_opf(g_file, p_file, link_file, g_type, p_type, juniper;
-            gm_solution_processors=[_GM.sol_psqr_to_p!],
-            pm_solution_processors=[_PM.sol_data_model!])
+        result = run_opf(g_file, p_file, link_file, gpm_type, juniper;
+            solution_processors = [_GM.sol_psqr_to_p!, _PM.sol_data_model!])
 
         # Ensure the problem has been solved to local optimality.
         @test result["termination_status"] == LOCALLY_SOLVED
@@ -22,12 +21,11 @@
         g_file = "../test/data/matgas/GasLib-11-GPF.m"
         p_file = "../test/data/matpower/case5-GPF.m"
         link_file = "../test/data/json/GasLib-11-case5.json"
-        g_type, p_type = DWPGasModel, SOCWRPowerModel
+        gpm_type = GasPowerModel{DWPGasModel, SOCWRPowerModel}
 
         # Solve the optimal gas-power flow problem.
-        result = run_opf(g_file, p_file, link_file, g_type, p_type, juniper;
-            gm_solution_processors=[_GM.sol_psqr_to_p!],
-            pm_solution_processors=[_PM.sol_data_model!])
+        result = run_opf(g_file, p_file, link_file, gpm_type, juniper;
+            solution_processors = [_GM.sol_psqr_to_p!, _PM.sol_data_model!])
 
         # Ensure the problem has been solved to local optimality.
         @test result["termination_status"] == LOCALLY_SOLVED

@@ -16,6 +16,7 @@ function ref_add_price_zones!(ref::Dict{Symbol,<:Any}, data::Dict{String,<:Any})
     end
 end
 
+
 "Assign generator indices to delivery entries for easy access."
 function _assign_delivery_generators!(gm::_GM.AbstractGasModel, pm::_PM.AbstractPowerModel)
     for (nw, network) in _PM.nws(pm)

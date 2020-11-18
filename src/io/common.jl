@@ -35,5 +35,17 @@ function parse_files(gas_path::String, power_path::String, link_path::String)
     joint_network_data = parse_link_file(link_path)
     _IM.update_data!(joint_network_data, parse_gas_file(gas_path))
     _IM.update_data!(joint_network_data, parse_power_file(power_path))
+
+    # Store whether or not each network uses per-unit data.
+    g_per_unit = get(joint_network_data["it"]["ng"], "is_per_unit", 0) != 0
+    p_per_unit = get(joint_network_data["it"]["ep"], "per_unit", false)
+
+    # Correct the network data.
+    correct_network_data!(joint_network_data)
+
+    # Ensure all datasets use the same units for power.
+    resolve_units!(joint_network_data, g_per_unit, p_per_unit)
+
+    # Return the network dictionary.
     return joint_network_data
 end

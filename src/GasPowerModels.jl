@@ -1,6 +1,7 @@
 module GasPowerModels
     import JSON
     import JuMP
+    import InfrastructureModels
     import Memento
     import GasModels
     import PowerModels
@@ -8,8 +9,9 @@ module GasPowerModels
     const _GM = GasModels
     const _PM = PowerModels
 
-    const _IM = _GM._IM # InfrastructureModels
+    const _IM = InfrastructureModels
     const _MOI = _IM._MOI # MathOptInterface
+    import InfrastructureModels: optimize_model!, @im_fields, ismultinetwork
 
     # Create our module level logger (this will get precompiled)
     const _LOGGER = Memento.getlogger(@__MODULE__)
@@ -33,13 +35,17 @@ module GasPowerModels
         Memento.config!(Memento.getlogger("GasPowerModels"), level)
     end
 
+    const _gpm_global_keys = union(_GM._gm_global_keys, _PM._pm_global_keys)
+
     include("core/base.jl")
     include("core/variable.jl")
     include("core/constraint.jl")
     include("core/constraint_template.jl")
     include("core/objective.jl")
     include("core/data.jl")
+    include("core/helpers.jl")
     include("core/ref.jl")
+    include("core/solution.jl")
     include("core/types.jl")
 
     include("io/common.jl")
