@@ -96,3 +96,8 @@ function objective_min_ne_cost(gpm::AbstractGasPowerModel; n::Int = gpm.cnw)
 
     obj = JuMP.@objective(gpm.model, _IM._MOI.MIN_SENSE, c_cost + p_cost + l_cost)
 end
+
+function objective_max_load(gpm::AbstractGasPowerModel)
+    # TODO: Populate the correct objective below.
+    JuMP.@objective(gpm.model, _IM._MOI.FEASIBILITY_SENSE, 0.0)
+end
