@@ -1,10 +1,10 @@
 "Resolve the units for energy used throughout the disparate datasets."
 function resolve_units!(data::Dict{String, Any}, gas_is_per_unit::Bool, power_is_per_unit::Bool)
-    delivery_gens = data["component_link"]["delivery_gen"]
+    delivery_gens = data["link_component"]["delivery_gen"]
     g_data, p_data = data["it"]["ng"], data["it"]["ep"]
 
     if !power_is_per_unit
-        for link in filter(x -> haskey(x, "heat_rate_curve_coefficients"), delivery_gens)
+        for (i, link) in filter(x -> haskey(x.second, "heat_rate_curve_coefficients"), delivery_gens)
             c = link["heat_rate_curve_coefficients"]
             c[1], c[2] = c[1] * p_data["baseMVA"]^2, c[2] * p_data["baseMVA"]
             link["heat_rate_curve_coefficients"] = c
@@ -21,4 +21,15 @@ function correct_network_data!(data::Dict{String, Any})
     # Run the data correction routines for each infrastructure.
     _GM.correct_network_data!(data)
     _PM.correct_network_data!(data)
+    assign_delivery_generators!(data)
+end
+
+function assign_delivery_generators!(data::Dict{String, Any})
+    for (key, delivery_gen) in data["link_component"]["delivery_gen"]
+        gen_name, del_name = delivery_gen["gen"]["id"], delivery_gen["delivery"]["id"]
+        gens, dels = data["it"]["ep"]["gen"], data["it"]["ng"]["delivery"]
+        gen = gens[findfirst(x -> parse(Int, gen_name) == x["source_id"][2], gens)]
+        del = dels[findfirst(x -> parse(Int, del_name) == x["id"], dels)]
+        delivery_gen["gen"]["id"], delivery_gen["delivery"]["id"] = gen["index"], del["index"]
+    end
 end

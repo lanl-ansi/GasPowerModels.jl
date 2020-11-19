@@ -2,55 +2,60 @@
 # This file defines commonly used and created constraints for gas-power models. #
 #################################################################################
 
+
 "Constraints that bound the maximum pressure in a gas price zone."
-function constraint_zone_pressure(gm::_GM.AbstractGasModel, i::Int; nw::Int=gm.cnw)
-    junctions = filter(x -> x.second["price_zone"] == i, _GM.ref(gm, nw, :junction))
-    constraint_zone_pressure(gm, nw, i, keys(junctions))
+function constraint_zone_pressure(gpm::AbstractGasPowerModel, i::Int; nw::Int=gpm.cnw)
+    junctions = filter(x -> x.second["price_zone"] == i, _IM.ref(gpm, :ng, nw, :junction))
+    constraint_zone_pressure(gpm, nw, i, keys(junctions))
 end
 
+
 "Constraints that bound the maximum pressure in a gas price zone."
-function constraint_zone_pressure(gm::_GM.AbstractGasModel, n::Int, i::Int, junction_ids)
-    if !haskey(_GM.con(gm, n), :zone_pressure)
-        _GM.con(gm, n)[:zone_pressure] = Dict{Int,Dict{Int, JuMP.ConstraintRef}}()
+function constraint_zone_pressure(gpm::AbstractGasPowerModel, n::Int, i::Int, junction_ids)
+    if !haskey(_IM.con(gpm, :ng, n), :zone_pressure)
+        _IM.con(gpm, :ng, n)[:zone_pressure] = Dict{Int, Dict}()
     end
 
-    p_sqr, zone_p = _GM.var(gm, n, :psqr), _GM.var(gm, n, :zone_p)
+    p_sqr, zone_p = _IM.var(gpm, :ng, n, :psqr), _IM.var(gpm, :ng, n, :zone_p)
+    _IM.con(gpm, :ng, n, :zone_pressure)[i] = Dict{Int, JuMP.ConstraintRef}()
 
-    _GM.con(gm, n, :zone_pressure)[i] = Dict{Int, JuMP.ConstraintRef}()
     for j in junction_ids
-        c = JuMP.@constraint(gm.model, zone_p[i] >= p_sqr[j])
-        _GM.con(gm, n, :zone_pressure, i)[j] = c
+        c = JuMP.@constraint(gpm.model, zone_p[i] >= p_sqr[j])
+        _IM.con(gpm, :ng, n, :zone_pressure, i)[j] = c
     end
 end
+
 
 "Constraint that relates the pressure price to the price zone."
-function constraint_pressure_price(gm::_GM.AbstractGasModel, n::Int, i::Int, cost_p::Array{Float64,1})
-    zone_p, p_cost = _GM.var(gm, n, :zone_p), _GM.var(gm, n, :p_cost)
+function constraint_pressure_price(gpm::AbstractGasPowerModel, n::Int, i::Int, cost_p::Array{Float64,1})
+    zone_p, p_cost = _IM.var(gpm, :ng, n, :zone_p), _IM.var(gpm, :ng, n, :p_cost)
     rhs = cost_p[1] * zone_p[i]^2 + cost_p[2] * zone_p[i] + cost_p[3]
-    c = JuMP.@constraint(gm.model, p_cost[i] >= rhs)
-    _GM._add_constraint!(gm, n, :pressure_price, i, c)
+    c = JuMP.@constraint(gpm.model, p_cost[i] >= rhs)
+    _IM.con(gpm, :ng, n, :pressure_price)[i] = c
 end
 
-"Constraint that bounds demand zone price using delivery flows within the zone."
-function constraint_zone_demand(gm::_GM.AbstractGasModel, n::Int, i::Int, delivery_ids::Array{Int,1})
-    fl, zone_fl = _GM.var(gm, n, :fl), _GM.var(gm, n, :zone_fl, i)
-    c = JuMP.@constraint(gm.model, zone_fl == sum(fl[k] for k in delivery_ids))
-    _GM._add_constraint!(gm, n, :zone_demand, i, c)
-end
 
 "Constraint that bounds demand zone price using delivery flows within the zone."
-function constraint_zone_demand_price(gm::_GM.AbstractGasModel, n::Int, i::Int, min_cost::Float64, cost_q::Array{Float64,1}, standard_density::Float64)
+function constraint_zone_demand(gpm::AbstractGasPowerModel, n::Int, i::Int, delivery_ids::Array{Int,1})
+    fl, zone_fl = _IM.var(gpm, :ng, n, :fl), _IM.var(gpm, :ng, n, :zone_fl, i)
+    c = JuMP.@constraint(gpm.model, zone_fl == sum(fl[k] for k in delivery_ids))
+    _IM.con(gpm, :ng, :zone_demand)[i] = c
+end
+
+
+"Constraint that bounds demand zone price using delivery flows within the zone."
+function constraint_zone_demand_price(gpm::AbstractGasPowerModel, n::Int, i::Int, min_cost::Float64, cost_q::Array{Float64,1}, standard_density::Float64)
     # Get relevant zonal flow and cost variables.
-    zone_fl, zone_cost = _GM.var(gm, n, :zone_fl), _GM.var(gm, n, :zone_cost)
+    zone_fl, zone_cost = _IM.var(gpm, :ng, n, :zone_fl), _IM.var(gpm, :ng, n, :zone_cost)
 
     # The cost is in terms of m^3 at standard density. We have consumption in terms of m^3
     # per second. We convert this to a daily cost, where 1 day = 86400 seconds.
     rhs_1_quad = 86400.0^2 * cost_q[1] * (zone_fl[i] * (1.0/standard_density))^2
     rhs_1_linear = 86400.0 * cost_q[2] * zone_fl[i] * (1.0/standard_density) + cost_q[3]
-    c_1 = JuMP.@constraint(gm.model, zone_cost[i] >= rhs_1_quad + rhs_1_linear)
-    _GM._add_constraint!(gm, n, :zone_demand_price_1, i, c_1)
+    c_1 = JuMP.@constraint(gpm.model, zone_cost[i] >= rhs_1_quad + rhs_1_linear)
 
     rhs_2 = 86400.0 * min_cost * zone_fl[i] * (1.0/standard_density)
-    c_2 = JuMP.@constraint(gm.model, zone_cost[i] >= rhs_2)
-    _GM._add_constraint!(gm, n, :zone_demand_price_2, i, c_2)
+    c_2 = JuMP.@constraint(gpm.model, zone_cost[i] >= rhs_2)
+
+    _IM.con(gpm, :ng, :zone_demand_price)[i] = [c_1, c_2]
 end

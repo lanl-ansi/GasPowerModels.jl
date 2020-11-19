@@ -15,11 +15,10 @@ function build_gpf(gpm::AbstractGasPowerModel)
     # Power-only variables and constraints
     _PM.build_pf(_get_powermodel_from_gaspowermodel(gpm))
 
-    ## Gas-power related parts of the problem formulation.
-    #for i in _IM.ids(gpm, :ng, :delivery)
-    #    if typeof(gpm).parameters[1] <: RelaxedGasModels || typeof(gpm).parameters[2] <: RelaxedPowerModels
-    #    constraint_heat_rate_curve(gpm, i)
-    #end
+    # Gas-power related parts of the problem formulation.
+    for (i, delivery) in _IM.ref(gpm, :ng, :delivery)
+        constraint_heat_rate(gpm, i)
+    end
 
     # Add a feasibility-only objective.
     JuMP.@objective(gpm.model, _IM._MOI.FEASIBILITY_SENSE, 0.0)

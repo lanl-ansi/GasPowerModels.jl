@@ -7,3 +7,5 @@ RelaxedPowerModels = Union{_PM.DCPPowerModel, _PM.DCMPPowerModel, _PM.BFAPowerMo
                            _PM.DCPLLPowerModel, _PM.LPACCPowerModel, _PM.SOCWRPowerModel, _PM.SOCWRConicPowerModel,
                            _PM.QCRMPowerModel, _PM.QCLSPowerModel, _PM.SOCBFPowerModel, _PM.SOCBFConicPowerModel,
                            _PM.SDPWRMPowerModel, _PM.SparseSDPWRMPowerModel}
+
+RelaxedGasPowerModel = GasPowerModel{RelaxedGasModels, RelaxedPowerModels}
