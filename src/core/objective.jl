@@ -98,6 +98,16 @@ function objective_min_ne_cost(gpm::AbstractGasPowerModel; n::Int = gpm.cnw)
 end
 
 function objective_max_load(gpm::AbstractGasPowerModel)
-    # TODO: Populate the correct objective below.
-    JuMP.@objective(gpm.model, _IM._MOI.FEASIBILITY_SENSE, 0.0)
+    # Get the objective for the power part of the problem.
+    pm = _get_powermodel_from_gaspowermodel(gpm)
+    ep_mld_objective = _PMR.objective_max_loadability(pm)
+
+    # Get the objective for the gas part of the problem.
+    gm = _get_gasmodel_from_gaspowermodel(gpm)
+    ng_mld_objective = _GM.objective_max_load(gm)
+
+    # Combine the objective functions (which are affine expressions).
+    mld_objective = ep_mld_objective + ng_mld_objective
+
+    JuMP.@objective(gpm.model, _IM._MOI.MAX_SENSE, mld_objective)
 end
