@@ -97,6 +97,7 @@ function objective_min_ne_cost(gpm::AbstractGasPowerModel; n::Int = gpm.cnw)
     obj = JuMP.@objective(gpm.model, _IM._MOI.MIN_SENSE, c_cost + p_cost + l_cost)
 end
 
+
 function objective_max_load(gpm::AbstractGasPowerModel)
     # Get the objective for the power part of the problem.
     pm = _get_powermodel_from_gaspowermodel(gpm)
@@ -107,7 +108,6 @@ function objective_max_load(gpm::AbstractGasPowerModel)
     ng_mld_objective = _GM.objective_max_load(gm)
 
     # Combine the objective functions (which are affine expressions).
-    mld_objective = ep_mld_objective + ng_mld_objective
-
+    mld_objective = 10.0 * ng_mld_objective + ep_mld_objective # TODO: Use priorities.
     JuMP.@objective(gpm.model, _IM._MOI.MAX_SENSE, mld_objective)
 end

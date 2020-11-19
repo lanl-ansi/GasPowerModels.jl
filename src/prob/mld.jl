@@ -2,13 +2,13 @@
 
 
 "Entry point into running the minimum load shedding problem."
-function run_ls(g_file, p_file, link_file, gpm_type, optimizer; kwargs...)
-    return run_model(g_file, p_file, link_file, gpm_type, optimizer, build_ls; kwargs...)
+function run_mld(g_file, p_file, link_file, gpm_type, optimizer; kwargs...)
+    return run_model(g_file, p_file, link_file, gpm_type, optimizer, build_mld; kwargs...)
 end
 
 
 "Construct the minimum load shedding problem."
-function build_ls(gpm::AbstractGasPowerModel)
+function build_mld(gpm::AbstractGasPowerModel)
     # Gas-only variables and constraints.
     _GM.build_ls(_get_gasmodel_from_gaspowermodel(gpm))
 
