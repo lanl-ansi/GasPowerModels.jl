@@ -15,18 +15,3 @@ function ref_add_price_zones!(ref::Dict{Symbol, <:Any}, data::Dict{String, <:Any
         end
     end
 end
-
-
-"Assign generator indices to delivery entries for easy access."
-function _assign_delivery_generators!(gm::_GM.AbstractGasModel, pm::_PM.AbstractPowerModel)
-    for (nw, network) in _PM.nws(pm)
-        # Get the subset of "gen" items containing the "delivery" key.
-        gens = filter(x -> haskey(x.second, "delivery"), _PM.ref(pm, nw, :gen))
-
-        # Create a "gens" field for deliveries to store coupled generator indices.
-        for (j, delivery) in _GM.ref(gm, nw, :delivery)
-            gen_ids = keys(filter(x -> x.second["delivery"] == j, gens))
-            delivery["gens"] = length(gen_ids) > 0 ? gen_ids : []
-        end
-    end
-end

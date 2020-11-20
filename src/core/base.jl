@@ -125,9 +125,6 @@ end
 
 
 function _ref_filter_link_components!(ref::Dict{Symbol, <:Any})
-    link_components = ref[:link_component]
-    delivery_gen = link_components[:delivery_gen]
-    #println(delivery_gen)
-    #delivery_gen = Dict{
-    #println(delivery_gen)
+    links = ref[:link_component]
+    links[:delivery_gen] = Dict(x for x in links[:delivery_gen] if x.second["status"] != 0)
 end

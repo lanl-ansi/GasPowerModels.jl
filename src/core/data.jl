@@ -40,8 +40,6 @@ function assign_delivery_generators!(data::Dict{String, Any})
         del = dels[findfirst(x -> parse(Int, del_name) == x["id"], dels)]
         delivery_gen["gen"]["id"], delivery_gen["delivery"]["id"] = gen["index"], del["index"]
 
-        #gen["gen_status"] = 0 # TODO: Remove this after testing.
-
         if gen["gen_status"] == 0 || del["status"] == 0
             delivery_gen["status"] = 0
         end
