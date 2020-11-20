@@ -1,30 +1,24 @@
 function constraint_heat_rate(
-    gpm::RelaxedGasPowerModel, n::Int, j::Int, generators::Array,
-    heat_rates::Dict{Int, Array}, constant::Float64, dispatchable::Int)
+    gpm::RelaxedGasPowerModel, n::Int, delivery_index::Int, generator_index::Int,
+    heat_rate_curve::Array, constant::Float64, dispatchable::Int)
     # If flow is not dispatchable, gas will not be consumed by the generator.
-    fl = dispatchable == 1 ? _IM.var(gpm, :ng, n, :fl, j) : 0.0
+    fl = dispatchable == 1 ? _IM.var(gpm, :ng, n, :fl, delivery_index) : 0.0
 
-    if length(generators) == 0 && dispatchable == 1
-        # If there are no generators to serve, no gas is required.
-        c = JuMP.@constraint(gpm.model, fl == 0.0)
-        gpm.con[:heat_rate_curve][j] = c # TODO: Use a convenience function.
-    elseif length(generators) > 0
-        # Get power variables.
-        pg = _IM.var(gpm, :ep, n, :pg)
+    # Get power variables.
+    pg = _IM.var(gpm, :ep, n, :pg, generator_index)
 
-        if any(heat_rates[i][1] != 0.0 for i in generators)
-            # If any coefficients for the quadratic term are nonzero, add relaxation.
-            sum_1 = sum(heat_rates[i][1] == 0.0 ? 0.0 : heat_rates[i][1]*pg[i]^2 for i in generators)
-            sum_2 = sum(heat_rates[i][2]*pg[i] for i in generators)
-            sum_3 = sum(heat_rates[i][3] for i in generators)
-            c = JuMP.@constraint(gpm.model, fl >= constant * (sum_1 + sum_2 + sum_3))
-            gpm.con[:heat_rate_curve][j] = c # TODO: Use a convenience function.
-        else
-            # If all coefficients for quadratic terms are zero, add linear constraint.
-            sum_1 = sum(heat_rates[i][2]*pg[i] for i in generators)
-            sum_2 = sum(heat_rates[i][3] for i in generators)
-            c = JuMP.@constraint(gpm.model, fl == constant * (sum_1 + sum_2))
-            gpm.con[:heat_rate_curve][j] = c # TODO: Use a convenience function.
-        end
+    if heat_rate_curve[1] != 0.0
+        # If any coefficients for the quadratic term are nonzero, add relaxation.
+        term_1 = heat_rate_curve[1] == 0.0 ? 0.0 : heat_rate_curve[1] * pg[generator_index]^2
+        term_2 = heat_rate_curve[2] * pg[generator_index]
+        term_3 = heat_rate_curve[3]
+        c = JuMP.@constraint(gpm.model, fl >= constant * (term_1 + term_2 + term_3))
+        gpm.con[:heat_rate][j] = c # TODO: Use a convenience function.
+    else
+        # If all coefficients for quadratic terms are zero, add linear constraint.
+        term_1 = heat_rate_curve[2] * pg[generator_index]
+        term_2 = heat_rate_curve[3]
+        c = JuMP.@constraint(gpm.model, fl == constant * (term_1 + term_2))
+        gpm.con[:heat_rate][j] = c # TODO: Use a convenience function.
     end
 end

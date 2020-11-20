@@ -13,7 +13,7 @@
 
         # Ensure the problem has been solved to local optimality.
         @test result["termination_status"] == LOCALLY_SOLVED
-        @test isapprox(result["objective"], 2210.0)
+        @test isapprox(result["objective"], 2210.0; rtol = 1.0e-4)
         @test all([x["p"] >= 0.0 for (i, x) in result["solution"]["it"]["ng"]["junction"]])
         @test all([x["vm"] >= 0.0 for (i, x) in result["solution"]["it"]["ep"]["bus"]])
     end
@@ -32,7 +32,7 @@
 
         # Ensure the problem has been solved to local optimality.
         @test result["termination_status"] == LOCALLY_SOLVED
-        @test isapprox(result["objective"], 2210.0)
+        @test isapprox(result["objective"], 2210.0; rtol = 1.0e-4)
         @test all([x["p"] >= 0.0 for (i, x) in result["solution"]["it"]["ng"]["junction"]])
         @test all([x["vm"] >= 0.0 for (i, x) in result["solution"]["it"]["ep"]["bus"]])
     end

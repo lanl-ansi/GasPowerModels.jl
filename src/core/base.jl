@@ -109,11 +109,25 @@ function run_model(
 end
 
 
-function ref_add_core!(ref::Dict{Symbol,<:Any})
+function ref_add_core!(ref::Dict{Symbol, <:Any})
+    # Populate the GasModels portion of the `ref` dictionary.
     _GM._ref_add_core!(
         ref[:it][_GM._gm_it_sym][:nw], ref[:it][_GM._gm_it_sym][:base_length],
         ref[:it][_GM._gm_it_sym][:base_pressure], ref[:it][_GM._gm_it_sym][:base_flow],
         ref[:it][_GM._gm_it_sym][:sound_speed])
 
+    # Populate the PowerModels portion of the `ref` dictionary.
     _PM.ref_add_core!(ref)
+
+    # Filter out inactive link components.
+    _ref_filter_link_components!(ref)
+end
+
+
+function _ref_filter_link_components!(ref::Dict{Symbol, <:Any})
+    link_components = ref[:link_component]
+    delivery_gen = link_components[:delivery_gen]
+    #println(delivery_gen)
+    #delivery_gen = Dict{
+    #println(delivery_gen)
 end

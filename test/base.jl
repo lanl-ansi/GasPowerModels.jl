@@ -2,7 +2,6 @@
     g_file = "../test/data/matgas/GasLib-11-GPF.m"
     p_file = "../test/data/matpower/case5-GPF.m"
     link_file = "../test/data/json/GasLib-11-case5.json"
-    g_type, p_type = CRDWPGasModel, SOCWRPowerModel
 
     @testset "instantiate_model (with file inputs)" begin
         gpm_type = GasPowerModel{CRDWPGasModel, SOCWRPowerModel}

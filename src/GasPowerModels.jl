@@ -4,12 +4,11 @@ module GasPowerModels
     import InfrastructureModels
     import Memento
     import GasModels
-    import PowerModels
     import PowerModelsRestoration
 
     const _GM = GasModels
-    const _PM = PowerModels
     const _PMR = PowerModelsRestoration
+    const _PM = _PMR._PM
 
     const _IM = InfrastructureModels
     const _MOI = _IM._MOI # MathOptInterface

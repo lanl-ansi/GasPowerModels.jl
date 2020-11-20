@@ -20,7 +20,7 @@ function build_ne(gpm::AbstractGasPowerModel)
     _PM.build_tnep(_get_powermodel_from_gaspowermodel(gpm))
 
     # Gas-power related parts of the problem formulation.
-    for (i, delivery) in _IM.ref(gpm, :ng, :delivery)
+    for (i, delivery_gen) in gpm.ref[:link_component][:delivery_gen]
         constraint_heat_rate(gpm, i)
     end
 

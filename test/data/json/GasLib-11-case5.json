@@ -1,34 +1,36 @@
 {
+    "ep_load_priority": 1.0,
     "link_component": {
         "delivery_gen": {
-            "1-to-3": {
+            "1": {
                 "delivery": {
                     "id": "1"
                 },
                 "gen": {
-                    "heat_rate_curve_coefficients": [
-                        1.0,
-                        100000.0,
-                        0.0
-                    ],
                     "id": "3"
                 },
+                "heat_rate_curve_coefficients": [
+                    1.0,
+                    100000.0,
+                    0.0
+                ],
                 "status": 1
             },
-            "3-to-5": {
+            "2": {
                 "delivery": {
                     "id": "3"
                 },
                 "gen": {
-                    "heat_rate_curve_coefficients": [
-                        0.0,
-                        100000.0,
-                        0.0
-                    ],
                     "id": "5"
                 },
+                "heat_rate_curve_coefficients": [
+                    0.0,
+                    100000.0,
+                    0.0
+                ],
                 "status": 1
             }
         }
-    }
+    },
+    "ng_load_priority": 10.0
 }

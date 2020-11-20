@@ -1,4 +1,5 @@
 function _get_gasmodel_from_gaspowermodel(gpm::AbstractGasPowerModel)
+    # TODO: Try to type AbstractGasPowerModel with {T1, T2} and use those inside this function.
     # Determine the GasModels modeling type.
     gm_type = typeof(gpm).parameters[1]
 

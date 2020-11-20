@@ -17,12 +17,20 @@ function resolve_units!(data::Dict{String, Any}, gas_is_per_unit::Bool, power_is
     end
 end
 
+
 function correct_network_data!(data::Dict{String, Any})
-    # Run the data correction routines for each infrastructure.
+    # Correct and prepare gas network data.
     _GM.correct_network_data!(data)
+    _GM.propagate_topology_status!(data)
+
+    # Correct and prepare power network data.
     _PM.correct_network_data!(data)
+    _PM.simplify_network!(data)
+
+    # Correct and prepare linking data.
     assign_delivery_generators!(data)
 end
+
 
 function assign_delivery_generators!(data::Dict{String, Any})
     for (key, delivery_gen) in data["link_component"]["delivery_gen"]
@@ -31,5 +39,11 @@ function assign_delivery_generators!(data::Dict{String, Any})
         gen = gens[findfirst(x -> parse(Int, gen_name) == x["source_id"][2], gens)]
         del = dels[findfirst(x -> parse(Int, del_name) == x["id"], dels)]
         delivery_gen["gen"]["id"], delivery_gen["delivery"]["id"] = gen["index"], del["index"]
+
+        #gen["gen_status"] = 0 # TODO: Remove this after testing.
+
+        if gen["gen_status"] == 0 || del["status"] == 0
+            delivery_gen["status"] = 0
+        end
     end
 end

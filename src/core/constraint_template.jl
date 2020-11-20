@@ -17,14 +17,11 @@ where ``h`` is a quadratic function used to convert MW (``pg``) into Joules cons
 This is then converted to mass flow, ``fl``, (kg/s) of gas consumed to produce this energy.
 Here, ``e`` is an energy factor (m^3/J) and ``\\rho`` is standard density (kg/m^3). This constraint can be relaxed to
 a convex quadractic of the form ``fl \\ge e * \\rho (h_2 * pg^2 + h_1 * pg + h_0)``"
-function constraint_heat_rate(gpm::AbstractGasPowerModel, j::Int; nw::Int = gpm.cnw)
-    delivery = _IM.ref(gpm, :ng, nw, :delivery, j)
-    dispatchable = delivery["is_dispatchable"]
-    all_delivery_gens = gpm.ref[:link_component][:delivery_gen]
-    delivery_gens = collect(filter(x -> x.second["delivery"]["id"] == j, all_delivery_gens))
-    gen_ids = [x["gen"]["id"] for (i, x) in delivery_gens]
-    heat_rates = [x["gen"]["heat_rate_curve_coefficients"] for (i, x) in delivery_gens]
-    heat_rate_dict = Dict{Int, Array}(gen_ids .=> heat_rates)
+function constraint_heat_rate(gpm::AbstractGasPowerModel, delivery_gen_id::Int; nw::Int = gpm.cnw)
+    delivery_gen = gpm.ref[:link_component][:delivery_gen][delivery_gen_id]
+    delivery, gen = delivery_gen["delivery"]["id"], delivery_gen["gen"]["id"]
+    heat_rate_curve = delivery_gen["heat_rate_curve_coefficients"]
+    dispatchable = _IM.ref(gpm, :ng, nw, :delivery, delivery)["is_dispatchable"]
 
     # Convert from J/s in per unit to cubic meters per second at standard density in per
     # unit to kilogram per second in per unit.
@@ -33,7 +30,7 @@ function constraint_heat_rate(gpm::AbstractGasPowerModel, j::Int; nw::Int = gpm.
 
     # Add the heat rate constraint.
     !haskey(gpm.con, :heat_rate) && (gpm.con[:heat_rate] = Dict{Int, JuMP.ConstraintRef}())
-    constraint_heat_rate(gpm, nw, j, gen_ids, heat_rate_dict, constant, dispatchable)
+    constraint_heat_rate(gpm, nw, delivery, gen, heat_rate_curve, constant, dispatchable)
 end
 
 
