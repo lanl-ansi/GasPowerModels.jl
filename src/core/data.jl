@@ -36,6 +36,9 @@ function assign_delivery_generators!(data::Dict{String, Any})
     for (key, delivery_gen) in data["link_component"]["delivery_gen"]
         gen_name, del_name = delivery_gen["gen"]["id"], delivery_gen["delivery"]["id"]
         gens, dels = data["it"]["ep"]["gen"], data["it"]["ng"]["delivery"]
+        gen_name = typeof(gen_name) == String ? gen_name : string(gen_name)
+        del_name = typeof(del_name) == String ? del_name : string(del_name)
+
         gen = gens[findfirst(x -> parse(Int, gen_name) == x["source_id"][2], gens)]
         del = dels[findfirst(x -> parse(Int, del_name) == x["id"], dels)]
         delivery_gen["gen"]["id"], delivery_gen["delivery"]["id"] = gen["index"], del["index"]

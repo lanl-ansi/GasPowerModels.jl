@@ -1,11 +1,21 @@
 # Definitions for solving an optimal joint power flow problem.
 
+
 "Entry point into running the optimal power flow problem."
 function run_opf(g_file, p_file, link_file, gpm_type, optimizer; kwargs...)
     return run_model(
         g_file, p_file, link_file, gpm_type, optimizer, build_opf;
         ref_extensions = [ref_add_price_zones!], kwargs...)
 end
+
+
+"Entry point into running the optimal power flow problem."
+function run_opf(data, gpm_type, optimizer; kwargs...)
+    return run_model(
+        data, gpm_type, optimizer, build_opf;
+        ref_extensions = [ref_add_price_zones!], kwargs...)
+end
+
 
 "Construct the optimal power flow problem."
 function build_opf(gpm::AbstractGasPowerModel)

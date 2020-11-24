@@ -7,6 +7,12 @@ function run_gpf(g_file, p_file, link_file, model_type, optimizer; kwargs...)
 end
 
 
+"Entry point into running the gas-power flow feasibility problem."
+function run_gpf(data, model_type, optimizer; kwargs...)
+    return run_model(data, model_type, optimizer, build_gpf; kwargs...)
+end
+
+
 "Construct the gas-power flow feasbility problem."
 function build_gpf(gpm::AbstractGasPowerModel)
     # Gas-only variables and constraints

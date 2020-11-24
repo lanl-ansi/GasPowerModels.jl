@@ -107,7 +107,11 @@ function objective_max_load(gpm::AbstractGasPowerModel)
     gm = _get_gasmodel_from_gaspowermodel(gpm)
     ng_mld_objective = _GM.objective_max_load(gm)
 
+    # Get the priorities associated with each subnetwork's MLD.
+    ng_priority = get(gpm.data, "ng_load_priority", 1.0)
+    ep_priority = get(gpm.data, "ep_load_priority", 1.0)
+
     # Combine the objective functions (which are affine expressions).
-    mld_objective = 10.0 * ng_mld_objective + ep_mld_objective # TODO: Use priorities.
+    mld_objective = ng_priority * ng_mld_objective + ep_priority * ep_mld_objective
     JuMP.@objective(gpm.model, _IM._MOI.MAX_SENSE, mld_objective)
 end

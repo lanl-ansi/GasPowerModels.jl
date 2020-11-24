@@ -6,9 +6,22 @@ function run_ne_opf(g_file, p_file, link_file, gpm_type, optimizer; kwargs...)
     ref_extensions = [_GM.ref_add_ne!, ref_add_price_zones!,
         _PM.ref_add_on_off_va_bounds!, _PM.ref_add_ne_branch!]
 
-    return run_model(g_file, p_file, link_file, gpm_type, optimizer, build_ne_opf;
+    return run_model(
+        g_file, p_file, link_file, gpm_type, optimizer, build_ne_opf;
         ref_extensions = ref_extensions, kwargs...)
 end
+
+
+"Entry point for running gas and electric power expansion planning with demand-based pricing
+and a pressure penalty (in TPS paper)."
+function run_ne_opf(data, gpm_type, optimizer; kwargs...)
+    ref_extensions = [_GM.ref_add_ne!, ref_add_price_zones!,
+        _PM.ref_add_on_off_va_bounds!, _PM.ref_add_ne_branch!]
+
+    return run_model(
+        data, gpm_type, optimizer, build_ne_opf; ref_extensions = ref_extensions, kwargs...)
+end
+
 
 "Construct the expansion planning with optimal power flow problem."
 function build_ne_opf(gpm::AbstractGasPowerModel)
