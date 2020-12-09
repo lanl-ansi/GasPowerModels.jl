@@ -68,8 +68,24 @@ function solve_mld(data::Dict{String, Any}, model_type::Type, optimizer, alpha::
     end
 
     if result["primal_status"] == FEASIBLE_POINT
-        gas_load_served = sum([delivery["fd"] for (i, delivery) in result["solution"]["it"]["ng"]["delivery"]])
+        # Get all delivery generator linking components.
+        delivery_gens = data["link_component"]["delivery_gen"]
+
+        # Get a list of delivery indices associated with generation production.
+        dels_exclude = [x["delivery"]["id"] for (i, x) in delivery_gens]
+
+        # Include only deliveries that are dispatchable within the objective.
+        dels = filter(x -> x.second["is_dispatchable"] == 1, data["it"]["ng"]["delivery"])
+
+        # Include only non-generation deliveries within the objective.
+        dels_non_power = filter(x -> !(x.second["index"] in dels_exclude), dels)
+        delivery_sol = result["solution"]["it"]["ng"]["delivery"]
+
+        gas_load_served = sum([delivery["fd"] for (i, delivery) in delivery_sol])
         result["gas_load_served"] = gas_load_served
+
+        gas_load_nonpower_served = sum([delivery_sol[string(i)]["fd"] for i in keys(dels_non_power)])
+        result["gas_load_nonpower_served"] = gas_load_nonpower_served
 
         active_power_served = sum([abs(load["pd"]) for (i, load) in result["solution"]["it"]["ep"]["load"]])
         result["active_power_served"] = active_power_served

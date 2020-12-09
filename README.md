@@ -12,6 +12,7 @@ This decoupling enables the definition of a variety of optimization formulations
 
 **Core Problem Specifications**
 * Gas-Power Flow (`gpf`)
+* Maximum Load Delivery (`mld`)
 * Optimal Power Flow (`opf`)
 * Network Expansion Planning (`ne`)
 * Optimal Power Flow with Network Expansion Planning (`opf_ne`)
