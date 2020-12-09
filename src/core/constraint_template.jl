@@ -30,7 +30,7 @@ function constraint_heat_rate(gpm::AbstractGasPowerModel, delivery_gen_id::Int; 
 
     # Add the heat rate constraint.
     !haskey(gpm.con, :heat_rate) && (gpm.con[:heat_rate] = Dict{Int, JuMP.ConstraintRef}())
-    constraint_heat_rate(gpm, nw, delivery, gen, heat_rate_curve, constant, dispatchable)
+    constraint_heat_rate(gpm, nw, delivery_gen_id, delivery, gen, heat_rate_curve, constant, dispatchable)
 end
 
 

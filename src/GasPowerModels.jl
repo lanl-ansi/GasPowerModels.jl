@@ -61,6 +61,8 @@ module GasPowerModels
     include("prob/ne_opf.jl")
     include("prob/opf.jl")
 
+    include("util/solve_mld.jl")
+
     # This must come last to support automated export.
     include("core/export.jl")
 end

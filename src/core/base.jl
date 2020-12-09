@@ -61,6 +61,17 @@ function run_model(
 
     start_time = time()
 
+    solution_processors = transform_solution_processors(gpm, solution_processors)
+
+    result = _IM.optimize_model!(
+        gpm, optimizer = optimizer, solution_processors = solution_processors)
+
+    Memento.debug(_LOGGER, "gpm model solution time: $(time() - start_time)")
+
+    return result
+end
+
+function transform_solution_processors(gpm::AbstractGasPowerModel, solution_processors::Array)
     gm = _get_gasmodel_from_gaspowermodel(gpm)
     pm = _get_powermodel_from_gaspowermodel(gpm)
 
@@ -74,12 +85,7 @@ function run_model(
         end
     end
 
-    result = _IM.optimize_model!(
-        gpm, optimizer = optimizer, solution_processors = solution_processors)
-
-    Memento.debug(_LOGGER, "gpm model solution time: $(time() - start_time)")
-
-    return result
+    return solution_processors
 end
 
 

@@ -98,14 +98,44 @@ function objective_min_ne_cost(gpm::AbstractGasPowerModel; n::Int = gpm.cnw)
 end
 
 
-function objective_max_load(gpm::AbstractGasPowerModel)
+function objective_max_gas_load(gpm::AbstractGasPowerModel)
+    # Initialize the affine expression for the objective function.
+    objective = JuMP.AffExpr(0.0)
+
+    # Get all delivery generator linking components.
+    delivery_gens = gpm.ref[:link_component][:delivery_gen]
+
+    # Get a list of delivery indices associated with generation production.
+    dels_exclude = [x["delivery"]["id"] for (i, x) in delivery_gens]
+
+    for (nw, nw_ref) in _GM.nws(gpm)
+        # Include only deliveries that are dispatchable within the objective.
+        dels = filter(x -> x.second["is_dispatchable"] == 1, _GM.ref(gpm, nw, :delivery))
+
+        # Include only non-generation deliveries within the objective.
+        dels_non_power = filter(x -> !(x.second["index"] in dels_exclude), dels)
+
+        for (i, del) in dels_non_power
+            # Add the prioritized gas load to the maximum load delivery objective.
+            objective += get(del, "priority", 1.0) * _IM.var(gpm, :ng, nw, :fl, del["id"])
+        end
+    end
+
+    # Return the objective, which maximizes prioritized gas load deliveries.
+    return JuMP.@objective(gpm.model, _IM._MOI.MAX_SENSE, objective)
+end
+
+
+function objective_max_power_load(gpm::AbstractGasPowerModel)
     # Get the objective for the power part of the problem.
     pm = _get_powermodel_from_gaspowermodel(gpm)
-    ep_mld_objective = _PMR.objective_max_loadability(pm)
+    return _PMR.objective_max_loadability(pm)
+end
 
-    # Get the objective for the gas part of the problem.
-    gm = _get_gasmodel_from_gaspowermodel(gpm)
-    ng_mld_objective = _GM.objective_max_load(gm)
+
+function objective_max_load(gpm::AbstractGasPowerModel)
+    ng_mld_objective = objective_max_gas_load(gpm)
+    ep_mld_objective = objective_max_power_load(gpm)
 
     # Get the priorities associated with each subnetwork's MLD.
     ng_priority = get(gpm.data, "ng_load_priority", 1.0)
