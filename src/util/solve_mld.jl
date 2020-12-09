@@ -76,6 +76,7 @@ function solve_mld(data::Dict{String, Any}, model_type::Type, optimizer, alpha::
 
         # Include only deliveries that are dispatchable within the objective.
         dels = filter(x -> x.second["is_dispatchable"] == 1, data["it"]["ng"]["delivery"])
+        dels = filter(x -> x.second["status"] != 0, dels)
 
         # Include only non-generation deliveries within the objective.
         dels_non_power = filter(x -> !(x.second["index"] in dels_exclude), dels)
@@ -89,7 +90,7 @@ function solve_mld(data::Dict{String, Any}, model_type::Type, optimizer, alpha::
         end
 
         if length(dels_non_power) > 0
-            gas_load_nonpower_served = sum([delivery_sol[string(i)]["fd"] for i in keys(dels_non_power)])
+            gas_load_nonpower_served = sum([delivery_sol[i]["fd"] for i in keys(dels_non_power)])
             result["gas_load_nonpower_served"] = gas_load_nonpower_served
         else
             result["gas_load_nonpower_served"] = 0.0
