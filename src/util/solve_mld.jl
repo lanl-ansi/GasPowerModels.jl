@@ -81,17 +81,32 @@ function solve_mld(data::Dict{String, Any}, model_type::Type, optimizer, alpha::
         dels_non_power = filter(x -> !(x.second["index"] in dels_exclude), dels)
         delivery_sol = result["solution"]["it"]["ng"]["delivery"]
 
-        gas_load_served = sum([delivery["fd"] for (i, delivery) in delivery_sol])
-        result["gas_load_served"] = gas_load_served
+        if length(delivery_sol) > 0
+            gas_load_served = sum([delivery["fd"] for (i, delivery) in delivery_sol])
+            result["gas_load_served"] = gas_load_served
+        else
+            result["gas_load_served"] = 0.0
+        end
 
-        gas_load_nonpower_served = sum([delivery_sol[string(i)]["fd"] for i in keys(dels_non_power)])
-        result["gas_load_nonpower_served"] = gas_load_nonpower_served
+        if length(dels_non_power) > 0
+            gas_load_nonpower_served = sum([delivery_sol[string(i)]["fd"] for i in keys(dels_non_power)])
+            result["gas_load_nonpower_served"] = gas_load_nonpower_served
+        else
+            result["gas_load_nonpower_served"] = 0.0
+        end
 
-        active_power_served = sum([abs(load["pd"]) for (i, load) in result["solution"]["it"]["ep"]["load"]])
-        result["active_power_served"] = active_power_served
+        power_load_sol = result["solution"]["it"]["ep"]["load"] 
 
-        reactive_power_served = sum([abs(load["qd"]) for (i, load) in result["solution"]["it"]["ep"]["load"]])
-        result["reactive_power_served"] = reactive_power_served
+        if length(power_load_sol) > 0
+            active_power_served = sum([abs(load["pd"]) for (i, load) in power_load_sol])
+            result["active_power_served"] = active_power_served
+
+            reactive_power_served = sum([abs(load["qd"]) for (i, load) in power_load_sol])
+            result["reactive_power_served"] = reactive_power_served
+        else
+            result["active_power_served"] = 0.0
+            result["reactive_power_served"] = 0.0
+        end
     end
 
     return result
