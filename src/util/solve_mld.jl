@@ -59,9 +59,9 @@ end
 function solve_mld(data::Dict{String, Any}, model_type::Type, optimizer, alpha::Float64; kwargs...)
     data["ng_load_priority"], data["ep_load_priority"] = alpha, 1.0 - alpha
     
-    if alpha <= 0.0
+    if alpha >= 1.0
         result = solve_mld_gas_prioritized(data, model_type, optimizer)
-    elseif alpha >= 1.0
+    elseif alpha <= 0.0
         result = solve_mld_power_prioritized(data, model_type, optimizer)
     else
         result = run_mld(data, model_type, optimizer)
