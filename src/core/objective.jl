@@ -127,9 +127,20 @@ end
 
 
 function objective_max_power_load(gpm::AbstractGasPowerModel)
-    # Get the objective for the power part of the problem.
-    pm = _get_powermodel_from_gaspowermodel(gpm)
-    return _PMR.objective_max_loadability(pm)
+    # Initialize the affine expression for the objective function.
+    objective = JuMP.AffExpr(0.0)
+
+    for (nw, nw_ref) in _PM.nws(gpm)
+        for (i, load) in _PM.ref(gpm, nw, :load)
+            # Add the prioritized power load to the maximum load delivery objective.
+            time_elapsed = get(_PM.ref(gpm, nw), :time_elapsed, 1.0)
+            demand = _IM.var(gpm, :ep, nw, :z_demand, load["index"]) * abs(load["pd"])
+            objective += get(load, "weight", 1.0) * time_elapsed * demand
+        end
+    end
+
+    # Return the objective, which maximizes prioritized power load deliveries.
+    return JuMP.@objective(gpm.model, _IM._MOI.MAX_SENSE, objective)
 end
 
 
