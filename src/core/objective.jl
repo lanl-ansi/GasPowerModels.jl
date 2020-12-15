@@ -100,7 +100,7 @@ end
 
 function objective_max_gas_load(gpm::AbstractGasPowerModel)
     # Initialize the affine expression for the objective function.
-    objective = JuMP.AffExpr(0.0)
+    objective, scalar = JuMP.AffExpr(0.0), 0.0
 
     # Get all delivery generator linking components.
     delivery_gens = gpm.ref[:link_component][:delivery_gen]
@@ -118,17 +118,21 @@ function objective_max_gas_load(gpm::AbstractGasPowerModel)
         for (i, del) in dels_non_power
             # Add the prioritized gas load to the maximum load delivery objective.
             objective += get(del, "priority", 1.0) * _IM.var(gpm, :ng, nw, :fl, del["id"])
+            scalar += abs(del["withdrawal_max"])
         end
     end
 
+    # Correct the scalar if necessary.
+    scalar = scalar >= 0.0 ? scalar : 1.0
+
     # Return the objective, which maximizes prioritized gas load deliveries.
-    return JuMP.@objective(gpm.model, _IM._MOI.MAX_SENSE, objective)
+    return JuMP.@objective(gpm.model, _IM._MOI.MAX_SENSE, objective / scalar)
 end
 
 
 function objective_max_power_load(gpm::AbstractGasPowerModel)
     # Initialize the affine expression for the objective function.
-    objective = JuMP.AffExpr(0.0)
+    objective, scalar = JuMP.AffExpr(0.0), 0.0
 
     for (nw, nw_ref) in _PM.nws(gpm)
         for (i, load) in _PM.ref(gpm, nw, :load)
@@ -136,11 +140,15 @@ function objective_max_power_load(gpm::AbstractGasPowerModel)
             time_elapsed = get(_PM.ref(gpm, nw), :time_elapsed, 1.0)
             demand = _IM.var(gpm, :ep, nw, :z_demand, load["index"]) * abs(load["pd"])
             objective += get(load, "weight", 1.0) * time_elapsed * demand
+            scalar += abs(load["pd"])
         end
     end
 
+    # Correct the scalar if necessary.
+    scalar = scalar >= 0.0 ? scalar : 1.0
+
     # Return the objective, which maximizes prioritized power load deliveries.
-    return JuMP.@objective(gpm.model, _IM._MOI.MAX_SENSE, objective)
+    return JuMP.@objective(gpm.model, _IM._MOI.MAX_SENSE, objective / scalar)
 end
 
 
