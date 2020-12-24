@@ -154,5 +154,5 @@ function objective_max_load(gpm::AbstractGasPowerModel)
 
     # Combine the objective functions (which are affine expressions).
     mld_objective = ng_priority * ng_mld_objective + ep_priority * ep_mld_objective
-    JuMP.@objective(gpm.model, _IM._MOI.MAX_SENSE, mld_objective)
+    return JuMP.@objective(gpm.model, _IM._MOI.MAX_SENSE, mld_objective)
 end

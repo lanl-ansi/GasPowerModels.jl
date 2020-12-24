@@ -9,14 +9,14 @@ function constraint_heat_rate(
 
     if heat_rate_curve[1] != 0.0
         # If any coefficients for the quadratic term are nonzero, add relaxation.
-        term_1 = heat_rate_curve[1] == 0.0 ? 0.0 : heat_rate_curve[1] * pg[generator_index]^2
-        term_2 = heat_rate_curve[2] * pg[generator_index]
+        term_1 = heat_rate_curve[1] * pg^2
+        term_2 = heat_rate_curve[2] * pg
         term_3 = heat_rate_curve[3]
         c = JuMP.@constraint(gpm.model, fl == constant * (term_1 + term_2 + term_3))
         gpm.con[:heat_rate][delivery_gen_index] = c # TODO: Use a convenience function.
     else
         # If all coefficients for quadratic terms are zero, add linear constraint.
-        term_1 = heat_rate_curve[2] * pg[generator_index]
+        term_1 = heat_rate_curve[2] * pg
         term_2 = heat_rate_curve[3]
         c = JuMP.@constraint(gpm.model, fl == constant * (term_1 + term_2))
         gpm.con[:heat_rate][delivery_gen_index] = c # TODO: Use a convenience function.
