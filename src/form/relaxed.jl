@@ -19,7 +19,6 @@ function constraint_heat_rate(
         term_1 = heat_rate_curve[2] * pg
         term_2 = heat_rate_curve[3]
         c = JuMP.@constraint(gpm.model, fl == constant * (term_1 + term_2))
-        println(c)
         gpm.con[:heat_rate][delivery_gen_index] = c # TODO: Use a convenience function.
     end
 end
