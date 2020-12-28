@@ -123,7 +123,7 @@ function objective_max_gas_load(gpm::AbstractGasPowerModel)
     end
 
     # Correct the scalar if necessary.
-    scalar = scalar >= 0.0 ? scalar : 1.0
+    scalar = scalar > 0.0 ? scalar : 1.0
 
     # Return the objective, which maximizes prioritized gas load deliveries.
     return JuMP.@objective(gpm.model, _IM._MOI.MAX_SENSE, objective / scalar)
@@ -145,7 +145,7 @@ function objective_max_power_load(gpm::AbstractGasPowerModel)
     end
 
     # Correct the scalar if necessary.
-    scalar = scalar >= 0.0 ? scalar : 1.0
+    scalar = scalar > 0.0 ? scalar : 1.0
 
     # Return the objective, which maximizes prioritized power load deliveries.
     return JuMP.@objective(gpm.model, _IM._MOI.MAX_SENSE, objective / scalar)
