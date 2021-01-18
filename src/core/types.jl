@@ -1,4 +1,3 @@
-"LRWP Model Type"
 mutable struct GasPowerModel{T1, T2} <: AbstractGasPowerModel{T1, T2} @gpm_fields end
 
 RelaxedGasModels = Union{_GM.CRDWPGasModel, _GM.LRWPGasModel, _GM.LRDWPGasModel}

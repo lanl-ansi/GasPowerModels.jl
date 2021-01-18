@@ -2,10 +2,10 @@ function constraint_heat_rate(
     gpm::RelaxedGasPowerModel, n::Int, delivery_gen_index::Int, delivery_index::Int,
     generator_index::Int, heat_rate_curve::Array, constant::Float64, dispatchable::Int)
     # If flow is not dispatchable, gas will not be consumed by the generator.
-    fl = dispatchable == 1 ? _IM.var(gpm, :ng, n, :fl, delivery_index) : 0.0
+    fl = dispatchable == 1 ? _IM.var(gpm, _GM.gm_it_sym, n, :fl, delivery_index) : 0.0
 
     # Get power variables.
-    pg = _IM.var(gpm, :ep, n, :pg, generator_index)
+    pg = _IM.var(gpm, _PM.pm_it_sym, n, :pg, generator_index)
 
     if heat_rate_curve[1] != 0.0
         # If any coefficients for the quadratic term are nonzero, add relaxation.

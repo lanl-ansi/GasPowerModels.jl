@@ -12,9 +12,9 @@
 
         # Ensure the problem has been solved to local optimality.
         @test result["termination_status"] == LOCALLY_SOLVED
-        @test isapprox(result["solution"]["it"]["ng"]["ne_pipe"]["4"]["z"], 1.0, atol=1.0e-4)
-        @test all([x["p"] >= 0.0 for (i, x) in result["solution"]["it"]["ng"]["junction"]])
-        @test all([x["vm"] >= 0.0 for (i, x) in result["solution"]["it"]["ep"]["bus"]])
+        @test isapprox(result["solution"]["it"][_GM.gm_it_name]["ne_pipe"]["4"]["z"], 1.0, atol=1.0e-4)
+        @test all([x["p"] >= 0.0 for (i, x) in result["solution"]["it"][_GM.gm_it_name]["junction"]])
+        @test all([x["vm"] >= 0.0 for (i, x) in result["solution"]["it"][_PM.pm_it_name]["bus"]])
     end
 
     @testset "Nonlinear Programming (NLP) Formulation" begin
@@ -30,8 +30,8 @@
 
         # Ensure the problem has been solved to local optimality.
         @test result["termination_status"] == LOCALLY_SOLVED
-        @test isapprox(result["solution"]["it"]["ng"]["ne_pipe"]["4"]["z"], 1.0, atol=1.0e-4)
-        @test all([x["p"] >= 0.0 for (i, x) in result["solution"]["it"]["ng"]["junction"]])
-        @test all([x["vm"] >= 0.0 for (i, x) in result["solution"]["it"]["ep"]["bus"]])
+        @test isapprox(result["solution"]["it"][_GM.gm_it_name]["ne_pipe"]["4"]["z"], 1.0, atol=1.0e-4)
+        @test all([x["p"] >= 0.0 for (i, x) in result["solution"]["it"][_GM.gm_it_name]["junction"]])
+        @test all([x["vm"] >= 0.0 for (i, x) in result["solution"]["it"][_PM.pm_it_name]["bus"]])
     end
 end

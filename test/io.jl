@@ -65,7 +65,7 @@
         @test haskey(data, "multiinfrastructure")
         @test data["multiinfrastructure"] == true
         @test haskey(data, "link_component")
-        @test haskey(data["it"], "ep")
-        @test haskey(data["it"], "ng")
+        @test haskey(data["it"], _PM.pm_it_name)
+        @test haskey(data["it"], _GM.gm_it_name)
     end
 end

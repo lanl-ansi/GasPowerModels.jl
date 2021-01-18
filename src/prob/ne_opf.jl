@@ -43,7 +43,7 @@ function build_ne_opf(gpm::AbstractGasPowerModel)
     variable_pressure_price(gpm)
 
     # Constraints related to price zones.
-    for (i, price_zone) in _IM.ref(gpm, :ng, :price_zone)
+    for (i, price_zone) in _IM.ref(gpm, _GM.gm_it_sym, :price_zone)
         constraint_zone_demand(gpm, i)
         constraint_zone_demand_price(gpm, i)
         constraint_zone_pressure(gpm, i)

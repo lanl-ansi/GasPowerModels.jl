@@ -1,7 +1,7 @@
 "Resolve the units for energy used throughout the disparate datasets."
 function resolve_units!(data::Dict{String, Any}, gas_is_per_unit::Bool, power_is_per_unit::Bool)
     delivery_gens = data["link_component"]["delivery_gen"]
-    g_data, p_data = data["it"]["ng"], data["it"]["ep"]
+    g_data, p_data = data["it"][_GM.gm_it_name], data["it"][_PM.pm_it_name]
 
     if !power_is_per_unit
         for (i, link) in filter(x -> haskey(x.second, "heat_rate_curve_coefficients"), delivery_gens)
@@ -35,7 +35,7 @@ end
 function assign_delivery_generators!(data::Dict{String, Any})
     for (key, delivery_gen) in data["link_component"]["delivery_gen"]
         gen_name, del_name = delivery_gen["gen"]["id"], delivery_gen["delivery"]["id"]
-        gens, dels = data["it"]["ep"]["gen"], data["it"]["ng"]["delivery"]
+        gens, dels = data["it"][_PM.pm_it_name]["gen"], data["it"][_GM.gm_it_name]["delivery"]
         gen_name = typeof(gen_name) == String ? gen_name : string(gen_name)
         del_name = typeof(del_name) == String ? del_name : string(del_name)
 

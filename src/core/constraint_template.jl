@@ -21,12 +21,12 @@ function constraint_heat_rate(gpm::AbstractGasPowerModel, delivery_gen_id::Int; 
     delivery_gen = gpm.ref[:link_component][:delivery_gen][delivery_gen_id]
     delivery, gen = delivery_gen["delivery"]["id"], delivery_gen["gen"]["id"]
     heat_rate_curve = delivery_gen["heat_rate_curve_coefficients"]
-    dispatchable = _IM.ref(gpm, :ng, nw, :delivery, delivery)["is_dispatchable"]
+    dispatchable = _IM.ref(gpm, _GM.gm_it_sym, nw, :delivery, delivery)["is_dispatchable"]
 
     # Convert from J/s in per unit to cubic meters per second at standard density in per
     # unit to kilogram per second in per unit.
-    standard_density = _IM.ref(gpm, :ng, nw, :standard_density)
-    constant = _IM.ref(gpm, :ng, nw, :energy_factor) * standard_density
+    standard_density = _IM.ref(gpm, _GM.gm_it_sym, nw, :standard_density)
+    constant = _IM.ref(gpm, _GM.gm_it_sym, nw, :energy_factor) * standard_density
 
     # Add the heat rate constraint.
     !haskey(gpm.con, :heat_rate) && (gpm.con[:heat_rate] = Dict{Int, JuMP.ConstraintRef}())
@@ -38,13 +38,13 @@ end
 ``fl_{z} = \\sum_{k \\in z} fl_k `` where ``fl_{z}`` is the total consumed gas in zone ``z`` and ``fl_k``
 is gas consumed at delivery point ``k`` in the zone. "
 function constraint_zone_demand(gpm::AbstractGasPowerModel, i::Int; nw::Int=gpm.cnw)
-    if !haskey(_IM.con(gpm, :ng, nw), :zone_demand)
-        _IM.con(gpm, :ng, nw)[:zone_demand] = Dict{Int, JuMP.ConstraintRef}()
+    if !haskey(_IM.con(gpm, _GM.gm_it_sym, nw), :zone_demand)
+        _IM.con(gpm, _GM.gm_it_sym, nw)[:zone_demand] = Dict{Int, JuMP.ConstraintRef}()
     end
 
-    junctions = _IM.ref(gpm, :ng, nw, :junction)
+    junctions = _IM.ref(gpm, _GM.gm_it_sym, nw, :junction)
     junction_ids = keys(filter(x -> x.second["price_zone"] == i, junctions))
-    deliveries = _IM.ref(gpm, :ng, nw, :dispatchable_deliveries_in_junction)
+    deliveries = _IM.ref(gpm, _GM.gm_it_sym, nw, :dispatchable_deliveries_in_junction)
     delivery_ids = Array{Int64,1}(vcat([deliveries[k] for k in junction_ids]...))
     constraint_zone_demand(gpm, nw, i, delivery_ids)
 end
@@ -56,13 +56,13 @@ end
  where ``cost_{z}`` is the daily (24 hour) cost of gas in zone ``z``. 86400 is the number of seconds in a day. ``q`` is the quadractic cost of gas as function of
  gas consumed in the gas, ``fl_z.``  ``\\rho`` is standard density. ``m`` is the minmum cost of gas in terms kg/s."
 function constraint_zone_demand_price(gpm::AbstractGasPowerModel, i::Int; nw::Int = gpm.cnw)
-    if !haskey(_IM.con(gpm, :ng, nw), :zone_demand_price)
-        _IM.con(gpm, :ng, nw)[:zone_demand_price] = Dict{Int, Array{JuMP.ConstraintRef}}()
+    if !haskey(_IM.con(gpm, _GM.gm_it_sym, nw), :zone_demand_price)
+        _IM.con(gpm, _GM.gm_it_sym, nw)[:zone_demand_price] = Dict{Int, Array{JuMP.ConstraintRef}}()
     end
 
-    price_zone = _IM.ref(gpm, :ng, nw, :price_zone, i)
+    price_zone = _IM.ref(gpm, _GM.gm_it_sym, nw, :price_zone, i)
     min_cost, cost_q = price_zone["min_cost"], price_zone["cost_q"]
-    standard_density = gpm.data["it"]["ng"]["standard_density"]
+    standard_density = gpm.data["it"][_GM.gm_it_name]["standard_density"]
     constraint_zone_demand_price(gpm, nw, i, min_cost, cost_q, standard_density)
 end
 
@@ -73,10 +73,10 @@ when this term only appears in the objective funtion.
 where ``pc_z`` is the pressure price in zone ``z`` and ``p_z`` is a quadractic function of the maximum pressure in ``z``.
 "
 function constraint_pressure_price(gpm::AbstractGasPowerModel, i::Int; nw::Int=gpm.cnw)
-    if !haskey(_IM.con(gpm, :ng, nw), :pressure_price)
-        _IM.con(gpm, :ng, nw)[:pressure_price] = Dict{Int, JuMP.ConstraintRef}()
+    if !haskey(_IM.con(gpm, _GM.gm_it_sym, nw), :pressure_price)
+        _IM.con(gpm, _GM.gm_it_sym, nw)[:pressure_price] = Dict{Int, JuMP.ConstraintRef}()
     end
 
-    price_zone = _IM.ref(gpm, :ng, nw, :price_zone, i)
+    price_zone = _IM.ref(gpm, _GM.gm_it_sym, nw, :price_zone, i)
     constraint_pressure_price(gpm, nw, i, price_zone["cost_p"])
 end

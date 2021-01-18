@@ -8,7 +8,7 @@
 
         # Parse files and create a data dictionary.
         data = parse_files(g_file, p_file, link_file)
-        data["it"]["ep"]["gen"]["3"]["gen_status"] = 0
+        data["it"][_PM.pm_it_name]["gen"]["3"]["gen_status"] = 0
         correct_network_data!(data)
 
         # Solve the gas-power flow feasibility problem.
@@ -19,8 +19,8 @@
         # Ensure the problem has been solved to local optimality.
         @test result["termination_status"] == LOCALLY_SOLVED
         @test isapprox(result["objective"], 2170.04; rtol = 1.0e-4)
-        @test all([x["p"] >= 0.0 for (i, x) in result["solution"]["it"]["ng"]["junction"]])
-        @test all([x["vm"] >= 0.0 for (i, x) in result["solution"]["it"]["ep"]["bus"]])
+        @test all([x["p"] >= 0.0 for (i, x) in result["solution"]["it"][_GM.gm_it_name]["junction"]])
+        @test all([x["vm"] >= 0.0 for (i, x) in result["solution"]["it"][_PM.pm_it_name]["bus"]])
     end
 
     @testset "Nonlinear Programming (NLP) Formulation" begin
@@ -32,7 +32,7 @@
 
         # Parse files and create a data dictionary.
         data = parse_files(g_file, p_file, link_file)
-        data["it"]["ep"]["gen"]["3"]["gen_status"] = 0
+        data["it"][_PM.pm_it_name]["gen"]["3"]["gen_status"] = 0
         correct_network_data!(data)
 
         # Solve the gas-power flow feasibility problem.
@@ -43,8 +43,8 @@
         # Ensure the problem has been solved to local optimality.
         @test result["termination_status"] == LOCALLY_SOLVED
         @test isapprox(result["objective"], 2170.04; rtol = 1.0e-4)
-        @test all([x["p"] >= 0.0 for (i, x) in result["solution"]["it"]["ng"]["junction"]])
-        @test all([x["vm"] >= 0.0 for (i, x) in result["solution"]["it"]["ep"]["bus"]])
+        @test all([x["p"] >= 0.0 for (i, x) in result["solution"]["it"][_GM.gm_it_name]["junction"]])
+        @test all([x["vm"] >= 0.0 for (i, x) in result["solution"]["it"][_PM.pm_it_name]["bus"]])
     end
 end
 

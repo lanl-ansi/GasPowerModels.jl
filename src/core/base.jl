@@ -118,9 +118,9 @@ end
 function ref_add_core!(ref::Dict{Symbol, <:Any})
     # Populate the GasModels portion of the `ref` dictionary.
     _GM._ref_add_core!(
-        ref[:it][_GM._gm_it_sym][:nw], ref[:it][_GM._gm_it_sym][:base_length],
-        ref[:it][_GM._gm_it_sym][:base_pressure], ref[:it][_GM._gm_it_sym][:base_flow],
-        ref[:it][_GM._gm_it_sym][:sound_speed])
+        ref[:it][_GM.gm_it_sym][:nw], ref[:it][_GM.gm_it_sym][:base_length],
+        ref[:it][_GM.gm_it_sym][:base_pressure], ref[:it][_GM.gm_it_sym][:base_flow],
+        ref[:it][_GM.gm_it_sym][:sound_speed])
 
     # Populate the PowerModels portion of the `ref` dictionary.
     _PM.ref_add_core!(ref)
