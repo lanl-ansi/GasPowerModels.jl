@@ -18,7 +18,7 @@ This is then converted to mass flow, ``fl``, (kg/s) of gas consumed to produce t
 Here, ``e`` is an energy factor (m^3/J) and ``\\rho`` is standard density (kg/m^3). This constraint can be relaxed to
 a convex quadractic of the form ``fl \\ge e * \\rho (h_2 * pg^2 + h_1 * pg + h_0)``"
 function constraint_heat_rate(gpm::AbstractGasPowerModel, delivery_gen_id::Int; nw::Int = gpm.cnw)
-    delivery_gen = gpm.ref[:link_component][:delivery_gen][delivery_gen_id]
+    delivery_gen = _IM.ref_dep(gpm, nw, :delivery_gen, delivery_gen_id)
     delivery, gen = delivery_gen["delivery"]["id"], delivery_gen["gen"]["id"]
     heat_rate_curve = delivery_gen["heat_rate_curve_coefficients"]
     dispatchable = _IM.ref(gpm, _GM.gm_it_sym, nw, :delivery, delivery)["is_dispatchable"]

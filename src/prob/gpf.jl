@@ -22,7 +22,7 @@ function build_gpf(gpm::AbstractGasPowerModel)
     _PM.build_pf(_get_powermodel_from_gaspowermodel(gpm))
 
     # Gas-power related parts of the problem formulation.
-    for (i, delivery_gen) in gpm.ref[:link_component][:delivery_gen]
+    for (i, delivery_gen) in _IM.ref_dep(gpm, :delivery_gen)
         constraint_heat_rate(gpm, i)
     end
 

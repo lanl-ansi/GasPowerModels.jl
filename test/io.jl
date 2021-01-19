@@ -1,7 +1,7 @@
 @testset "src/io/common.jl" begin
     @testset "parse_json" begin
         data = parse_json("../test/data/json/GasLib-11-case5.json")
-        delivery_gens = data["link_component"]["delivery_gen"]
+        delivery_gens = data["dep"]["delivery_gen"]
 
         @test delivery_gens["1"]["status"] == 1
         @test delivery_gens["1"]["delivery"]["id"] == "1"
@@ -17,7 +17,7 @@
 
     @testset "parse_link_file" begin
         data = parse_link_file("../test/data/json/GasLib-11-case5.json")
-        delivery_gens = data["link_component"]["delivery_gen"]
+        delivery_gens = data["dep"]["delivery_gen"]
 
         @test haskey(data, "multiinfrastructure")
         @test data["multiinfrastructure"] == true
@@ -64,7 +64,7 @@
 
         @test haskey(data, "multiinfrastructure")
         @test data["multiinfrastructure"] == true
-        @test haskey(data, "link_component")
+        @test haskey(data, "dep")
         @test haskey(data["it"], _PM.pm_it_name)
         @test haskey(data["it"], _GM.gm_it_name)
     end

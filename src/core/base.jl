@@ -126,11 +126,12 @@ function ref_add_core!(ref::Dict{Symbol, <:Any})
     _PM.ref_add_core!(ref)
 
     # Filter out inactive link components.
-    _ref_filter_link_components!(ref)
+    _ref_filter_deps!(ref)
 end
 
 
-function _ref_filter_link_components!(ref::Dict{Symbol, <:Any})
-    links = ref[:link_component]
-    links[:delivery_gen] = Dict(x for x in links[:delivery_gen] if x.second["status"] != 0)
+function _ref_filter_deps!(ref::Dict{Symbol, <:Any})
+    for (nw, nw_ref) in ref[:dep][:nw]
+        nw_ref[:delivery_gen] = Dict(x for x in nw_ref[:delivery_gen] if x.second["status"] != 0)
+    end
 end

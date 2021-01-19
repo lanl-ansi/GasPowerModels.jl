@@ -1,7 +1,7 @@
 {
     "ep_load_priority": 1.0,
     "ng_load_priority": 10.0,
-    "link_component": {
+    "dep": {
         "delivery_gen": {
             "1": {
                 "delivery": {
