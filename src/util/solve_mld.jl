@@ -51,15 +51,16 @@ function solve_mld_power_prioritized(data::Dict{String, Any}, model_type::Type, 
 end
 
 function solve_mld(data::Dict{String, Any}, model_type::Type, optimizer, alpha::Float64; kwargs...)
-    data["ng_load_priority"] = alpha
-    data["ep_load_priority"] = 1.0 - alpha
+    data["gm_load_priority"] = alpha
+    data["pm_load_priority"] = 1.0 - alpha
     
     if alpha >= 1.0
         result = solve_mld_gas_prioritized(data, model_type, optimizer)
     elseif alpha <= 0.0
         result = solve_mld_power_prioritized(data, model_type, optimizer)
     else
-        result = run_mld(data, model_type, optimizer)
+        sol_proc = [_GM.sol_psqr_to_p!, _PM.sol_data_model!] 
+        result = run_mld(data, model_type, optimizer; solution_processors = sol_proc)
     end
 
     if result["primal_status"] == FEASIBLE_POINT

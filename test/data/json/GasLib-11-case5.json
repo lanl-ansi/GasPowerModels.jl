@@ -1,6 +1,6 @@
 {
-    "ep_load_priority": 1.0,
-    "ng_load_priority": 10.0,
+    "pm_load_priority": 1.0,
+    "gm_load_priority": 10.0,
     "dep": {
         "delivery_gen": {
             "1": {

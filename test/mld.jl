@@ -11,7 +11,7 @@
         data["it"][_PM.pm_it_name]["gen"]["3"]["gen_status"] = 0
         correct_network_data!(data)
 
-        # Solve the gas-power flow feasibility problem.
+        # Solve the gas-power maximum load delivery problem.
         result = run_mld(
             data, gpm_type, juniper;
             solution_processors = [_GM.sol_psqr_to_p!, _PM.sol_data_model!])
@@ -34,7 +34,7 @@
         data["it"][_PM.pm_it_name]["gen"]["3"]["gen_status"] = 0
         correct_network_data!(data)
 
-        # Solve the gas-power flow feasibility problem.
+        # Solve the gas-power maximum load delivery problem.
         result = run_mld(
             data, gpm_type, juniper;
             solution_processors = [_GM.sol_psqr_to_p!, _PM.sol_data_model!])

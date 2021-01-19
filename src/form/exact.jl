@@ -13,12 +13,12 @@ function constraint_heat_rate(
         term_2 = heat_rate_curve[2] * pg
         term_3 = heat_rate_curve[3]
         c = JuMP.@constraint(gpm.model, fl == constant * (term_1 + term_2 + term_3))
-        gpm.con[:heat_rate][delivery_gen_index] = c # TODO: Use a convenience function.
+        _IM.con_dep(gpm, n, :heat_rate)[delivery_gen_index] = c
     else
         # If all coefficients for quadratic terms are zero, add linear constraint.
         term_1 = heat_rate_curve[2] * pg
         term_2 = heat_rate_curve[3]
         c = JuMP.@constraint(gpm.model, fl == constant * (term_1 + term_2))
-        gpm.con[:heat_rate][delivery_gen_index] = c # TODO: Use a convenience function.
+        _IM.con_dep(gpm, n, :heat_rate)[delivery_gen_index] = c
     end
 end

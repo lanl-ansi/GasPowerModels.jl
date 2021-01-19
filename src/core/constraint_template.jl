@@ -28,8 +28,12 @@ function constraint_heat_rate(gpm::AbstractGasPowerModel, delivery_gen_id::Int; 
     standard_density = _IM.ref(gpm, _GM.gm_it_sym, nw, :standard_density)
     constant = _IM.ref(gpm, _GM.gm_it_sym, nw, :energy_factor) * standard_density
 
+    # Add the heat rate constraint dictionary.
+    if !haskey(_IM.con_dep(gpm, nw), :heat_rate)
+        _IM.con_dep(gpm, nw)[:heat_rate] = Dict{Int, JuMP.ConstraintRef}()
+    end
+
     # Add the heat rate constraint.
-    !haskey(gpm.con, :heat_rate) && (gpm.con[:heat_rate] = Dict{Int, JuMP.ConstraintRef}())
     constraint_heat_rate(gpm, nw, delivery_gen_id, delivery, gen, heat_rate_curve, constant, dispatchable)
 end
 
