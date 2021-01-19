@@ -1,5 +1,5 @@
 # GasPowerModels.jl 
-[![Build Status](https://travis-ci.org/lanl-ansi/GasPowerModels.jl.svg?branch=master)](https://travis-ci.org/lanl-ansi/GasPowerModels.jl)
+[![Build Status](https://github.com/lanl-ansi/GasPowerModels.jl/workflows/CI/badge.svg?branch=master)](https://github.com/lanl-ansi/GasPowerModels.jl/actions?query=workflow%3ACI)
 [![codecov](https://codecov.io/gh/lanl-ansi/GasPowerModels.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/lanl-ansi/GasPowerModels.jl)
 [![](https://img.shields.io/badge/docs-stable-blue.svg)](https://lanl-ansi.github.io/GasPowerModels.jl/stable)
 [![](https://img.shields.io/badge/docs-latest-blue.svg)](https://lanl-ansi.github.io/GasPowerModels.jl/dev)
