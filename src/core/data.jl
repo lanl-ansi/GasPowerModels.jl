@@ -13,7 +13,8 @@ function resolve_units!(data::Dict{String, Any}, gas_is_per_unit::Bool, power_is
 
     if !gas_is_per_unit
         # Scale the energy factor in gas data by base flow.
-        g_data["energy_factor"] *= inv(g_data["base_flow"])
+        energy_factor = get(g_data, "energy_factor", 1.0)
+        g_data["energy_factor"] = energy_factor * inv(g_data["base_flow"])
     end
 end
 
