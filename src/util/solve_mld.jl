@@ -65,7 +65,7 @@ function solve_mld(data::Dict{String, Any}, model_type::Type, optimizer, alpha::
 
     if result["primal_status"] == FEASIBLE_POINT
         # Get all delivery generator linking components.
-        delivery_gens = data["dep"]["delivery_gen"]
+        delivery_gens = data["it"]["dep"]["delivery_gen"]
 
         # Get a list of delivery indices associated with generation production.
         dels_exclude = [x["delivery"]["id"] for (i, x) in delivery_gens]

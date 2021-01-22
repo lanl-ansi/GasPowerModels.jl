@@ -131,7 +131,7 @@ end
 
 
 function _ref_filter_deps!(ref::Dict{Symbol, <:Any})
-    for (nw, nw_ref) in ref[:dep][:nw]
+    for (nw, nw_ref) in ref[:it][:dep][:nw]
         nw_ref[:delivery_gen] = Dict(x for x in nw_ref[:delivery_gen] if x.second["status"] != 0)
     end
 end

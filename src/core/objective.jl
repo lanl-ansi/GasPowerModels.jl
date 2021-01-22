@@ -104,7 +104,7 @@ function objective_max_gas_load(gpm::AbstractGasPowerModel)
 
     for (nw, nw_ref) in _IM.nws(gpm, _GM.gm_it_sym)
         # Get all delivery generator linking components.
-        delivery_gens = _IM.ref_dep(gpm, nw, :delivery_gen)
+        delivery_gens = _IM.ref(gpm, :dep, nw, :delivery_gen)
 
         # Get a list of delivery indices associated with generation production.
         dels_exclude = [x["delivery"]["id"] for (i, x) in delivery_gens]
