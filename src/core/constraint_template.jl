@@ -25,7 +25,12 @@ function constraint_heat_rate(gpm::AbstractGasPowerModel, delivery_gen_id::Int; 
 
     # Convert from J/s in per unit to cubic meters per second at standard density in per
     # unit to kilogram per second in per unit.
-    standard_density = _IM.ref(gpm, _GM.gm_it_sym, nw, :standard_density)
+    if haskey(_IM.ref(gpm, _GM.gm_it_sym, nw), :standard_density)
+        standard_density = _IM.ref(gpm, _GM.gm_it_sym, nw, :standard_density)
+    else
+        standard_density = _GM._estimate_standard_density(gpm.data["it"]["gm"])
+    end
+
     constant = _IM.ref(gpm, _GM.gm_it_sym, nw, :energy_factor) * standard_density
 
     # Add the heat rate constraint dictionary.
