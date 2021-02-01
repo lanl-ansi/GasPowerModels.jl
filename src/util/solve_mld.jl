@@ -8,7 +8,7 @@ function solve_mld_gas_prioritized(data::Dict{String, Any}, model_type::Type, op
         return result_1
     else
         # Set up the MLD problem with power prioritized.
-        JuMP.@constraint(gpm.model, gas_obj_expr >= result_1["objective"])
+        JuMP.@constraint(gpm.model, gas_obj_expr >= result_1["objective"] - 1.0e-7)
         power_obj_expr = objective_max_power_load(gpm) # Set the power objective.
 
         # Solve the final MLD problem.
@@ -34,7 +34,7 @@ function solve_mld_power_prioritized(data::Dict{String, Any}, model_type::Type, 
         return result_1
     else
         # Set up the MLD problem with gas prioritized.
-        JuMP.@constraint(gpm.model, power_obj_expr >= result_1["objective"])
+        JuMP.@constraint(gpm.model, power_obj_expr >= result_1["objective"] - 1.0e-7)
         gas_obj_expr = objective_max_gas_load(gpm) # Get the gas objective.
 
         # Solve the final MLD problem.
@@ -77,17 +77,25 @@ function solve_mld(data::Dict{String, Any}, model_type::Type, optimizer, alpha::
         # Include only non-generation deliveries within the objective.
         dels_non_power = filter(x -> !(x.second["index"] in dels_exclude), dels)
         delivery_sol = result["solution"]["it"][_GM.gm_it_name]["delivery"]
+        
+        if haskey(data["it"]["gm"], "standard_density")
+            standard_density = data["it"]["gm"]["standard_density"]
+        else
+            standard_density = _GM._estimate_standard_density(data)
+        end
 
         if length(delivery_sol) > 0
             gas_load_served = sum([delivery["fd"] for (i, delivery) in delivery_sol])
-            result["gas_load_served"] = gas_load_served
+            gas_coeff = data["it"]["gm"]["base_flow"] / standard_density
+            result["gas_load_served"] = gas_coeff * gas_load_served
         else
             result["gas_load_served"] = 0.0
         end
 
         if length(dels_non_power) > 0
             gas_load_nonpower_served = sum([delivery_sol[i]["fd"] for i in keys(dels_non_power)])
-            result["gas_load_nonpower_served"] = gas_load_nonpower_served
+            gas_coeff = data["it"]["gm"]["base_flow"] / standard_density
+            result["gas_load_nonpower_served"] = gas_coeff * gas_load_nonpower_served
         else
             result["gas_load_nonpower_served"] = 0.0
         end
@@ -96,10 +104,10 @@ function solve_mld(data::Dict{String, Any}, model_type::Type, optimizer, alpha::
 
         if length(power_load_sol) > 0
             active_power_served = sum([abs(load["pd"]) for (i, load) in power_load_sol])
-            result["active_power_served"] = active_power_served
+            result["active_power_served"] = data["it"]["pm"]["baseMVA"] * active_power_served
 
             reactive_power_served = sum([abs(load["qd"]) for (i, load) in power_load_sol])
-            result["reactive_power_served"] = reactive_power_served
+            result["reactive_power_served"] = data["it"]["pm"]["baseMVA"] * reactive_power_served
         else
             result["active_power_served"] = 0.0
             result["reactive_power_served"] = 0.0
