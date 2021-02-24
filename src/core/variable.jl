@@ -11,7 +11,7 @@ end
 
 
 "Function for creating variables associated with zonal demand: ``\\psi`` "
-function variable_zone_demand(gpm::AbstractGasPowerModel, n::Int=gpm.cnw)
+function variable_zone_demand(gpm::AbstractGasPowerModel, n::Int=nw_id_default)
     junctions = filter(x -> haskey(x.second, "price_zone") && x.second["price_zone"] != 0, _IM.ref(gpm, _GM.gm_it_sym, n, :junction))
     fl_max = Dict{Int,Float64}(i => 0.0 for i in _IM.ids(gpm, _GM.gm_it_sym, n, :price_zone))
 
@@ -32,7 +32,7 @@ end
 
 
 "Function for creating variables associated with zonal demand price: ``\\gamma`` "
-function variable_zone_demand_price(gpm::AbstractGasPowerModel, n::Int=gpm.cnw)
+function variable_zone_demand_price(gpm::AbstractGasPowerModel, n::Int=nw_id_default)
     _IM.var(gpm, _GM.gm_it_sym, n)[:zone_cost] = JuMP.@variable(gpm.model,
         [i in keys(_IM.ref(gpm, _GM.gm_it_sym, n, :price_zone))],
         base_name="$(n)_zone_cost", lower_bound = 0.0, upper_bound = Inf,
@@ -41,7 +41,7 @@ end
 
 
 "Function for creating variables associated with zonal pressure: ``\\rho`` "
-function variable_zone_pressure(gpm::AbstractGasPowerModel, n::Int=gpm.cnw)
+function variable_zone_pressure(gpm::AbstractGasPowerModel, n::Int=nw_id_default)
     junctions = filter(x -> haskey(x.second, "price_zone") && x.second["price_zone"] != 0, _IM.ref(gpm, _GM.gm_it_sym, n, :junction))
     p_min, p_max = Dict{Int,Any}(), Dict{Int,Any}()
 
@@ -60,7 +60,7 @@ end
 
 
 "Function for creating variables associated with zonal pressure price: ``\\omega`` "
-function variable_pressure_price(gpm::AbstractGasPowerModel, n::Int=gpm.cnw)
+function variable_pressure_price(gpm::AbstractGasPowerModel, n::Int=nw_id_default)
     junctions = filter(x -> haskey(x.second, "price_zone") && x.second["price_zone"] != 0, _IM.ref(gpm, _GM.gm_it_sym, n, :junction))
     p_min, p_max = Dict{Int,Any}(), Dict{Int,Any}()
     c_min, c_max = Dict{Int,Any}(), Dict{Int,Any}()

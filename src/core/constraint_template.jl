@@ -17,7 +17,7 @@ where ``h`` is a quadratic function used to convert MW (``pg``) into Joules cons
 This is then converted to mass flow, ``fl``, (kg/s) of gas consumed to produce this energy.
 Here, ``e`` is an energy factor (m^3/J) and ``\\rho`` is standard density (kg/m^3). This constraint can be relaxed to
 a convex quadractic of the form ``fl \\ge e * \\rho (h_2 * pg^2 + h_1 * pg + h_0)``"
-function constraint_heat_rate(gpm::AbstractGasPowerModel, delivery_gen_id::Int; nw::Int = gpm.cnw)
+function constraint_heat_rate(gpm::AbstractGasPowerModel, delivery_gen_id::Int; nw::Int = nw_id_default)
     delivery_gen = _IM.ref(gpm, :dep, nw, :delivery_gen, delivery_gen_id)
     delivery, gen = delivery_gen["delivery"]["id"], delivery_gen["gen"]["id"]
     heat_rate_curve = delivery_gen["heat_rate_curve_coefficients"]
@@ -46,7 +46,7 @@ end
 "Auxiliary constraint that computes the total consumed gas in a zones. This constraint takes the form of
 ``fl_{z} = \\sum_{k \\in z} fl_k `` where ``fl_{z}`` is the total consumed gas in zone ``z`` and ``fl_k``
 is gas consumed at delivery point ``k`` in the zone. "
-function constraint_zone_demand(gpm::AbstractGasPowerModel, i::Int; nw::Int=gpm.cnw)
+function constraint_zone_demand(gpm::AbstractGasPowerModel, i::Int; nw::Int=nw_id_default)
     if !haskey(_IM.con(gpm, _GM.gm_it_sym, nw), :zone_demand)
         _IM.con(gpm, _GM.gm_it_sym, nw)[:zone_demand] = Dict{Int, JuMP.ConstraintRef}()
     end
@@ -64,7 +64,7 @@ end
  The second constraint is ``86400.0 * m_z * fl_z * \frac{1.0}{\\rho} ``
  where ``cost_{z}`` is the daily (24 hour) cost of gas in zone ``z``. 86400 is the number of seconds in a day. ``q`` is the quadractic cost of gas as function of
  gas consumed in the gas, ``fl_z.``  ``\\rho`` is standard density. ``m`` is the minmum cost of gas in terms kg/s."
-function constraint_zone_demand_price(gpm::AbstractGasPowerModel, i::Int; nw::Int = gpm.cnw)
+function constraint_zone_demand_price(gpm::AbstractGasPowerModel, i::Int; nw::Int = nw_id_default)
     if !haskey(_IM.con(gpm, _GM.gm_it_sym, nw), :zone_demand_price)
         _IM.con(gpm, _GM.gm_it_sym, nw)[:zone_demand_price] = Dict{Int, Array{JuMP.ConstraintRef}}()
     end
@@ -81,7 +81,7 @@ when this term only appears in the objective funtion.
 ``pc_z \\ge p_z[1] * \\pi_z^2 + cp_z[2] * \\pi_z + cp_z[3]
 where ``pc_z`` is the pressure price in zone ``z`` and ``p_z`` is a quadractic function of the maximum pressure in ``z``.
 "
-function constraint_pressure_price(gpm::AbstractGasPowerModel, i::Int; nw::Int=gpm.cnw)
+function constraint_pressure_price(gpm::AbstractGasPowerModel, i::Int; nw::Int=nw_id_default)
     if !haskey(_IM.con(gpm, _GM.gm_it_sym, nw), :pressure_price)
         _IM.con(gpm, _GM.gm_it_sym, nw)[:pressure_price] = Dict{Int, JuMP.ConstraintRef}()
     end

@@ -2,7 +2,7 @@
 # This file defines objectives used in gas-power problem specifications. #
 ##########################################################################
 
-function objective_min_opf_cost(gpm::AbstractGasPowerModel; n::Int = gpm.cnw)
+function objective_min_opf_cost(gpm::AbstractGasPowerModel; n::Int = nw_id_default)
     gen_cost = Dict{Tuple{Int, Int}, Any}()
 
     for (i, gen) in _IM.ref(gpm, _PM.pm_it_sym, n, :gen)
@@ -38,7 +38,7 @@ end
 
 " function for congestion costs based on demand "
 # This is equation 27 in the HICCS paper
-function objective_min_ne_opf_cost(gpm::AbstractGasPowerModel; n::Int = gpm.cnw)
+function objective_min_ne_opf_cost(gpm::AbstractGasPowerModel; n::Int = nw_id_default)
     gen_cost = Dict{Tuple{Int, Int}, Any}()
 
     for (i, gen) in _IM.ref(gpm, _PM.pm_it_sym, n, :gen)
@@ -78,7 +78,7 @@ end
 
 
 "Objective that minimizes expansion costs only (as in the HICCS paper)."
-function objective_min_ne_cost(gpm::AbstractGasPowerModel; n::Int = gpm.cnw)
+function objective_min_ne_cost(gpm::AbstractGasPowerModel; n::Int = nw_id_default)
     gas_ne_weight = get(gpm.data, "gas_ne_weight", 1.0)
     power_ne_weight = get(gpm.data, "power_ne_weight", 1.0)
 

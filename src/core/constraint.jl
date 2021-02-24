@@ -4,7 +4,7 @@
 
 
 "Constraints that bound the maximum pressure in a gas price zone."
-function constraint_zone_pressure(gpm::AbstractGasPowerModel, i::Int; nw::Int=gpm.cnw)
+function constraint_zone_pressure(gpm::AbstractGasPowerModel, i::Int; nw::Int=nw_id_default)
     junctions = filter(x -> x.second["price_zone"] == i, _IM.ref(gpm, _GM.gm_it_sym, nw, :junction))
     constraint_zone_pressure(gpm, nw, i, keys(junctions))
 end

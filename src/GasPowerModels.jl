@@ -2,6 +2,7 @@ module GasPowerModels
     import JSON
     import JuMP
     import InfrastructureModels
+    import InfrastructureModels: nw_id_default
     import Memento
     import GasModels
     import PowerModelsRestoration
