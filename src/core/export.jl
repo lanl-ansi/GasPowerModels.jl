@@ -60,5 +60,15 @@ for x in power_models
     @eval export $(x)
 end
 
+# Export PowerModelsRestoration modeling types for ease of use.
+power_models = names(_PMR)
+power_models = filter(x -> endswith(string(x), "PowerModel"), power_models)
+power_models = filter(x -> !occursin("Abstract", string(x)), power_models)
+
+for x in power_models
+    @eval import GasPowerModels._PMR: $(x)
+    @eval export $(x)
+end
+
 # Export from InfrastructureModels.
 export ids, ref, var, con, sol, nw_ids, nws, optimize_model!
