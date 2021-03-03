@@ -12,7 +12,7 @@ Memento = "f28f55f0-a522-5efc-85c2-fe41dfb9b2d9"
 PowerModels = "c36e90e8-916a-50a6-bd94-075b64ef4655"
 
 [compat]
-GasModels = "~0.8"
+GasModels = "~0.8, 0.9"
 JSON = "~0.18, ~0.19, ~0.20, ~0.21"
 JuMP = "~0.21"
 Memento = "~1.0, ~1.1"
