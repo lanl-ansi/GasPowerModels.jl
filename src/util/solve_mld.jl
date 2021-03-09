@@ -76,7 +76,12 @@ function solve_mld(data::Dict{String, Any}, model_type::Type, optimizer, alpha::
 
         # Include only non-generation deliveries within the objective.
         dels_non_power = filter(x -> !(x.second["index"] in dels_exclude), dels)
-        delivery_sol = result["solution"]["it"][_GM.gm_it_name]["delivery"]
+
+        if haskey(result["solution"]["it"][_GM.gm_it_name], "delivery")
+            delivery_sol = result["solution"]["it"][_GM.gm_it_name]["delivery"]
+        else
+            delivery_sol = Dict{String, Any}()
+        end
         
         if haskey(data["it"]["gm"], "standard_density")
             standard_density = data["it"]["gm"]["standard_density"]
