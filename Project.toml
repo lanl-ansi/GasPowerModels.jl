@@ -18,7 +18,7 @@ InfrastructureModels = "~0.6"
 JSON = "~0.21"
 JuMP = "~0.21"
 Memento = "~1.0, ~1.1"
-PowerModelsRestoration = "~0.5"
+PowerModelsRestoration = "~0.6"
 julia = "^1"
 
 [extras]

@@ -43,6 +43,38 @@ function constraint_heat_rate(gpm::AbstractGasPowerModel, delivery_gen_id::Int; 
 end
 
 
+"Constraint for coupling the production of power at natural gas generators with the gas consumption required to produce this power.
+The full non convex constraint is stated as ``fl = e * \\rho (h_2 * pg^2 + h_1 * pg + h_0)``
+where ``h`` is a quadratic function used to convert MW (``pg``) into Joules consumed per second (J/s). ``h`` is in units of (J/MW^2, J/MW, J).
+This is then converted to mass flow, ``fl``, (kg/s) of gas consumed to produce this energy.
+Here, ``e`` is an energy factor (m^3/J) and ``\\rho`` is standard density (kg/m^3). This constraint can be relaxed to
+a convex quadractic of the form ``fl \\ge e * \\rho (h_2 * pg^2 + h_1 * pg + h_0)``"
+function constraint_heat_rate_on_off(gpm::AbstractGasPowerModel, delivery_gen_id::Int; nw::Int = nw_id_default)
+    delivery_gen = _IM.ref(gpm, :dep, nw, :delivery_gen, delivery_gen_id)
+    delivery, gen = delivery_gen["delivery"]["id"], delivery_gen["gen"]["id"]
+    heat_rate_curve = delivery_gen["heat_rate_curve_coefficients"]
+    dispatchable = _IM.ref(gpm, _GM.gm_it_sym, nw, :delivery, delivery)["is_dispatchable"]
+
+    # Convert from J/s in per unit to cubic meters per second at standard density in per
+    # unit to kilogram per second in per unit.
+    if haskey(_IM.ref(gpm, _GM.gm_it_sym, nw), :standard_density)
+        standard_density = _IM.ref(gpm, _GM.gm_it_sym, nw, :standard_density)
+    else
+        standard_density = _GM._estimate_standard_density(gpm.data["it"]["gm"])
+    end
+
+    constant = _IM.ref(gpm, _GM.gm_it_sym, nw, :energy_factor) * standard_density
+
+    # Add the heat rate constraint dictionary.
+    if !haskey(_IM.con(gpm, :dep, nw), :heat_rate_on_off)
+        _IM.con(gpm, :dep, nw)[:heat_rate_on_off] = Dict{Int, JuMP.ConstraintRef}()
+    end
+
+    # Add the heat rate constraint.
+    constraint_heat_rate_on_off(gpm, nw, delivery_gen_id, delivery, gen, heat_rate_curve, constant, dispatchable)
+end
+
+
 "Auxiliary constraint that computes the total consumed gas in a zones. This constraint takes the form of
 ``fl_{z} = \\sum_{k \\in z} fl_k `` where ``fl_{z}`` is the total consumed gas in zone ``z`` and ``fl_k``
 is gas consumed at delivery point ``k`` in the zone. "
@@ -57,6 +89,7 @@ function constraint_zone_demand(gpm::AbstractGasPowerModel, i::Int; nw::Int=nw_i
     delivery_ids = Array{Int64,1}(vcat([deliveries[k] for k in junction_ids]...))
     constraint_zone_demand(gpm, nw, i, delivery_ids)
 end
+
 
 "Constraint that is used to compute cost for gas in a zone.  Since the cost of gas typically appears in the objective function or is bounded,
  these constraints do not compute the price directly, rather they place a lower bound on the price of gas.  There are two constraints stated here.
@@ -74,6 +107,7 @@ function constraint_zone_demand_price(gpm::AbstractGasPowerModel, i::Int; nw::In
     standard_density = gpm.data["it"][_GM.gm_it_name]["standard_density"]
     constraint_zone_demand_price(gpm, nw, i, min_cost, cost_q, standard_density)
 end
+
 
 "Constraint that is used to compute the cost for pressure in a zone. Since the cost of pressure typically appears in the objective function
 or is bounded, the constraints do not compute the price directly, rather they play a lower bound on the price of pressure, which is implictly tight
