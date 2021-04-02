@@ -13,9 +13,9 @@ mgc.units = 'si';
 %% optional global data (that was either provided or computed based on required global data)
 mgc.sound_speed = 317.354;  % m/s
 mgc.R = 8.314;  % J/(mol K)
-mgc.base_pressure = 8000000;  % Pa
+mgc.base_pressure = 8000000.0;  % Pa
 mgc.base_length = 5000;  % m
-mgc.base_flow = 535; % kg/s
+mgc.base_flow = 535.0; % kg/s
 mgc.is_per_unit = 0;
 
 %% junction data

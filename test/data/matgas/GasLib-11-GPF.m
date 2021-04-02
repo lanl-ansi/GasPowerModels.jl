@@ -91,10 +91,10 @@ mgc.delivery = [
 ];
 
 %% price_zone data
-%column_names% id  cost_q_1  cost_q_2  cost_q_3  cost_p_1  cost_p_2  cost_p_3  min_cost  constant_p
+%column_names% id  cost_q_1  cost_q_2  cost_q_3  cost_p_1  cost_p_2  cost_p_3  min_cost  constant_p  comment
 mgc.price_zone = [
-    1    0.0   0.0    0.0    8.85e-24    -1.35e-10    0.0       0.0    175.0
-    2    0.0   0.0    0.0    0.0          1.05e-12    794.37    0.0    600.0
+    1    0.0   0.0    0.0    8.85e-24    -1.35e-10    0.0       0.0    175.0 'Zone 1'
+    2    0.0   0.0    0.0    0.0          1.05e-12    794.37    0.0    600.0 'Zone 2'
 ];
 
 %% junction data (extended)

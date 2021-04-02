@@ -12,7 +12,7 @@
 
 
 "Constraint for coupling the production of power at natural gas generators with the gas consumption required to produce this power.
-The full non convex constraint is stated as ``fl = e * \\rho (h_2 * pg^2 + h_1 * pg + h_0)``
+The full non convex constraint is stated as ``fl = e * \\rho \\frac{h_2 * pg^2 + h_1 * pg + h_0}{3600}``
 where ``h`` is a quadratic function used to convert MW (``pg``) into Joules consumed per second (J/s). ``h`` is in units of (J/MW^2, J/MW, J).
 This is then converted to mass flow, ``fl``, (kg/s) of gas consumed to produce this energy.
 Here, ``e`` is an energy factor (m^3/J) and ``\\rho`` is standard density (kg/m^3). This constraint can be relaxed to
@@ -93,9 +93,9 @@ end
 
 "Constraint that is used to compute cost for gas in a zone.  Since the cost of gas typically appears in the objective function or is bounded,
  these constraints do not compute the price directly, rather they place a lower bound on the price of gas.  There are two constraints stated here.
- The first constraint is ``cost_{z} \\ge 86400.0^2 * q_z[1] * (fl_z * \frac{1.0}{\\rho})^2 + 86400.0 * q_z[2] * fl_z * \frac{1.0}{\\rho} + q_z[3].
- The second constraint is ``86400.0 * m_z * fl_z * \frac{1.0}{\\rho} ``
- where ``cost_{z}`` is the daily (24 hour) cost of gas in zone ``z``. 86400 is the number of seconds in a day. ``q`` is the quadractic cost of gas as function of
+ The first constraint is ``cost_{z} \\ge q_z[1] * (fl_z * \\frac{1.0}{\\rho})^2 + q_z[2] * fl_z * \\frac{1.0}{\\rho} + q_z[3].
+ The second constraint is ``m_z * fl_z * \\frac{1.0}{\\rho} ``
+ where ``cost_{z}`` is the daily (24 hour) cost of gas in zone ``z``. ``q`` is the quadractic cost of gas as function of
  gas consumed in the gas, ``fl_z.``  ``\\rho`` is standard density. ``m`` is the minmum cost of gas in terms kg/s."
 function constraint_zone_demand_price(gpm::AbstractGasPowerModel, i::Int; nw::Int = nw_id_default)
     if !haskey(_IM.con(gpm, _GM.gm_it_sym, nw), :zone_demand_price)
@@ -113,7 +113,7 @@ end
 or is bounded, the constraints do not compute the price directly, rather they play a lower bound on the price of pressure, which is implictly tight
 when this term only appears in the objective funtion.
 ``pc_z \\ge p_z[1] * \\pi_z^2 + cp_z[2] * \\pi_z + cp_z[3]
-where ``pc_z`` is the pressure price in zone ``z`` and ``p_z`` is a quadractic function of the maximum pressure in ``z``.
+where ``pc_z`` is the maximum pressure price in zone ``z`` and ``p_z`` is a quadractic function of the maximum pressure in ``z``.
 "
 function constraint_pressure_price(gpm::AbstractGasPowerModel, i::Int; nw::Int=nw_id_default)
     if !haskey(_IM.con(gpm, _GM.gm_it_sym, nw), :pressure_price)
@@ -122,4 +122,12 @@ function constraint_pressure_price(gpm::AbstractGasPowerModel, i::Int; nw::Int=n
 
     price_zone = _IM.ref(gpm, _GM.gm_it_sym, nw, :price_zone, i)
     constraint_pressure_price(gpm, nw, i, price_zone["cost_p"])
+end
+
+"Constraint this used to compute the maximum pressure in a price zone. Since the maximum pressure typically appears in a minimization
+objective function, the max is modeled as a lower bound of the form
+``\\pi_z \\ge \\pi_i \\forall i \\in z`` "
+function constraint_zone_pressure(gm::_GM.AbstractGasModel, i::Int; nw::Int=gm.cnw)
+    junctions = filter(x -> x.second["price_zone"] == i, _GM.ref(gm, nw, :junction))
+    constraint_zone_pressure(gm, nw, i, keys(junctions))
 end

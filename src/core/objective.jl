@@ -2,99 +2,154 @@
 # This file defines objectives used in gas-power problem specifications. #
 ##########################################################################
 
-function objective_min_opf_cost(gpm::AbstractGasPowerModel; n::Int = nw_id_default)
+"Helper function for expressing compressor costs."
+function objective_expression_ne_compressor_cost(gpm::AbstractGasPowerModel; n::Int = nw_id_default)
+    zc = _IM.var(gpm, _GM.gm_it_sym, n, :zc)
+    ne_comps = _IM.ref(gpm, _GM.gm_it_sym, n, :ne_compressor)
+
+    if length(ne_comps) > 0
+        return sum(x["construction_cost"] * zc[i] for (i, x) in ne_comps)
+    else
+        return 0.0
+    end
+end
+
+
+"Helper function for expressing pipe costs."
+function objective_expression_ne_pipe_cost(gpm::AbstractGasPowerModel; n::Int = nw_id_default)
+    zp = _IM.var(gpm, _GM.gm_it_sym, n, :zp)
+    ne_pipes = _IM.ref(gpm, _GM.gm_it_sym, n, :ne_pipe)
+
+    if length(ne_pipes) > 0
+        return sum(x["construction_cost"] * zp[i] for (i, x) in ne_pipes)
+    else
+        return 0.0
+    end
+end
+
+
+"Helper function for expressing line costs."
+function objective_expression_ne_line_cost(gpm::AbstractGasPowerModel; n::Int = nw_id_default)
+    zb = _IM.var(gpm, _PM.pm_it_sym, n, :branch_ne)
+    ne_lines = _IM.ref(gpm, _PM.pm_it_sym, n, :ne_branch)
+
+    if length(ne_lines) > 0
+        return sum(x["construction_cost"] * zb[i] for (i, x) in ne_lines)
+    else
+        return 0.0
+    end
+end
+
+
+"Helper function for expressing zonal prices."
+function objective_expression_zone_price(gpm::AbstractGasPowerModel; n::Int = nw_id_default)
+    zone_cost = _IM.var(gpm, _GM.gm_it_sym, n, :zone_cost)
+    zones = _IM.ref(gpm, _GM.gm_it_sym, n, :price_zone)
+
+    if length(zones) > 0
+        return sum(zone_cost[i] for (i, x) in zones)
+    else
+        return 0.0
+    end
+end
+
+
+"Helper function for expressing zonal pressure penalty prices."
+function objective_expression_pressure_penalty(gpm::AbstractGasPowerModel; n::Int = nw_id_default)
+    p_cost = _IM.var(gpm, _GM.gm_it_sym, n, :p_cost)
+    zones = _IM.ref(gpm, _GM.gm_it_sym, n, :price_zone)
+
+    if length(zones) > 0
+        return sum(x["constant_p"] * p_cost[i] for (i, x) in zones)
+    else
+        return 0.0
+    end
+end
+
+
+"Helper function for constructing the expression associated with the OPF objective."
+function objective_expression_opf_cost(gpm::AbstractGasPowerModel; n::Int = nw_id_default)
     gen_cost = Dict{Tuple{Int, Int}, Any}()
+    seconds_per_hour = 3600.0
 
     for (i, gen) in _IM.ref(gpm, _PM.pm_it_sym, n, :gen)
         conductor_ids = _PM.conductor_ids(_get_powermodel_from_gaspowermodel(gpm), n)
         pg = sum(_IM.var(gpm, _PM.pm_it_sym, n, :pg, i)[c] for c in conductor_ids)
 
         if length(gen["cost"]) == 1
-            gen_cost[(n, i)] = gen["cost"][1]
+            gen_cost[(n, i)] = gen["cost"][1] / seconds_per_hour
         elseif length(gen["cost"]) == 2
-            gen_cost[(n, i)] = gen["cost"][1]*pg + gen["cost"][2]
+            gen_cost[(n, i)] = (gen["cost"][1] * pg) / seconds_per_hour +
+                gen["cost"][2] / seconds_per_hour
         elseif length(gen["cost"]) == 3
-            gen_cost[(n, i)] = gen["cost"][1]*pg^2 + gen["cost"][2]*pg + gen["cost"][3]
+            gen_cost[(n, i)] = (gen["cost"][1] * pg^2) / seconds_per_hour +
+                (gen["cost"][2] * pg) / seconds_per_hour +
+                gen["cost"][3] / seconds_per_hour
         else
             gen_cost[(n, i)] = 0.0
         end
     end
 
+    return sum(gen_cost[(n, i)] for (i, gen) in _IM.ref(gpm, _PM.pm_it_sym, n, :gen))
+end
+
+
+"Objective function for minimizing the gas grid optimal flow as defined in reference
+Russell Bent, Seth Blumsack, Pascal Van Hentenryck, Conrado Borraz-Sánchez, Mehdi
+Shahriari. Joint Electricity and Natural Gas Transmission Planning With Endogenous Market
+Feedbacks. IEEE Transactions on Power Systems. 33 (6): 6397 - 6409, 2018. More formally,
+this objective is stated as ``min \\lambda \\sum_{g \\in G} (c^1_g pg_g^2 + c^2_g pg_g +
+c^3_g) + \\gamma \\sum_{z \\in Z} cost_z + \\gamma \\sum_{z \\in Z} pc_z `` where
+``\\lambda`` and ``\\gamma`` are weighting terms"
+function objective_min_opf_cost(gpm::AbstractGasPowerModel; n::Int = nw_id_default)
     # Get objective weights from power network reference data.
     power_opf_weight = get(gpm.data, "power_opf_weight", 1.0)
     gas_price_weight = get(gpm.data, "gas_price_weight", 1.0)
 
-    # Get placeholders for variables in the objective function.
-    zone_cost = _IM.var(gpm, _GM.gm_it_sym, n, :zone_cost)
-    p_cost = _IM.var(gpm, _GM.gm_it_sym, n, :p_cost)
-
+    # Set the objective using the objective helper functions.
     JuMP.@objective(gpm.model, _IM._MOI.MIN_SENSE,
-      power_opf_weight * sum(gen_cost[(n, i)] for (i, gen) in _IM.ref(gpm, _PM.pm_it_sym, n, :gen)) +
-      gas_price_weight * sum(zone_cost[i] for (i, zone) in _IM.ref(gpm, _GM.gm_it_sym, n, :price_zone)) +
-      gas_price_weight * sum(zone["constant_p"] * p_cost[i] for (i, zone) in _IM.ref(gpm, _GM.gm_it_sym, n, :price_zone))
-    )
+        power_opf_weight * objective_expression_opf_cost(gpm; n = n) +
+        gas_price_weight * objective_expression_zone_price(gpm; n = n) +
+        gas_price_weight * objective_expression_pressure_penalty(gpm; n = n))
 end
 
 
-" function for congestion costs based on demand "
-# This is equation 27 in the HICCS paper
+"Objective function for minimizing the gas grid optimal flow combined with network
+expansion costs as defined in reference Russell Bent, Seth Blumsack, Pascal Van
+Hentenryck, Conrado Borraz-Sánchez, Mehdi Shahriari. Joint Electricity and Natural Gas
+Transmission Planning With Endogenous Market Feedbacks. IEEE Transactions on Power
+Systems. 33 (6): 6397 - 6409, 2018. More formally, this objective is stated as ``min
+\\alpha \\sum_{(i,j) \\in Pipe \\cup Compressors} \\kappa_{ij} z_{ij} + \\beta
+\\sum_{(i,j) \\in Branches} \\kappa_{ij} z_{ij} + \\lambda \\sum_{g \\in G} (c^1_g pg_g^2
++ c^2_g pg_g + c^3_g) + \\gamma \\sum_{z \\in Z} cost_z + \\gamma \\sum_{z \\in Z} pc_z
+`` where ``\\lambda, \\alpha, \\beta`` and ``\\gamma`` are weighting terms"
 function objective_min_ne_opf_cost(gpm::AbstractGasPowerModel; n::Int = nw_id_default)
-    gen_cost = Dict{Tuple{Int, Int}, Any}()
-
-    for (i, gen) in _IM.ref(gpm, _PM.pm_it_sym, n, :gen)
-        conductor_ids = _PM.conductor_ids(_get_powermodel_from_gaspowermodel(gpm), n)
-        pg = sum(_IM.var(gpm, _PM.pm_it_sym, n, :pg, i)[c] for c in conductor_ids)
-
-        if length(gen["cost"]) == 1
-            gen_cost[(n, i)] = gen["cost"][1]
-        elseif length(gen["cost"]) == 2
-            gen_cost[(n, i)] = gen["cost"][1]*pg + gen["cost"][2]
-        elseif length(gen["cost"]) == 3
-            gen_cost[(n, i)] = gen["cost"][1]*pg^2 + gen["cost"][2]*pg + gen["cost"][3]
-        else
-            gen_cost[(n, i)] = 0.0
-        end
-    end
-
-    gas_ne_weight    = get(gpm.data, "gas_ne_weight", 1.0)
-    power_ne_weight  = get(gpm.data, "power_ne_weight", 1.0)
+    gas_ne_weight = get(gpm.data, "gas_ne_weight", 1.0)
+    power_ne_weight = get(gpm.data, "power_ne_weight", 1.0)
     power_opf_weight = get(gpm.data, "power_opf_weight", 1.0)
     gas_price_weight = get(gpm.data, "gas_price_weight", 1.0)
 
-    p_cost, zone_cost = _IM.var(gpm, _GM.gm_it_sym, n, :p_cost), _IM.var(gpm, _GM.gm_it_sym, n, :zone_cost)
-    zp, zc, = _IM.var(gpm, _GM.gm_it_sym, n, :zp), _IM.var(gpm, _GM.gm_it_sym, n, :zc)
-    branch_ne, pg = _IM.var(gpm, _PM.pm_it_sym, n, :branch_ne), _IM.var(gpm, _PM.pm_it_sym, n, :pg)
-    branches = _IM.ref(gpm, _PM.pm_it_sym, n, :ne_branch)
-
-    JuMP.@objective(gpm.model, _IM._MOI.MIN_SENSE,
-        gas_ne_weight    * sum(pipe["construction_cost"] * zp[i] for (i, pipe) in _IM.ref(gpm, _GM.gm_it_sym, n, :ne_pipe))
-      + gas_ne_weight    * sum(compressor["construction_cost"] * zc[i] for (i, compressor) in _IM.ref(gpm, _GM.gm_it_sym, n, :ne_compressor)) +
-      + power_ne_weight  * sum(branches[i]["construction_cost"] * branch_ne[i] for (i, branch) in branches) +
-      + power_opf_weight * sum(gen_cost[(n, i)] for (i, gen) in _IM.ref(gpm, _PM.pm_it_sym, n, :gen)) +
-      + gas_price_weight * sum(zone_cost[i] for (i, zone) in _IM.ref(gpm, _GM.gm_it_sym, n, :price_zone)) +
-      + gas_price_weight * sum(zone["constant_p"] * p_cost[i] for (i, zone) in _IM.ref(gpm, _GM.gm_it_sym, n, :price_zone))
-    )
+    return JuMP.@objective(gpm.model, _IM._MOI.MIN_SENSE,
+        gas_ne_weight * objective_expression_ne_pipe_cost(gpm; n = n) +
+        gas_ne_weight * objective_expression_ne_compressor_cost(gpm; n = n) +
+        power_ne_weight * objective_expression_ne_line_cost(gpm; n = n) +
+        power_opf_weight * objective_expression_opf_cost(gpm; n = n) +
+        gas_price_weight * objective_expression_zone_price(gpm; n = n) +
+        gas_price_weight * objective_expression_pressure_penalty(gpm; n = n))
 end
 
 
-"Objective that minimizes expansion costs only (as in the HICCS paper)."
+"Objective for minimizing the costs of expansions. Formally stated as ``min \\alpha
+\\sum_{(i,j) \\in Pipe \\cup Compressors} \\kappa_{ij} z_{ij} + \\beta \\sum_{(i,j) \\in
+Branches} \\kappa_{ij} z_{ij} `` where ``\\alpha`` and ``\\beta`` are weighting terms"
 function objective_min_ne_cost(gpm::AbstractGasPowerModel; n::Int = nw_id_default)
     gas_ne_weight = get(gpm.data, "gas_ne_weight", 1.0)
     power_ne_weight = get(gpm.data, "power_ne_weight", 1.0)
 
-    zc, ne_comps = _IM.var(gpm, _GM.gm_it_sym, n, :zc), _IM.ref(gpm, _GM.gm_it_sym, n, :ne_compressor)
-    c_cost = length(ne_comps) > 0 ? gas_ne_weight *
-        sum(comp["construction_cost"] * zc[i] for (i, comp) in ne_comps) : 0.0
-
-    zp, ne_pipes = _IM.var(gpm, _GM.gm_it_sym, n, :zp), _IM.ref(gpm, _GM.gm_it_sym, n, :ne_pipe)
-    p_cost = length(ne_pipes) > 0 ? gas_ne_weight *
-        sum(pipe["construction_cost"] * zp[i] for (i, pipe) in ne_pipes) : 0.0
-
-    zb, ne_lines = _IM.var(gpm, _PM.pm_it_sym, n, :branch_ne), _IM.ref(gpm, _PM.pm_it_sym, n, :ne_branch)
-    l_cost = length(ne_lines) > 0 ? power_ne_weight *
-        sum(line["construction_cost"] * zb[i] for (i, line) in ne_lines) : 0.0
-
-    obj = JuMP.@objective(gpm.model, _IM._MOI.MIN_SENSE, c_cost + p_cost + l_cost)
+    return JuMP.@objective(gpm.model, _IM._MOI.MIN_SENSE,
+        gas_ne_weight * objective_expression_ne_compressor_cost(gpm; n = n) +
+        gas_ne_weight * objective_expression_ne_pipe_cost(gpm; n = n) +
+        power_ne_weight * objective_expression_ne_line_cost(gpm; n = n))
 end
 
 

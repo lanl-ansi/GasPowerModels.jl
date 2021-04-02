@@ -20,7 +20,7 @@
     @testset "Case 14, Belgian NE OPF" begin
         result = GasPowerModels.run_ne_opf("../examples/data/matgas/belgian_ne.m", "../examples/data/matpower/case14-ne.m", CRDWPGasModel, SOCWRPowerModel, misocp_solver)
         @test result["termination_status"] == LOCALLY_SOLVED || result["termination_status"] == OPTIMAL
-        @test isapprox(result["objective"], 8552.72; atol = 1e-2)
+        @test isapprox(result["objective"], 2.38; atol = 1e-2)
         GC.gc()
     end
 

@@ -15,6 +15,19 @@ function resolve_units!(data::Dict{String, Any}, gas_is_per_unit::Bool, power_is
         # Scale the energy factor in gas data by base flow.
         energy_factor = get(g_data, "energy_factor", 1.0)
         g_data["energy_factor"] = energy_factor * inv(g_data["base_flow"])
+
+        if haskey(g_data, "price_zone")
+            for (i, zone) in g_data["price_zone"]
+                # Flow costs are modeled in the space of mass flow.
+                zone["cost_q_1"] = zone["cost_q_1"] * _GM.get_base_flow(g_data)^2
+                zone["cost_q_2"] = zone["cost_q_2"] * _GM.get_base_flow(g_data)
+                zone["min_cost"] = zone["min_cost"] * _GM.get_base_flow(g_data)
+
+                # Pressure costs are modeled in the space of pressure squared.
+                zone["cost_p_1"] = zone["cost_p_1"] * _GM.get_base_pressure(g_data)^4
+                zone["cost_p_2"] = zone["cost_p_2"] * _GM.get_base_pressure(g_data)^2
+            end
+        end
     end
 end
 

@@ -20,7 +20,7 @@
     @testset "Case 36-1.1, Northeast-1.0 NE" begin
         result = GasPowerModels.run_ne("../examples/data/matgas/northeast-ne-1.0.m", "../examples/data/matpower/case36-ne-1.1.m", CRDWPGasModel, SOCWRPowerModel, misocp_solver)
         @test result["termination_status"] == LOCALLY_SOLVED || result["termination_status"] == OPTIMAL
-        @test isapprox(result["objective"], 0.0; atol = 1e6)
+        @test isapprox(result["objective"], 0.0; atol = 1e8)
         GC.gc()
     end
 

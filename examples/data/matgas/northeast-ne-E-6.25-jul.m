@@ -543,8 +543,8 @@ mgc.ne_pipe = [
 %% price_zone data
 %column_names% id  cost_q_1  cost_q_2  cost_q_3  cost_p_1  cost_p_2  cost_p_3  min_cost  constant_p  comment
 mgc.price_zone = [
-1	9.675201069271254e-10	0.02151192923339477	0	0.0	6.3107786546363796e-12	407.23	0.015891600024669866	175	'Transco Zone 6 Non New York'
-2	1.1735452701964747e-10	0.026688706228097787	0	0.0	6.3107786546363796e-12	0	0.01871677336238895	600	'Transco Leidy Zone'
+1	726357.391252	  -629976.764143	0	6.0583475e-10 -0.00111388938	0	     61071.8765728	175	'Transco Zone 6 Non New York'
+2	296.540064875	  131748.323601   0	0             0.00000870226	  794.37 71929.0990747	600	'Transco Leidy Zone'
 ];
 
 %% junction data (extended)

@@ -17,14 +17,14 @@ makedocs(
             "Network Formulations" => "formulations.md",
             "Problem Specifications" => "specifications.md",
             "Modeling Components" => [
-                "GasGridModel" => "model.md",
                 "Objective" => "objective.md",
                 "Variables" => "variables.md",
                 "Constraints" => "constraints.md"
             ],
             "File IO" => "parser.md"
         ],
-        "Developer" => "developer.md"
+        "Developer" => "developer.md",
+        "Examples" => "examples.md"
     ]
 )
 
