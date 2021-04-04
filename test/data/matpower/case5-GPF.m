@@ -43,13 +43,3 @@ mpc.branch = [
     4     3     0.00297     0.0297     0.00674     426     426     426     1.05     -1.0     1     -30.0     30.0;
     4     10     0.00297     0.0297     0.00674     240.0     240.0     240.0     0.0      0.0     1     -30.0     30.0;
 ];
-
-%% gas network linking data
-%column_names%  delivery  heat_rate_quad_coeff   heat_rate_linear_coeff   heat_rate_constant_coeff
-mpc.gen_gas = [
-    -1    0.0    0           0.0;
-    -1    0.0    0           0.0;
-     1    3600.0    360000000.0    0.0;
-    -1    0.0    0           0.0;
-     3    0.0    360000000.0    0.0;
-];

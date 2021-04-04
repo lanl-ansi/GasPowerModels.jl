@@ -70,21 +70,17 @@ end
 "Helper function for constructing the expression associated with the OPF objective."
 function objective_expression_opf_cost(gpm::AbstractGasPowerModel; n::Int = nw_id_default)
     gen_cost = Dict{Tuple{Int, Int}, Any}()
-    seconds_per_hour = 3600.0
 
     for (i, gen) in _IM.ref(gpm, _PM.pm_it_sym, n, :gen)
         conductor_ids = _PM.conductor_ids(_get_powermodel_from_gaspowermodel(gpm), n)
         pg = sum(_IM.var(gpm, _PM.pm_it_sym, n, :pg, i)[c] for c in conductor_ids)
 
         if length(gen["cost"]) == 1
-            gen_cost[(n, i)] = gen["cost"][1] / seconds_per_hour
+            gen_cost[(n, i)] = gen["cost"][1]
         elseif length(gen["cost"]) == 2
-            gen_cost[(n, i)] = (gen["cost"][1] * pg) / seconds_per_hour +
-                gen["cost"][2] / seconds_per_hour
+            gen_cost[(n, i)] = gen["cost"][1] * pg + gen["cost"][2]
         elseif length(gen["cost"]) == 3
-            gen_cost[(n, i)] = (gen["cost"][1] * pg^2) / seconds_per_hour +
-                (gen["cost"][2] * pg) / seconds_per_hour +
-                gen["cost"][3] / seconds_per_hour
+            gen_cost[(n, i)] = gen["cost"][1] * pg^2 + gen["cost"][2] * pg + gen["cost"][3]
         else
             gen_cost[(n, i)] = 0.0
         end
