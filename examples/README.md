@@ -20,4 +20,4 @@ This folder contains a number of examples using GasPowerModels.  The network exp
 | belgian-ne                | [2] (0% stress case)      |
 | belgian-ne-100            | [2] (100% stress case)    |
 
-* results with the CRWDP model on these problems may change due to tightening of the CRDWP relaxation since 2016.
+* results with the CRDWP model on these problems may change due to tightening of the CRDWP relaxation since 2016.
