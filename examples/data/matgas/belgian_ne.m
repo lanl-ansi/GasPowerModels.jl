@@ -164,6 +164,37 @@ mgc.ne_pipe = [
 mgc.ne_compressor = [
 ];
 
+%% price_zone data
+%column_names% id  cost_q_1  cost_q_2  cost_q_3  cost_p_1  cost_p_2  cost_p_3  min_cost  constant_p  comment
+mgc.price_zone = [
+1 0 0 0 0 0 0 0 0 'none'
+];
 
+%% junction data (extended)
+%column_names% price_zone
+mgc.junction_data = [
+1
+-1
+-1
+-1
+-1
+-1
+-1
+-1
+-1
+-1
+-1
+-1
+-1
+-1
+-1
+-1
+-1
+-1
+-1
+-1
+-1
+-1
+];
 
 end
