@@ -60,9 +60,9 @@ function assign_delivery_generators!(data::Dict{String, Any})
         del = dels[findfirst(x -> parse(Int, del_name) == x["id"], dels)]
         delivery_gen["gen"]["id"], delivery_gen["delivery"]["id"] = gen["index"], del["index"]
 
-        if (gen["gen_status"] == 0 || del["status"] == 0) || delivery_gen["status"] == 0
-            # If any component statuses are zero, make all component statuses zero.
-            gen["gen_status"], del["status"], delivery_gen["status"] = 0, 0, 0
+        if gen["gen_status"] == 0 || delivery_gen["status"] == 0
+            # If generator or dependency statuses are zero, make both statuses zero.
+            gen["gen_status"], delivery_gen["status"] = 0, 0
         end
     end
 end

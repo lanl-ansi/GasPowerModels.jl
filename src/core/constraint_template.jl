@@ -17,11 +17,12 @@ where ``h`` is a quadratic function used to convert MW (``pg``) into Joules cons
 This is then converted to mass flow, ``fl``, (kg/s) of gas consumed to produce this energy.
 Here, ``e`` is an energy factor (m^3/J) and ``\\rho`` is standard density (kg/m^3). This constraint can be relaxed to
 a convex quadractic of the form ``fl \\ge e * \\rho (h_2 * pg^2 + h_1 * pg + h_0)``"
-function constraint_heat_rate(gpm::AbstractGasPowerModel, delivery_gen_id::Int; nw::Int = nw_id_default)
-    delivery_gen = _IM.ref(gpm, :dep, nw, :delivery_gen, delivery_gen_id)
-    delivery, gen = delivery_gen["delivery"]["id"], delivery_gen["gen"]["id"]
-    heat_rate_curve = delivery_gen["heat_rate_curve_coefficients"]
-    dispatchable = _IM.ref(gpm, _GM.gm_it_sym, nw, :delivery, delivery)["is_dispatchable"]
+function constraint_heat_rate(gpm::AbstractGasPowerModel, delivery_id::Int; nw::Int = nw_id_default)
+    delivery_gens = _IM.ref(gpm, :dep, nw, :delivery_gen)
+    dep_ids = findall(x -> x["delivery"]["id"] == delivery_id, delivery_gens)
+    gen_ids = [delivery_gens[i]["gen"]["id"] for i in dep_ids]
+    heat_rate_curves = [delivery_gens[i]["heat_rate_curve_coefficients"] for i in dep_ids]
+    dispatchable = _IM.ref(gpm, _GM.gm_it_sym, nw, :delivery, delivery_id)["is_dispatchable"]
 
     # Convert from J/s in per unit to cubic meters per second at standard density in per
     # unit to kilogram per second in per unit.
@@ -39,21 +40,28 @@ function constraint_heat_rate(gpm::AbstractGasPowerModel, delivery_gen_id::Int; 
     end
 
     # Add the heat rate constraint.
-    constraint_heat_rate(gpm, nw, delivery_gen_id, delivery, gen, heat_rate_curve, constant, dispatchable)
+    if isa(gpm, RelaxedGasPowerModel)
+        constraint_heat_rate_relaxed(
+            gpm, nw, delivery_id, gen_ids, heat_rate_curves, constant, dispatchable)
+    else
+        constraint_heat_rate_exact(
+            gpm, nw, delivery_id, gen_ids, heat_rate_curves, constant, dispatchable)
+    end
 end
 
 
 "Constraint for coupling the production of power at natural gas generators with the gas consumption required to produce this power.
-The full non convex constraint is stated as ``fl = e * \\rho (h_2 * pg^2 + h_1 * pg + h_0)``
+The full non convex constraint is stated as ``fl = e * \\rho \\frac{h_2 * pg^2 + h_1 * pg + h_0}{3600}``
 where ``h`` is a quadratic function used to convert MW (``pg``) into Joules consumed per second (J/s). ``h`` is in units of (J/MW^2, J/MW, J).
 This is then converted to mass flow, ``fl``, (kg/s) of gas consumed to produce this energy.
 Here, ``e`` is an energy factor (m^3/J) and ``\\rho`` is standard density (kg/m^3). This constraint can be relaxed to
 a convex quadractic of the form ``fl \\ge e * \\rho (h_2 * pg^2 + h_1 * pg + h_0)``"
-function constraint_heat_rate_on_off(gpm::AbstractGasPowerModel, delivery_gen_id::Int; nw::Int = nw_id_default)
-    delivery_gen = _IM.ref(gpm, :dep, nw, :delivery_gen, delivery_gen_id)
-    delivery, gen = delivery_gen["delivery"]["id"], delivery_gen["gen"]["id"]
-    heat_rate_curve = delivery_gen["heat_rate_curve_coefficients"]
-    dispatchable = _IM.ref(gpm, _GM.gm_it_sym, nw, :delivery, delivery)["is_dispatchable"]
+function constraint_heat_rate_on_off(gpm::AbstractGasPowerModel, delivery_id::Int; nw::Int = nw_id_default)
+    delivery_gens = _IM.ref(gpm, :dep, nw, :delivery_gen)
+    dep_ids = findall(x -> x["delivery"]["id"] == delivery_id, delivery_gens)
+    gen_ids = [delivery_gens[i]["gen"]["id"] for i in dep_ids]
+    heat_rate_curves = [delivery_gens[i]["heat_rate_curve_coefficients"] for i in dep_ids]
+    dispatchable = _IM.ref(gpm, _GM.gm_it_sym, nw, :delivery, delivery_id)["is_dispatchable"]
 
     # Convert from J/s in per unit to cubic meters per second at standard density in per
     # unit to kilogram per second in per unit.
@@ -66,12 +74,18 @@ function constraint_heat_rate_on_off(gpm::AbstractGasPowerModel, delivery_gen_id
     constant = _IM.ref(gpm, _GM.gm_it_sym, nw, :energy_factor) * standard_density
 
     # Add the heat rate constraint dictionary.
-    if !haskey(_IM.con(gpm, :dep, nw), :heat_rate_on_off)
-        _IM.con(gpm, :dep, nw)[:heat_rate_on_off] = Dict{Int, JuMP.ConstraintRef}()
+    if !haskey(_IM.con(gpm, :dep, nw), :heat_rate)
+        _IM.con(gpm, :dep, nw)[:heat_rate] = Dict{Int, JuMP.ConstraintRef}()
     end
 
     # Add the heat rate constraint.
-    constraint_heat_rate_on_off(gpm, nw, delivery_gen_id, delivery, gen, heat_rate_curve, constant, dispatchable)
+    if isa(gpm, RelaxedGasPowerModel)
+        constraint_heat_rate_relaxed_on_off(
+            gpm, nw, delivery_id, gen_ids, heat_rate_curves, constant, dispatchable)
+    else
+        constraint_heat_rate_exact_on_off(
+            gpm, nw, delivery_id, gen_ids, heat_rate_curves, constant, dispatchable)
+    end
 end
 
 

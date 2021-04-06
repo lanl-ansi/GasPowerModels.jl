@@ -18,3 +18,8 @@ function ref_add_price_zones!(ref::Dict{Symbol, <:Any}, data::Dict{String, <:Any
         end
     end
 end
+
+function _get_interdependent_deliveries(gpm::AbstractGasPowerModel; nw::Int = nw_id_default)
+    delivery_gens = _IM.ref(gpm, :dep, nw, :delivery_gen)
+    return unique(x["delivery"]["id"] for (i, x) in delivery_gens)
+end

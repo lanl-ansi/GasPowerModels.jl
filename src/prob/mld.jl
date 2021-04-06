@@ -22,7 +22,7 @@ function build_mld(gpm::AbstractGasPowerModel)
     _PMR.build_mld(_get_powermodel_from_gaspowermodel(gpm))
 
     # Gas-power related parts of the problem formulation.
-    for (i, delivery_gen) in _IM.ref(gpm, :dep, :delivery_gen)
+    for i in _get_interdependent_deliveries(gpm)
         constraint_heat_rate_on_off(gpm, i)
     end
 
@@ -52,7 +52,7 @@ function build_mld_uc(gpm::AbstractGasPowerModel)
     _PMR.build_mld_uc(_get_powermodel_from_gaspowermodel(gpm))
 
     # Gas-power related parts of the problem formulation.
-    for (i, delivery_gen) in _IM.ref(gpm, :dep, :delivery_gen)
+    for i in _get_interdependent_deliveries(gpm)
         constraint_heat_rate_on_off(gpm, i)
     end
 

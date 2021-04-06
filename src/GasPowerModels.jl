@@ -53,8 +53,8 @@ module GasPowerModels
     include("io/common.jl")
     include("io/json.jl")
 
-    include("form/relaxed.jl")
     include("form/exact.jl")
+    include("form/relaxed.jl")
 
     include("prob/gpf.jl")
     include("prob/mld.jl")
