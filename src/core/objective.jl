@@ -96,7 +96,7 @@ Shahriari. Joint Electricity and Natural Gas Transmission Planning With Endogeno
 Feedbacks. IEEE Transactions on Power Systems. 33 (6): 6397-6409, 2018. More formally,
 this objective is stated as
 ```math
-\min \\lambda \\sum_{g \\in G} (c^1_g pg_g^2 + c^2_g pg_g + c^3_g) +
+\\min \\lambda \\sum_{g \\in G} (c^1_g pg_g^2 + c^2_g pg_g + c^3_g) +
 \\gamma \\sum_{z \\in Z} cost_z + \\gamma \\sum_{z \\in Z} pc_z,
 ```
 where ``\\lambda`` and ``\\gamma`` are weighting terms."
@@ -119,7 +119,7 @@ Hentenryck, Conrado Borraz-Sánchez, Mehdi Shahriari. Joint Electricity and Natu
 Transmission Planning With Endogenous Market Feedbacks. IEEE Transactions on Power
 Systems. 33 (6): 6397-6409, 2018. More formally, this objective is stated as
 ```math
-\min \\alpha \\sum_{(i,j) \\in Pipe \\cup Compressors} \\kappa_{ij} z_{ij} +
+\\min \\alpha \\sum_{(i,j) \\in Pipe \\cup Compressors} \\kappa_{ij} z_{ij} +
 \\beta \\sum_{(i,j) \\in Branches} \\kappa_{ij} z_{ij} +
 \\lambda \\sum_{g \\in G} (c^1_g pg_g^2 + c^2_g pg_g + c^3_g) +
 \\gamma \\sum_{z \\in Z} cost_z + \\gamma \\sum_{z \\in Z} pc_z,
@@ -143,7 +143,7 @@ end
 
 "Objective for minimizing the costs of expansion. Formally stated as
 ```math
-\min \\alpha \\sum_{(i,j) \\in Pipe \\cup Compressors} \\kappa_{ij} z_{ij} +
+\\min \\alpha \\sum_{(i,j) \\in Pipe \\cup Compressors} \\kappa_{ij} z_{ij} +
 \\beta \\sum_{(i,j) \\in Branches} \\kappa_{ij} z_{ij},
 ```
 where ``\\alpha`` and ``\\beta`` are weighting terms."
@@ -158,6 +158,19 @@ function objective_min_ne_cost(gpm::AbstractGasPowerModel; n::Int = nw_id_defaul
 end
 
 
+"""
+Maximizes the normalized sum of nongeneration gas load delivered in the joint network, i.e.,
+```math
+\\max \\eta_{G}(d) := \\left(\\sum_{i \\in \\mathcal{D}^{\\prime}} \\beta_{i} d_{i}\\right)
+\\left(\\sum_{i \\in \\mathcal{D}^{\\prime}} \\beta_{i} \\overline{d}_{i}\\right)^{-1},
+```
+where ``\\mathcal{D}^{\\prime}`` is the set the delivery points in the gas network with
+dispatchable demand that are _not_ connected to interdependent generators in the power network,
+``\\beta_{i} \\in \\mathbb{R}_{+}`` is a predefined restoration priority for delivery
+``i \\in \\mathcal{D}^{\\prime}``, ``d_{i}`` is the mass flow of gas delivered at
+``i \\in \\mathcal{D}^{\\prime}``, and ``\\overline{d}_{i}`` is the maximum deliverable gas
+load at ``i \\in \\mathcal{D}^{\\prime}``.
+"""
 function objective_max_gas_load(gpm::AbstractGasPowerModel)
     # Initialize the affine expression for the objective function.
     objective, scalar = JuMP.AffExpr(0.0), 0.0
@@ -191,6 +204,17 @@ function objective_max_gas_load(gpm::AbstractGasPowerModel)
 end
 
 
+"""
+Maximizes the normalized sum of active power load delivered in the joint network, i.e.,
+```math
+\\max \\eta_{P}(z^{d}) := \\left(\\sum_{i \\in \\mathcal{L}} \\beta_{i} z_{i}^{d} \\Re({S}_{i}^{d})\\right)
+\\left(\\sum_{i \\in \\mathcal{L}} \\beta_{i} \\Re({S}_{i}^{d})\\right)^{-1}.
+```
+Here, ``\\mathcal{L}`` is the set of loads in the power network,
+``\\beta_{i} \\in \\mathbb{R}_{+}`` is the load restoration priority for load
+``i \\in \\mathcal{L}``, and ``z_{i} \\in [0, 1]`` is a variable that scales the maximum
+amount of active power load, ``\\Re({S}_{i}^{d})``, at load ``i \\in \\mathcal{L}``.
+"""
 function objective_max_power_load(gpm::AbstractGasPowerModel)
     # Initialize the affine expression for the objective function.
     objective, scalar = JuMP.AffExpr(0.0), 0.0
@@ -213,6 +237,18 @@ function objective_max_power_load(gpm::AbstractGasPowerModel)
 end
 
 
+"""
+Maximizes the weighted normalized sums of nongeneration gas load and active power load
+delivered in the joint network, i.e.,
+```math
+    \\max \\lambda_{G} \\eta_{G}(d) + \\lambda_{P} \\eta_{P}(z^{d}),
+```
+where it is recommended that ``0 < \\lambda_{G} < 1``, that `gm_load_priority` in the
+network data specification be set to the value of ``\\lambda_{G}`` desired, and that
+`pm_load_priority` similarly be set to the value ``1 - \\lambda_{G} = \\lambda_{P}``.
+This type of parameterization allows for a straightforward analysis of gas-power
+tradeoffs, as the objective is naturally scaled between zero and one.
+"""
 function objective_max_load(gpm::AbstractGasPowerModel)
     ng_mld_objective = objective_max_gas_load(gpm)
     ep_mld_objective = objective_max_power_load(gpm)

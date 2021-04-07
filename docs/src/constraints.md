@@ -1,5 +1,5 @@
 # Constraints
-We provide the following methods to provide a compositional approach for defining common constraints used in coupled gas-power models.
+We define the following methods to provide a compositional approach toward defining common constraints used in coupled gas-power models.
 These methods should always be defined over `AbstractGasPowerModel`.
 
 
