@@ -36,7 +36,7 @@ function build_ne_opf(gpm::AbstractGasPowerModel)
         constraint_heat_rate(gpm, i)
     end
 
-    # Variables related to the NE OGPF problem.
+    # Variables related to the NE OPF problem.
     variable_zone_demand(gpm)
     variable_zone_demand_price(gpm)
     variable_zone_pressure(gpm)

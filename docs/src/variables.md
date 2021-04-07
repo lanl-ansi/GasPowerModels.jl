@@ -1,6 +1,6 @@
 # Variables
-We provide the following methods to provide a compositional approach for defining common variables used in coupled gas grid flow models.
-These methods should always be defined over `AbstractGasModel` and/or `AbstractPowerModel`.
+We provide the following methods to provide a compositional approach for defining common variables used in joint gas-power models.
+These methods should always be defined over `AbstractGasPowerModel`.
 
 ```@autodocs
 Modules = [GasPowerModels]

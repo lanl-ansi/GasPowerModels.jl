@@ -30,7 +30,7 @@ function build_opf(gpm::AbstractGasPowerModel)
         constraint_heat_rate(gpm, i)
     end
 
-    # Variables related to the OGPF problem.
+    # Variables related to the OPF problem.
     variable_zone_demand(gpm)
     variable_zone_demand_price(gpm)
     variable_zone_pressure(gpm)
