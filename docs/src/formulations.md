@@ -8,8 +8,13 @@ The network formulations for joint gas-power modeling use the formulations defin
 CurrentModule = GasPowerModels
 ```
 
-All methods for constructing a ``GasModel`` and a ``PowerModel`` should be defined with the type ``GasModels.AbstractGasModel`` and ``PowerModels.AbstractPowerModel``, respectively. ``GasPowerModels`` utilizes the following (internal) functions to construct a ``GasModel``, a ``PowerModel``, and their interrelationships :
+Specification of a ``GasPowerModel`` requires the specification of both a ``GasModels.AbstractGasModel`` and a ``PowerModels.AbstractPowerModel``, respectively.
+For example, to specify a formulation that leverages the `CRDWPGasModel` and `SOCWRPowerModel` types, the corresponding `GasPowerModel` type would be
+```julia
+GasPowerModel{CRDWPGasModel, SOCWRPowerModel}
+```
 
+ ``GasPowerModels`` then utilizes the following (internal) function to construct a ``GasPowerModel``:
 ```@docs
 instantiate_model
 ```
@@ -18,11 +23,13 @@ instantiate_model
 
 ## Type Hierarchy
 
-``GasPowerModels`` inherit the type hierarchy of ``GasModels`` and ``PowerModels`` and functions are dispatched based on the choice of types for each of models. An example is the function
-
+``GasPowerModels`` inherit the type hierarchy of ``GasModels`` and ``PowerModels``.
+Constraint and objective functions are then dispatched based on the choice of types for each of the models.
+An example is seen in the function
 
 ```@docs
-constraint_heat_rate_curve
+constraint_heat_rate
 ```
 
-The convention adopting when deriving a relaxation or approximation of a non convex constraint that links a natural gas model and an electric power model is to relax or approximate the linking constraint according to the most "complex" infrastructure model.  So, for example, if the natural gas formulation uses a linear representation and the electric power model uses a quadractic representation, then the linking constraint uses the tightest possible relaxation using linear and quadractic equations.
+The convention is that, if a relaxation or approximation of a nonconvex constraint is used in a natural gas and/or electric power model, the linking constraint will also be similarly relaxed or approximated according to the most "complex" infrastructure model.
+For example, if the natural gas formulation uses a linear representation, and the electric power model uses a quadratic representation, then the linking constraint uses the tightest possible relaxation using linear and quadratic interdependency equations.
