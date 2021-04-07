@@ -5,7 +5,7 @@ mpc.version = '2';
 %% system MVA base
 mpc.baseMVA = 100;
 
-mpc.power_opf_weight = 1314000;
+mpc.power_opf_weight = 365;
 mpc.gas_price_weight = 365;
 
 %% bus data
