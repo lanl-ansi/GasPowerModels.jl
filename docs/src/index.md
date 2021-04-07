@@ -38,27 +38,28 @@ Installation of the JuMP interfaces to Juniper, Ipopt, and Cbc can be performed 
 ] add JuMP Juniper Ipopt Cbc
 ```
 
-After installation of the required solvers, an example gas-power flow feasibility problem (whose file inputs can be found in the `examples` directory within the [GasPowerModels repository](https://github.com/lanl-ansi/GasPowerModels.jl)) can be solved via
+After installation of the required solvers, an example gas-power flow feasibility problem (whose file inputs can be found in the `test` directory within the [GasPowerModels repository](https://github.com/lanl-ansi/GasPowerModels.jl)) can be solved via
 ```julia
 using JuMP, Juniper, Ipopt, Cbc
 using GasPowerModels
 
 # Set up the optimization solvers.
-ipopt = JuMP.optimizer_with_attributes(Ipopt.Optimizer, "print_level"=>0, "sb"=>"yes")
-cbc = JuMP.optimizer_with_attributes(Cbc.Optimizer, "logLevel"=>0)
-juniper = JuMP.optimizer_with_attributes(Juniper.Optimizer, "nl_solver"=>ipopt, "mip_solver"=>cbc)
+ipopt = JuMP.optimizer_with_attributes(Ipopt.Optimizer, "print_level" => 0, "sb" => "yes")
+cbc = JuMP.optimizer_with_attributes(Cbc.Optimizer, "logLevel" => 0)
+juniper = JuMP.optimizer_with_attributes(Juniper.Optimizer, "nl_solver" => ipopt, "mip_solver" => cbc)
 
 # Specify paths to the gas and power network files.
 g_file = "test/data/matgas/GasLib-11-GPF.m" # Gas network.
 p_file = "test/data/matpower/case5-GPF.m" # Power network.
+link_file = "test/data/json/GasLib-11-case5.json" # Linking data.
 
-# Specify the gas and power formulation types separately.
-g_type, p_type = CRDWPGasModel, SOCWRPowerModel
+# Specify the gas-power formulation type.
+gpm_type = GasPowerModel{CRDWPGasModel, SOCWRPowerModel}
 
 # Solve the gas-power flow feasibility problem.
-result = run_gpf(g_file, p_file, g_type, p_type, juniper;
-    gm_solution_processors=[GasPowerModels._GM.sol_psqr_to_p!],
-    pm_solution_processors=[GasPowerModels._PM.sol_data_model!])
+result = run_gpf(g_file, p_file, link_file, gpm_type, juniper;
+    solution_processors = [GasPowerModels._GM.sol_psqr_to_p!,
+    GasPowerModels._PM.sol_data_model!])
 ```
 
 After solving the problem, results can then be analyzed, e.g.,
@@ -67,8 +68,8 @@ After solving the problem, results can then be analyzed, e.g.,
 result["termination_status"]
 
 # Generator 1's real power generation.
-result["solution"]["gen"]["1"]["pg"]
+result["solution"]["it"]["pm"]["gen"]["1"]["pg"]
 
 # Junction 1's pressure.
-result["solution"]["junction"]["1"]["p"]
+result["solution"]["it"]["gm"]["junction"]["1"]["p"]
 ```
