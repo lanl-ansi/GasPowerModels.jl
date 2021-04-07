@@ -14,17 +14,15 @@ end
 """
     instantiate_model(g_file, p_file, link_file, model_type, build_method; kwargs...)
 
-    Instantiates and returns GasModels and PowerModels modeling objects from gas and power
-    input files `g_file` and `p_file`, respectively. Here, `link_file` is an input file that
-    links gas and power networks, `g_type` and `p_type` are the gas and power modeling
-    types, `build_method` is the build method for the problem specification being
-    considered, and `gm_ref_extensions` and `pm_ref_extensions` are arrays of functions used
-    to define gas and power modeling extensions.
+    Instantiates and returns a GasPowerModels modeling object from gas and power input
+    files `g_file` and `p_file`. Additionally, `link_file` is an input file that links
+    gas and power networks, `model_type` is the gas-power modeling type, and
+    `build_method` is the build method for the problem specification being considered.
 """
 function instantiate_model(
     g_file::String, p_file::String, link_file::String, model_type::Type,
     build_method::Function; kwargs...)
-    # Read gas and power data from files.
+    # Read gas, power, and linking data from files.
     data = parse_files(g_file, p_file, link_file)
 
     # Instantiate GasModels and PowerModels modeling objects.
@@ -34,17 +32,14 @@ end
 
 """
     run_model(
-        data, model_type, optimizer, build_method; gm_solution_processors,
-        pm_solution_processors, gm_ref_extensions, pm_ref_extensions, kwargs...)
+        data, model_type, optimizer, build_method;
+        ref_extensions, solution_processors, kwargs...)
 
-    Instantiates and solves the joint GasModels and PowerModels modeling objects from gas
-    and power input data `g_data` and `p_data`, respectively. Here, `links` is an array of
-    dictionaries that link gas and power network components, `g_type` and `p_type` are the
-    gas and power modeling types, `optimizer` it the optimization solver, `build_method` is
-    the build method for the problem specification being considered,
-    `gm_solution_processors` and `pm_solution_processors` are arrays of gas and power model
-    solution processors, and `gm_ref_extensions` and `pm_ref_extensions` are arrays of gas
-    and power modeling extensions. Returns a dictionary of combined results.
+    Instantiates and solves the joint GasPowerModels model from input data `data`, where
+    `model_type` is the gas-power modeling type, `build_method` is the build method for
+    the problem specification being considered, `ref_extensions` is an array of gas and
+    power modeling extensions, and `solution_processors` is an array of gas and power
+    modeling solution data postprocessors. Returns a dictionary of model results.
 """
 function run_model(
     data::Dict{String,<:Any}, model_type::Type, optimizer, build_method::Function;
@@ -71,6 +66,7 @@ function run_model(
     return result
 end
 
+
 function transform_solution_processors(gpm::AbstractGasPowerModel, solution_processors::Array)
     gm = _get_gasmodel_from_gaspowermodel(gpm)
     pm = _get_powermodel_from_gaspowermodel(gpm)
@@ -90,24 +86,18 @@ end
 
 
 """
-    run_model(
-        g_file, p_file, link_file, model_type, optimizer, build_method;
-        gm_solution_processors, pm_solution_processors, gm_ref_extensions,
-        pm_ref_extensions, kwargs...)
+    run_model(g_file, p_file, link_file, model_type, optimizer, build_method; kwargs...)
 
-    Instantiates and solves the joint GasModels and PowerModels modeling objects from gas
-    and power input files `g_file` and `p_file`, respectively. Here, `link_file` is an input
-    file that links gas and power networks, `g_type` and `p_type` are the gas and power
-    modeling types, `optimizer` it the optimization solver, `build_method` is the build
-    method for the problem specification being considered, `gm_solution_processors` and
-    `pm_solution_processors` are arrays of gas and power model solution processors, and
-    `gm_ref_extensions` and `pm_ref_extensions` are arrays of gas and power modeling
-    extensions. Returns a dictionary of combined results.
+    Instantiates and solves a GasPowerModels modeling object from gas and power input
+    files `g_file` and `p_file`. Additionally, `link_file` is an input file that links
+    gas and power networks, `model_type` is the gas-power modeling type, and
+    `build_method` is the build method for the problem specification being considered.
+    Returns a dictionary of model results.
 """
 function run_model(
     g_file::String, p_file::String, link_file::String, model_type::Type, optimizer,
     build_method::Function; kwargs...)
-    # Read gas and power data from files.
+    # Read gas, power, and linking data from files.
     data = parse_files(g_file, p_file, link_file)
 
     # Solve the model and return the result dictionary.
