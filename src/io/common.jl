@@ -31,6 +31,13 @@ function parse_power_file(file_path::String; skip_correct::Bool = true)
 end
 
 
+"""
+    parse_files(gas_path, power_path, link_path)
+
+Parses gas, power, and linking data from `gas_path`, `power_path`, and `link_path`,
+respectively, into a single data dictionary. Returns a GasPowerModels
+multi-infrastructure data structure keyed by the infrastructure type `it`.
+"""
 function parse_files(gas_path::String, power_path::String, link_path::String)
     joint_network_data = parse_link_file(link_path)
     _IM.update_data!(joint_network_data, parse_gas_file(gas_path))

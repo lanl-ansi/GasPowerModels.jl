@@ -1,4 +1,4 @@
-"Add price zone information to GasModels data reference dictionary."
+"Add price zone information to GasPowerModels data reference dictionary."
 function ref_add_price_zones!(ref::Dict{Symbol, <:Any}, data::Dict{String, <:Any})
     if _IM.ismultinetwork(data["it"][_GM.gm_it_name])
         nws_data = data["it"][_GM.gm_it_name]["nw"]
@@ -19,6 +19,7 @@ function ref_add_price_zones!(ref::Dict{Symbol, <:Any}, data::Dict{String, <:Any
     end
 end
 
+"Get unique gas delivery points that have interdependencies with the power system."
 function _get_interdependent_deliveries(gpm::AbstractGasPowerModel; nw::Int = nw_id_default)
     delivery_gens = _IM.ref(gpm, :dep, nw, :delivery_gen)
     return unique(x["delivery"]["id"] for (i, x) in delivery_gens)
