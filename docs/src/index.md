@@ -8,7 +8,7 @@ CurrentModule = GasPowerModels
 GasPowerModels.jl is a Julia/JuMP package for the joint optimization of steady state natural gas and power transmission networks.
 It provides utilities for modeling problems that combine elements of natural gas and electric power systems.
 It is designed to enable the computational evaluation of historical and emerging gas-power network optimization formulations and algorithms using a common platform.
-The code is engineered to decouple [Problem Specifications](@ref) (e.g., gas-power flow, network expansion planning) from [Network Formulations](@ref) (e.g., mixed-integer linear, mixed-integer nonlinear).
+The code is engineered to decouple [Problem Specifications](@ref) (e.g., gas-power flow, network expansion planning) from [Network Formulations](@ref) (e.g., mixed-integer convex, mixed-integer nonconvex).
 This decoupling enables the definition of a variety of optimization formulations and their comparison on common problem specifications.
 
 ## Installation
@@ -48,7 +48,7 @@ ipopt = JuMP.optimizer_with_attributes(Ipopt.Optimizer, "print_level" => 0, "sb"
 cbc = JuMP.optimizer_with_attributes(Cbc.Optimizer, "logLevel" => 0)
 juniper = JuMP.optimizer_with_attributes(Juniper.Optimizer, "nl_solver" => ipopt, "mip_solver" => cbc)
 
-# Specify paths to the gas and power network files.
+# Specify paths to the gas, power, and linking files.
 g_file = "test/data/matgas/GasLib-11-GPF.m" # Gas network.
 p_file = "test/data/matpower/case5-GPF.m" # Power network.
 link_file = "test/data/json/GasLib-11-case5.json" # Linking data.
@@ -56,7 +56,7 @@ link_file = "test/data/json/GasLib-11-case5.json" # Linking data.
 # Specify the gas-power formulation type.
 gpm_type = GasPowerModel{CRDWPGasModel, SOCWRPowerModel}
 
-# Solve the gas-power flow feasibility problem.
+# Solve the gas-power flow (gpf) feasibility problem.
 result = run_gpf(g_file, p_file, link_file, gpm_type, juniper;
     solution_processors = [GasPowerModels._GM.sol_psqr_to_p!,
     GasPowerModels._PM.sol_data_model!])
@@ -67,7 +67,7 @@ After solving the problem, results can then be analyzed, e.g.,
 # The termination status of the optimization solver.
 result["termination_status"]
 
-# Generator 1's real power generation.
+# Generator 1's active (real) power generation.
 result["solution"]["it"]["pm"]["gen"]["1"]["pg"]
 
 # Junction 1's pressure.

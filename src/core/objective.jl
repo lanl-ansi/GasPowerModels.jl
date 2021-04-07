@@ -172,7 +172,8 @@ Maximizes the normalized sum of nongeneration gas load delivered in the joint ne
 ```
 where ``\\mathcal{D}^{\\prime}`` is the set the delivery points in the gas network with
 dispatchable demand that are _not_ connected to interdependent generators in the power network,
-``\\beta_{i} \\in \\mathbb{R}_{+}`` is a predefined restoration priority for delivery
+``\\beta_{i} \\in \\mathbb{R}_{+}`` (equal to the `priority` property of the `delivery`)
+is a predefined restoration priority for delivery
 ``i \\in \\mathcal{D}^{\\prime}``, ``d_{i}`` is the mass flow of gas delivered at
 ``i \\in \\mathcal{D}^{\\prime}``, and ``\\overline{d}_{i}`` is the maximum deliverable gas
 load at ``i \\in \\mathcal{D}^{\\prime}``.
@@ -217,7 +218,8 @@ Maximizes the normalized sum of active power load delivered in the joint network
 \\left(\\sum_{i \\in \\mathcal{L}} \\beta_{i} \\Re({S}_{i}^{d})\\right)^{-1}.
 ```
 Here, ``\\mathcal{L}`` is the set of loads in the power network,
-``\\beta_{i} \\in \\mathbb{R}_{+}`` is the load restoration priority for load
+``\\beta_{i} \\in \\mathbb{R}_{+}`` (equal to the `weight` property of the `load`)
+is the load restoration priority for load
 ``i \\in \\mathcal{L}``, and ``z_{i} \\in [0, 1]`` is a variable that scales the maximum
 amount of active power load, ``\\Re({S}_{i}^{d})``, at load ``i \\in \\mathcal{L}``.
 """

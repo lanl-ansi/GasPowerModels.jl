@@ -5,7 +5,7 @@ The GasPowerModels data format allows the user to specify gas network data, powe
 ## Data Processing functions
 
 `GasPowerModels` relies on the automated data processing routines of `GasModels` and `PowerModels`, which include capabilities for status propagation, nondimensionalization, topology correction, etc.
-However, these capabilities are typically used on individual infrastructure data, whereas `GasPowerModels` must join these data.
+However, these capabilities are typically used on independent infrastructure data, whereas `GasPowerModels` must join these data.
 Thus, in preprocessing routines, it is recommended that capabilities be invoked explictly so that external dependencies are accounted for.
 For example, the core data parsing function `parse_files` performs the following operations:
 
@@ -44,15 +44,15 @@ function parse_power_file(file_path::String; skip_correct::Bool = true)
 end
 ```
 
-This ensures the per-unit statuses within source files are preserved so that `GasPowerModels` can determine if coupling information requires nondimensionalization.
+This ensures the per-unit statuses within source files are preserved so that `GasPowerModels` can determine if interdependency data requires nondimensionalization.
 After these routines are called, `correct_network_data!` executes various data and topology correction routines on gas, power, and linking data.
 Then, `resolve_units` ensures that linking data is correctly dimensionalized with respect to the initial gas and power dimensionalizations.
 
 
 ## Compositional Problems
 
-A best practice is to adopt a composition approach for building problems in `GasPowerModels`, leveraging problem definitions of `PowerModels` and `GasModels`.
-This helps lessen the impact of breaking changes across packages.
+A best practice is to adopt a compositional approach for building problems in `GasPowerModels`, leveraging problem definitions of `PowerModels` and `GasModels`.
+This helps lessen the impact of breaking changes across independent infrastructure packages.
 For example, the joint network expansion planning problem invokes the network expansion planning problems of `GasModels` and `PowerModels` directly with routines like
 
 ```julia

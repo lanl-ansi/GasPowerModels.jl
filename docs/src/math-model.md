@@ -3,7 +3,7 @@ As GasPowerModels implements a variety of coupled gas grid network optimization 
 This section provides a mathematical specification for constraints and physics that couple electric power and natural gas and provides an overview of the typical mathematical models in GasPowerModels.
 
 
-## Coupled Gas Electric Power Flow
+## Coupled Gas and Electric Power Flow
 GasPowerModels implements steady state models of gas flow and power flow, based on the implementations of gas flows in GasModels.jl and power flows in PowerModels.jl.
 The key coupling constraint between power and gas systems is through generators that consume gas to produce power.
 This is expressed in terms of a heat rate curve, i.e.,
@@ -23,44 +23,40 @@ Thus, the native implementations of ``GasPowerModels`` support the ability to mo
 Each component of the objective function is defined in the space of nondimensionalized units, and these weighting constants can be used to (sometimes) transform the quantities into their real units.
 
 ### Expansion costs of electric power components
-
 Some gas grid problems include network expansions on electric power lines.
 Objective functions which model the cost of electric power lines minimize a function of the form
 ```math
  \sum_{a \in A^e} \kappa_{a} z_{a}
 ```
-where ``A^e`` is the set of new electric power lines, ``\kappa_a`` is the cost of installing ``a``, and ``z_a`` is the binary variable for a installing ``a``.
+where ``A^e`` is the set of new electric power lines, ``\kappa_a`` is the cost of installing ``a``, and ``z_a`` is the binary variable for installing ``a``.
 The constant term `power_ne_weight` can be provided as a parameter to weight this cost in an objective function.
-The units of this term is dollars.
+The units of this term are dollars.
 
 ### Expansion costs of natural gas components
-
 Some gas grid problems include network expansions on compressors and pipes.
 Objective functions which model the costs of compressors and pipes minimize a function of the form
 ```math
  \sum_{a \in A^g} \kappa_{a} z_{a}
 ```
-where ``A^g`` is the set of new pipes and compressors, ``\kappa_a`` is the cost of installing ``a``, and ``z_a`` is the binary variable for a installing ``a``.
+where ``A^g`` is the set of new pipes and compressors, ``\kappa_a`` is the cost of installing ``a``, and ``z_a`` is the binary variable for installing ``a``.
 The constant term `gas_ne_weight` can be provided as a parameter to weight this cost in an objective function.
-The units of this term is dollars.
+The units of this term are dollars.
 
 ### Operation costs of generators
-
 Some gas grid problems include operation cost of electric power generators of the form
 ```math
 \sum_{i \in \Gamma} \mu_2^i pg^2_i + \mu_1^i pg_i + \mu_0
 ```
 where ``\Gamma`` is the set of generators and ``\mu`` are the coefficients of a quadratic function for computing the costs of operating generator ``i``. 
 In `PowerModels` the units of ``\mu`` are dollars per PU hour and ``pg`` is expressed in the per unit system, so the costs are computed as dollars per MW hour.
-So, to get these costs into SI units (for consistency with `GasModels`), the objective function computes dollars per second.
-Thus, ``\mu_2 = \frac{\mu_2}{3600}``, ``\mu_1 = \frac{\mu_1}{3600}`` and ``\mu_0 = \frac{\mu_0}{3600}.``
+To get these costs into SI units (for consistency with `GasModels`), the objective function computes dollars per second.
+Thus, ``\mu_2 = \frac{\mu_2}{3600}``, ``\mu_1 = \frac{\mu_1}{3600}``, and ``\mu_0 = \frac{\mu_0}{3600}.``
 The constant term `power_opf_weight` can be provided as a parameter to weight this cost in an objective function.
 The units of this term are dollars per second.
-In many applications, these costs for natural gas generators are set to zero so that the cost of gas generators is based only on the cost of gas consumed (next sections).
+In many applications, these costs for natural gas generators are set to zero so that the cost of gas generators is based only on the cost of gas consumed (as discussed in the following sections).
 However, these costs can be set to nonzero values in order to model costs unrelated to fuel.
 
 ### Cost for gas in a pricing zone
-
 Some gas-grid problems include a cost associated with the price of gas.
 This part of the objective function prices gas as a function of flexible gas consumed in a zone. Reference
 
@@ -102,12 +98,12 @@ Let the objective term relating to the amount of nongeneration gas load be defin
 ```math
 \eta_{G}(d) := \left(\sum_{i \in \mathcal{D}^{\prime}} \beta_{i} d_{i}\right) \left(\sum_{i \in \mathcal{D}^{\prime}} \beta_{i} \overline{d}_{i}\right)^{-1},
 ```
-where ``\mathcal{D}^{\prime}`` is the set the delivery points in the gas network not connected to interdependent generators in the power network, ``\beta_{i} \in \mathbb{R}_{+}`` is a predefined restoration priority for delivery ``i \in \mathcal{D}^{\prime}``, ``d_{i}`` is the variable mass flow of gas delivered at ``i \in \mathcal{D}^{\prime}`` and ``\overline{d}_{i}`` is the maximum deliverable gas load at ``i \in \mathcal{D}^{\prime}``.
+where ``\mathcal{D}^{\prime}`` is the set the delivery points in the gas network not connected to interdependent generators in the power network, ``\beta_{i} \in \mathbb{R}_{+}`` (equal to the `priority` property of the `delivery`) is a predefined restoration priority for delivery ``i \in \mathcal{D}^{\prime}``, ``d_{i}`` is the variable mass flow of gas delivered at ``i \in \mathcal{D}^{\prime}`` and ``\overline{d}_{i}`` is the maximum deliverable gas load at ``i \in \mathcal{D}^{\prime}``.
 Next, let the objective term relating to the amount of active power load be defined by
 ```math
 \eta_{P}(z^{d}) := \left(\sum_{i \in \mathcal{L}} \beta_{i} z_{i}^{d} \Re({S}_{i}^{d})\right) \left(\sum_{i \in \mathcal{L}} \beta_{i} \Re({S}_{i}^{d})\right)^{-1}.
 ```
-Here, ``\mathcal{L}`` is the set of loads in the power network, ``\beta_{i} \in \mathbb{R}_{+}`` is the load restoration priority for load ``i \in \mathcal{L}``, and ``z_{i} \in [0, 1]`` is a variable that scales the maximum amount of active power load, ``\Re({S}_{i}^{d})``, at load ``i \in \mathcal{L}``.
+Here, ``\mathcal{L}`` is the set of loads in the power network, ``\beta_{i} \in \mathbb{R}_{+}`` (equal to the `weight` property of the `load`) is the load restoration priority for load ``i \in \mathcal{L}``, and ``z_{i} \in [0, 1]`` is a variable that scales the maximum amount of active power load, ``\Re({S}_{i}^{d})``, at load ``i \in \mathcal{L}``.
 
 Note that these two terms, ``\eta_{G}(d)`` and ``\eta_{P}(z^{d})``, are normalized between zero and one.
 This allows for a more straightforward analysis of the tradeoffs involved in maximal gas and power delivery.
