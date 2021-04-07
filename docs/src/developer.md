@@ -1,51 +1,74 @@
 # Developer Documentation
 
-The data format allows the user to specify a `GasModel` and a `PowerModel` and the connections between these systems. At the moment, data about connections between the two infrastructure systems is stored in the `GasModel` or the `PowerModel.`
+The GasPowerModels data format allows the user to specify gas network data, power network data, and data related to the interdependencies between gas and power systems.
 
 ## Data Processing functions
 
-`GasPowerModels` relies on the automated data processing of `GasModels` and `PowerModels` which includes capabilities to propagate status, non dimensionalize, correct topology errors, etc.
-However, these capabilities assume no external dependencies, such as those induced by `GasPowerModels`. Thus, it is recommended that these capabilities be invoked explictly so that external dependencies are accounted for.  For example,
+`GasPowerModels` relies on the automated data processing routines of `GasModels` and `PowerModels`, which include capabilities for status propagation, nondimensionalization, topology correction, etc.
+However, these capabilities are typically used on individual infrastructure data, whereas `GasPowerModels` must join these data.
+Thus, in preprocessing routines, it is recommended that capabilities be invoked explictly so that external dependencies are accounted for.
+For example, the core data parsing function `parse_files` performs the following operations:
 
 ```julia
-g_data, p_data = _GM.parse_file(g_file, skip_correct=true), _PM.parse_file(p_file, validate=false)
+function parse_files(gas_path::String, power_path::String, link_path::String)
+    joint_network_data = parse_link_file(link_path)
+    _IM.update_data!(joint_network_data, parse_gas_file(gas_path))
+    _IM.update_data!(joint_network_data, parse_power_file(power_path))
 
-# Ensure the two datasets use the same units for power.
-g_per_unit = get(g_data,"is_per_unit",false)
-p_per_unit = get(p_data,"per_unit",false)
+    # Store whether or not each network uses per-unit data.
+    g_per_unit = get(joint_network_data["it"][_GM.gm_it_name], "is_per_unit", 0) != 0
+    p_per_unit = get(joint_network_data["it"][_PM.pm_it_name], "per_unit", false)
 
-# Ensure the two datasets use the same units
-_GM.correct_network_data!(g_data)
-_PM.correct_network_data!(p_data)
+    # Correct the network data.
+    correct_network_data!(joint_network_data)
 
-if g_per_unit == false
-    resolve_gm_units!(g_data)
-end
+    # Ensure all datasets use the same units for power.
+    resolve_units!(joint_network_data, g_per_unit, p_per_unit)
 
-if p_per_unit == false
-    resolve_pm_units!(p_data)
+    # Return the network dictionary.
+    return joint_network_data
 end
 ```
 
-ensures the per unit status of the source files is preserved so that `GasPowerModels` can determine if coupling information requires non dimensionalizing.
+Here, the `parse_gas_file` and `parse_power_file` routines skip their respective data correction steps, i.e.,
+
+```julia
+function parse_gas_file(file_path::String; skip_correct::Bool = true)
+    data = _GM.parse_file(file_path; skip_correct = skip_correct)
+    ...
+end
+
+function parse_power_file(file_path::String; skip_correct::Bool = true)
+    data = _PM.parse_file(file_path; validate = !skip_correct)
+    ...
+end
+```
+
+This ensures the per-unit statuses within source files are preserved so that `GasPowerModels` can determine if coupling information requires nondimensionalization.
+After these routines are called, `correct_network_data!` executes various data and topology correction routines on gas, power, and linking data.
+Then, `resolve_units` ensures that linking data is correctly dimensionalized with respect to the initial gas and power dimensionalizations.
+
 
 ## Compositional Problems
 
-A best practice to adopt a composition approach to building problems in `GasPowerModels`, leveraging problem definitions of `PowerModels` and `GasModels`.  This will help lessen the impact of breaking changes.  For example, the joint network expansion planning problem invokes the network expansion planning problems of `GasModels` and `PowerModels` directly with code like
+A best practice is to adopt a composition approach for building problems in `GasPowerModels`, leveraging problem definitions of `PowerModels` and `GasModels`.
+This helps lessen the impact of breaking changes across packages.
+For example, the joint network expansion planning problem invokes the network expansion planning problems of `GasModels` and `PowerModels` directly with routines like
 
 ```julia
-_GM.build_nels(gm)
+# Gas-only variables and constraints
+_GM.build_nels(_get_gasmodel_from_gaspowermodel(gpm))
 
-# Power-only-related variables and constraints.
-_PM.build_tnep(pm)
+# Power-only variables and constraints
+_PM.build_tnep(_get_powermodel_from_gaspowermodel(gpm))
 
 # Gas-power related parts of the problem formulation.
-for i in _GM.ids(gm, :delivery)
-   constraint_heat_rate_curve(pm, gm, i)
+for i in _get_interdependent_deliveries(gpm)
+    constraint_heat_rate(gpm, i)
 end
 
-# This objective function minimizes cost of network expansion.
-objective_min_ne_cost(pm, gm)
+# Objective minimizes cost of network expansion.
+objective_min_ne_cost(gpm)
 ```
 
-with the only new code contributed being that which models coupling between power and natural gas.
+Compared to the `GasModels` (`_GM`) and `PowerModels` (`_PM`) routines, the `GasPowerModels` routines only specify interdependency constraints and the joint objective.
