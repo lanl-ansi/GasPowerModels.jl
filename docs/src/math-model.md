@@ -96,7 +96,7 @@ Since the gas price has two terms, this term can be further weighted per zone wi
 
 
 ### Maximal load delivery
-The task of the Maximal Load Delivery (MLD) problem and its unit committment variant (MLD UC) are to determine feasible steady-state operating points for severely damaged joint gas-power networks while ensuring the maximal delivery of gas and power loads simultaneously.
+The task of the Maximal Load Delivery (MLD) problem and its unit commitment variant (MLD UC) are to determine feasible steady-state operating points for severely damaged joint gas-power networks while ensuring the maximal delivery of gas and power loads simultaneously.
 Specifically, the MLD problem maximizes the amount of _nongeneration_ gas load (i.e., gas demand uncommitted to electric power generators) and _active_ power load simultaneously.
 Let the objective term relating to the amount of nongeneration gas load be defined by
 ```math

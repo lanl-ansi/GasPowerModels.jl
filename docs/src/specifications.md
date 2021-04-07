@@ -149,7 +149,7 @@ for i in _get_interdependent_deliveries(gpm)
 end
 ```
 
-## Maximum Load Delivery with Unit Committment (MLD UC)
+## Maximum Load Delivery with Unit Commitment (MLD UC)
 ### Objective
 ```julia
 # Objective maximizes the amount of load delivered.

@@ -1,3 +1,4 @@
+"Exact nonconvex form of the heat rate constraint."
 function constraint_heat_rate_exact(
     gpm::AbstractGasPowerModel, n::Int, delivery_index::Int,
     generator_indices::Array{Int, 1}, heat_rate_curves::Vector{Vector{Any}},
@@ -40,6 +41,7 @@ function constraint_heat_rate_exact(
 end
 
 
+"Exact nonconvex form of the unit commitment heat rate constraint."
 function constraint_heat_rate_exact_on_off(
     gpm::AbstractGasPowerModel, n::Int, delivery_index::Int,
     generator_indices::Array{Int, 1}, heat_rate_curves::Vector{Vector{Any}},

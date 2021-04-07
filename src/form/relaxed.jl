@@ -1,3 +1,4 @@
+"Convexly relaxed form of the heat rate constraint."
 function constraint_heat_rate_relaxed(
     gpm::RelaxedGasPowerModel, n::Int, delivery_index::Int,
     generator_indices::Array{Int, 1}, heat_rate_curves::Vector{Vector{Any}},
@@ -40,6 +41,7 @@ function constraint_heat_rate_relaxed(
 end
 
 
+"Convexly relaxed form of the unit commitment heat rate constraint."
 function constraint_heat_rate_relaxed_on_off(
     gpm::RelaxedGasPowerModel, n::Int, delivery_index::Int,
     generator_indices::Array{Int, 1}, heat_rate_curves::Vector{Vector{Any}},
