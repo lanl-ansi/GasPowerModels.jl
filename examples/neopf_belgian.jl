@@ -32,7 +32,7 @@
         result = run_ne_opf(gas_path, power_path, link_path, gpm_type, misocp_solver)
 
         @test result["termination_status"] in [LOCALLY_SOLVED, OPTIMAL]
-        @test isapprox(result["objective"] / 3600.0, 2.38; atol = 1.0e-2)
+        @test isapprox(result["objective"], 2.38; atol = 1.0e-2)
     end
 
     @testset "Case 14, Belgian 100% Stress NE OPF" begin
