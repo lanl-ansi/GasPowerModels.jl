@@ -84,6 +84,11 @@ function objective_expression_opf_cost(gpm::AbstractGasPowerModel; n::Int = nw_i
         else
             gen_cost[(n, i)] = 0.0
         end
+
+        # Note that gen["cost"] is typically in units of dollars per hour per
+        # nondimensionalized power unit. This ultimately transforms the cost coefficients,
+        # instead, to dollars per second per nondimensionalized power unit.
+        gen_cost[(n, i)] = gen_cost[(n, i)] / 3600.0
     end
 
     return sum(gen_cost[(n, i)] for (i, gen) in _IM.ref(gpm, _PM.pm_it_sym, n, :gen))

@@ -19,9 +19,6 @@ mpc.version = '2';
 %%-----  Power Flow Data  -----%%
 %% system MVA base
 mpc.baseMVA = 100;
-mpc.gas_ne_weight = 1.0;
-mpc.power_ne_weight = 1.0;
-mpc.ne_normalization = 1.0e-8;
 
 %% bus data
 %	bus_i	type	Pd	Qd	Gs	Bs	area	Vm	Va	baseKV	zone	Vmax	Vmin

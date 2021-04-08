@@ -1,4 +1,6 @@
 {
+    "power_opf_weight": 1314000.0,
+    "gas_price_weight": 365.0,
     "it": {
         "dep": {
             "delivery_gen": {

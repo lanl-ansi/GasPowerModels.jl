@@ -1,4 +1,6 @@
 {
+    "gas_ne_weight": 1.0,
+    "power_ne_weight": 1.0,
     "it": {
         "dep": {
             "delivery_gen": {
