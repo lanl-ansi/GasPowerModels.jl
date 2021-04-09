@@ -20,7 +20,7 @@
     #     result = run_ne_opf(gas_path, power_path, link_path, gpm_type, misocp_solver)
 
     #     @test result["termination_status"] in [LOCALLY_SOLVED, OPTIMAL]
-    #     @test isapprox(result["objective"] / 3600.0, 4.0269404390948544e9; atol = 1.0e6)
+    #     @test isapprox(result["objective"], 4.0269404390948544e9; atol = 1.0e6)
     # end
 
     @testset "Case 36-1.1, Northeast-1.0 NE" begin
