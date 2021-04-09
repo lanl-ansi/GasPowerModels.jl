@@ -17,7 +17,7 @@ To alleviate this, the second-stage constraint's tolerance (currently hard coded
 The current implementation of each lexicographic algorithm is solver-independent.
 
 When `alpha` is strictly between zero and one, a single-stage optimization problem is solved, where the weighting on the nongeneration gas portion of the objective is equal to `alpha` and the weighting on the active power portion of the objective is equal to `1 - alpha`.
-Since this is a single-stage problem, the algorithm that solves is it typically more numerically stable than the lexicographic algorithms described above.
+Since this is a single-stage problem, the algorithm that solves it is typically more numerically stable than the lexicographic algorithms described above.
 To gain a better understanding of the objective terms used in `solve_mld`, please read the [Maximal load delivery](@ref) section.
 
 Aside from the typical data provided in a `result` dictionary, which is returned from the `solve_mld` method, a number of useful data are also computed and placed at the top level of the `result` dictionary.

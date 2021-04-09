@@ -7,7 +7,7 @@ CurrentModule = GasPowerModels
 
 ## Coupling Data Formats
 The GasPowerModels parsing implementation relies on data formats that support extensions to accommodate arbitrary extra data fields such as those required to define couplings between infrastructures.
-Thus, ``GasPowerModels`` largely relies on parsing of MATPOWER and MATGAS files to incorporate some data fields.
+Thus, GasPowerModels largely relies on parsing of MATPOWER and MATGAS files to incorporate some data fields.
 In addition, the coupling between gas generators and delivery points is accomplished via a tertiary JSON linking file of the following form:
 
 ```json

@@ -2,7 +2,7 @@
 The network formulations for joint gas-power modeling use the formulations defined in GasModels.jl and PowerModels.jl.
 
 
-# GasPower Model
+# GasPowerModels Types
 ```@meta
 CurrentModule = GasPowerModels
 ```
@@ -18,15 +18,14 @@ GasPowerModels then utilizes the following (internal) function to construct a `G
 instantiate_model
 ```
 
-# Network Formulations
-
 ## Type Hierarchy
 
-``GasPowerModels`` inherits the type hierarchies of ``GasModels`` and ``PowerModels``.
+GasPowerModels inherits the type hierarchies of GasModels and PowerModels.
 Constraint and objective functions are then dispatched based on the choice of types for each of the models.
 An example is seen in the function
 ```@docs
 constraint_heat_rate
+constraint_heat_rate_on_off
 ```
 
 The convention is that, if a relaxation or approximation of a nonconvex constraint is used in a natural gas and/or electric power model, the linking constraint will also be similarly relaxed or approximated according to the most "complex" independent infrastructure modeling formulation.

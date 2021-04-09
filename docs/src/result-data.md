@@ -3,7 +3,7 @@
 ## The Result Data Dictionary
 GasPowerModels uses a dictionary to organize the results of a `run_` command.
 The dictionary uses strings as key values so it can be serialized to JSON for algorithmic data exchange.
-The data dictionary organization is designed to be consistent with the GasPowerModels [The Network Data Dictionary](@ref).
+The data dictionary organization is designed to be consistent with [The Network Data Dictionary](@ref).
 
 At the top level the results data dictionary is structured as follows:
 ```json

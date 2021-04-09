@@ -7,18 +7,18 @@ GasPowerModels implements steady state models of gas flow and power flow, based 
 The key coupling constraint between power and gas systems is through generators that consume gas to produce power.
 This is expressed in terms of a heat rate curve, i.e.,
 ```math
-f = e * \rho h_2 * pg^2 + h_1 * pg + h_0
+f = e \rho \sum_{i \in \Gamma} (h^{0}_{i} * pg_{i}^2 + h^{1}_{i} * pg_{i} + h^{2}_{i})
 ```
-where $h$ is a quadratic function used to convert MW ($pg$) into Joules consumed per second.
-Note that $h$ is in units of (J/MW^2, J/MW, J).
-This is then converted to mass flow, $f$, (kg/s) of gas consumed to produce this energy.
-Here, $e$ is an energy factor (m^3/J) and $\rho$ is standard density (kg/m^3).
+where $h_{i}$ are coefficients of a quadratic function used to convert MW ($pg_{i}$) at a generator into Joules consumed per second.
+Note that $h_{i}$ coefficients are in units of (J/MW^2, J/MW, J).
+This is then converted to mass flow, $f$, (kg/s) of gas consumed at a delivery point to produce this energy.
+Here, $e$ is an energy factor (m^3/J) and $\rho$ is the gas standard density (kg/m^3).
 
 ## Co-optimization of Natural Gas and Electric Power
 One of the largest challenges associated with modeling coupled natural gas and electric power systems is defining objective functions that span both systems.
 Each system has its own units, both in terms of actual quantities and methods for nondimensionalizing the equations to improve numerical performance.
 Further, the importance of optimizing the gas system relative to the electric power system may be problem specific.
-Thus, the native implementations of ``GasPowerModels`` support the ability to model a wide variety of components of a joint objective function and define weights on each component.
+Thus, the native implementations of GasPowerModels support the ability to model a wide variety of components of a joint objective function and define weights on each component.
 Each component of the objective function is defined in the space of nondimensionalized units, and these weighting constants can be used to (sometimes) transform the quantities into their real units.
 
 ### Expansion costs of electric power components
@@ -64,12 +64,12 @@ Russell Bent, Seth Blumsack, Pascal Van Hentenryck, Conrado Borraz-Sánchez, Meh
 developed a pricing objective which computes the total cost (dollars per second) of flexible gas in a zone as the maximum of two functions.
 The first function is
 ```math
-m_2 * (fl_z * \frac{1.0}{\rho})^2 + m_1 * fl_z * \frac{1.0}{\\rho} + m_0
+m_2 \left(fl_z \frac{1}{\rho}\right)^2 + m_1 fl_z \frac{1}{\rho} + m_0
 ```
 where ``fl_z`` is the total mass (kg/s) consumed in zone ``z``, ``\rho`` is standard density (kg/m^3), and ``m`` is a quadratic function with units of dollars per cubic meter per second.
 The second function is a minimum price for gas, i.e.,
 ```math
-C_z * fl_z * \frac{1.0}{\rho}
+C_z fl_z \frac{1}{\rho}
 ```
 The units of this objective are dollars per second.
 The constant term `gas_price_weight` can be provided as a parameter to weight this cost in an objective function.
@@ -81,7 +81,7 @@ Russell Bent, Seth Blumsack, Pascal Van Hentenryck, Conrado Borraz-Sánchez, Meh
 
 developed a penalty objective which computes this cost (in dollars) as the function
 ```math
-n_2 * \pi_z^2 + n_1 * \pi_z + n_0
+n_2 \pi_z^2 + n_1 \pi_z + n_0
 ```
 where  ``\pi`` is the maximum pressure squared in zone ``z`` and ``n`` is a quadratic function (dollars per pressure squared).
 The units of this objective are dollars.
@@ -112,4 +112,4 @@ The objective natively supported by the `build_mld` and `build_mld_uc` methods i
 ```
 where it is recommended that ``0 < \lambda_{G} < 1``, that `gm_load_priority` in the network data specification be set to the value of ``\lambda_{G}`` desired, and that `pm_load_priority` similarly be set to the value ``1 - \lambda_{G} = \lambda_{P}``.
 This type of parameterization allows for a straightforward analysis of tradeoffs, as the objective is naturally scaled between zero and one.
-Lexicographic optimization of the two objective terms (e.g., maximize gas delivery first, then power) can be performed via the `solve_mld` function described in the [Utilities](@ref) section.
+Lexicographic optimization of the two objective terms (e.g., maximize gas delivery first, then power) can be performed via the `solve_mld` function described in the [Algorithmic Utilities](@ref) section.

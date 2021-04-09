@@ -20,7 +20,7 @@ At least one optimization solver is required to run GasPowerModels.
 The solver selected typically depends on the type of problem formulation being employed.
 As an example, the mixed-integer nonlinear programming solver [Juniper](https://github.com/lanl-ansi/Juniper.jl) can be used for testing any of the problem formulations considered in this package.
 Juniper itself depends on the installation of a nonlinear programming solver (e.g., [Ipopt](https://github.com/jump-dev/Ipopt.jl)) and a mixed-integer linear programming solver (e.g., [CBC](https://github.com/jump-dev/Cbc.jl)).
-Installation of the JuMP interfaces to Juniper, Ipopt, and Cbc can be performed via the Julia package manager, i.e.,
+Installation of the JuMP interfaces to Juniper, Ipopt, and CBC can be performed via the Julia package manager, i.e.,
 
 ```julia
 ] add JuMP Juniper Ipopt Cbc

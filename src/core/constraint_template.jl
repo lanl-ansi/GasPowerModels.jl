@@ -13,7 +13,7 @@
 consumption required to produce this power. The full nonconvex constraint is stated as
 
 ```math
-fl = e * \\rho (h_2 * pg^2 + h_1 * pg + h_0),
+fl = e \\rho \\sum_{i \\in \\Gamma} (h_{i}^{0} pg_{i}^2 + h_{i}^{1} pg_{i} + h_{i}^{2}),
 ```
 
 where ``h`` is a quadratic function used to convert MW (``pg``) into Joules consumed per
@@ -23,7 +23,7 @@ factor (m^3/J) and ``\\rho`` is standard density (kg/m^3). This constraint can b
 to a convex quadratic of the form
 
 ```math
-fl \\ge e * \\rho (h_2 * pg^2 + h_1 * pg + h_0).
+fl \\geq e \\rho \\sum_{i \\in \\Gamma} (h_{i}^{0} pg_{i}^2 + h_{i}^{1} pg_{i} + h_{i}^{2}),
 ```"
 function constraint_heat_rate(gpm::AbstractGasPowerModel, delivery_id::Int; nw::Int = nw_id_default)
     delivery_gens = _IM.ref(gpm, :dep, nw, :delivery_gen)
@@ -63,7 +63,7 @@ with the gas consumption required to produce this power. The full nonconvex cons
 stated as
 
 ```math
-fl = e * \\rho (h_2 * pg^2 + h_1 * pg + h_0 * z),
+fl = e \\rho \\sum_{i \\in \\Gamma} (h_{i}^{0} pg_{i}^2 + h_{i}^{1} pg_{i} + h_{i}^{2} z_{i}),
 ```
 
 where ``h`` is a quadratic function used to convert MW (``pg``) into Joules consumed per
@@ -74,7 +74,7 @@ indicating the status of the generator. This constraint can be relaxed to a conv
 quadratic of the form
 
 ```math
-fl \\ge e * \\rho (h_2 * pg^2 + h_1 * pg + h_0 * z).
+fl \\geq e \\rho \\sum_{i \\in \\Gamma} (h_{i}^{0} pg_{i}^2 + h_{i}^{1} pg_{i} + h_{i}^{2} z_{i}),
 ```"
 function constraint_heat_rate_on_off(gpm::AbstractGasPowerModel, delivery_id::Int; nw::Int = nw_id_default)
     delivery_gens = _IM.ref(gpm, :dep, nw, :delivery_gen)
