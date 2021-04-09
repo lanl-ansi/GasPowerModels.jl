@@ -2,7 +2,6 @@
 As GasPowerModels implements a variety of coupled gas grid network optimization problems, the implementation is the best reference for precise mathematical formulations.
 This section provides a mathematical specification for constraints and physics that couple electric power and natural gas and provides an overview of the typical mathematical models in GasPowerModels.
 
-
 ## Coupled Gas and Electric Power Flow
 GasPowerModels implements steady state models of gas flow and power flow, based on the implementations of gas flows in GasModels.jl and power flows in PowerModels.jl.
 The key coupling constraint between power and gas systems is through generators that consume gas to produce power.
@@ -49,7 +48,7 @@ Some gas grid problems include operation cost of electric power generators of th
 ```
 where ``\Gamma`` is the set of generators and ``\mu`` are the coefficients of a quadratic function for computing the costs of operating generator ``i``. 
 In `PowerModels` the units of ``\mu`` are dollars per PU hour and ``pg`` is expressed in the per unit system, so the costs are computed as dollars per MW hour.
-To get these costs into SI units (for consistency with `GasModels`), the objective function computes dollars per second.
+To get these costs into SI units (for consistency with `GasModels`), the objective function computes dollars per PU second.
 Thus, ``\mu_2 = \frac{\mu_2}{3600}``, ``\mu_1 = \frac{\mu_1}{3600}``, and ``\mu_0 = \frac{\mu_0}{3600}.``
 The constant term `power_opf_weight` can be provided as a parameter to weight this cost in an objective function.
 The units of this term are dollars per second.
