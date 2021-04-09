@@ -43,7 +43,7 @@ end
 """
 function run_model(
     data::Dict{String,<:Any}, model_type::Type, optimizer, build_method::Function;
-    ref_extensions = [], solution_processors = [], kwargs...)
+    ref_extensions = [], solution_processors = [], relax_integrality::Bool=false, kwargs...)
     start_time = time()
 
     gpm = instantiate_model(
@@ -59,7 +59,9 @@ function run_model(
     solution_processors = transform_solution_processors(gpm, solution_processors)
 
     result = _IM.optimize_model!(
-        gpm, optimizer = optimizer, solution_processors = solution_processors)
+        gpm, optimizer = optimizer,
+        solution_processors = solution_processors,
+        relax_integrality = relax_integrality)
 
     Memento.debug(_LOGGER, "gpm model solution time: $(time() - start_time)")
 

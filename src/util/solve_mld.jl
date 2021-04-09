@@ -1,8 +1,9 @@
-function solve_mld_gas_prioritized(data::Dict{String, Any}, model_type::Type, build_method::Function, optimizer; kwargs...)
+function solve_mld_gas_prioritized(data::Dict{String, Any}, model_type::Type, build_method::Function, optimizer; relax_integrality::Bool = false, kwargs...)
     # Solve the MLD problem with only gas prioritized.
     gpm = instantiate_model(data, model_type, build_method; kwargs...)
     gas_obj_expr = objective_max_gas_load(gpm) # Get the gas objective.
-    result_1 = _IM.optimize_model!(gpm, optimizer = optimizer)
+    result_1 = _IM.optimize_model!(gpm; optimizer = optimizer,
+        relax_integrality = relax_integrality, kwargs...)
 
     if result_1["termination_status"] in [TIME_LIMIT, INFEASIBLE, INFEASIBLE_OR_UNBOUNDED]
         return result_1
@@ -14,7 +15,9 @@ function solve_mld_gas_prioritized(data::Dict{String, Any}, model_type::Type, bu
         # Solve the final MLD problem.
         sol_proc = [_GM.sol_psqr_to_p!, _PM.sol_data_model!] 
         sol_proc = transform_solution_processors(gpm, sol_proc)
-        result_2 = _IM.optimize_model!(gpm, optimizer = optimizer, solution_processors = sol_proc)
+        result_2 = _IM.optimize_model!(gpm; optimizer = optimizer,
+            solution_processors = sol_proc,
+            relax_integrality = relax_integrality, kwargs...)
 
         # Include both solve times in the returned solution.
         result_2["solve_time"] += result_1["solve_time"]
@@ -24,11 +27,12 @@ function solve_mld_gas_prioritized(data::Dict{String, Any}, model_type::Type, bu
     end
 end
 
-function solve_mld_power_prioritized(data::Dict{String, Any}, model_type::Type, build_method::Function, optimizer; kwargs...)
+function solve_mld_power_prioritized(data::Dict{String, Any}, model_type::Type, build_method::Function, optimizer; relax_integrality::Bool = false, kwargs...)
     # Solve the MLD problem with only power prioritized.
     gpm = instantiate_model(data, model_type, build_method; kwargs...)
     power_obj_expr = objective_max_power_load(gpm) # Get the power objective.
-    result_1 = _IM.optimize_model!(gpm, optimizer = optimizer)
+    result_1 = _IM.optimize_model!(gpm; optimizer = optimizer,
+        relax_integrality = relax_integrality, kwargs...)
 
     if result_1["termination_status"] in [TIME_LIMIT, INFEASIBLE, INFEASIBLE_OR_UNBOUNDED]
         return result_1
@@ -40,7 +44,9 @@ function solve_mld_power_prioritized(data::Dict{String, Any}, model_type::Type, 
         # Solve the final MLD problem.
         sol_proc = [_GM.sol_psqr_to_p!, _PM.sol_data_model!] 
         sol_proc = transform_solution_processors(gpm, sol_proc)
-        result_2 = _IM.optimize_model!(gpm, optimizer = optimizer, solution_processors = sol_proc)
+        result_2 = _IM.optimize_model!(gpm; optimizer = optimizer,
+            solution_processors = sol_proc,
+            relax_integrality = relax_integrality, kwargs...)
 
         # Include both solve times in the returned solution.
         result_2["solve_time"] += result_1["solve_time"]
@@ -50,17 +56,20 @@ function solve_mld_power_prioritized(data::Dict{String, Any}, model_type::Type, 
     end
 end
 
-function solve_mld(data::Dict{String, Any}, model_type::Type, build_method::Function, optimizer, alpha::Float64; kwargs...)
+function solve_mld(data::Dict{String, Any}, model_type::Type, build_method::Function, optimizer, alpha::Float64; relax_integrality::Bool = false, kwargs...)
     data["gm_load_priority"] = alpha
     data["pm_load_priority"] = 1.0 - alpha
     
     if alpha >= 1.0
-        result = solve_mld_gas_prioritized(data, model_type, build_method, optimizer; kwargs...)
+        result = solve_mld_gas_prioritized(data, model_type, build_method, optimizer;
+            relax_integrality = relax_integrality, kwargs...)
     elseif alpha <= 0.0
-        result = solve_mld_power_prioritized(data, model_type, build_method, optimizer; kwargs...)
+        result = solve_mld_power_prioritized(data, model_type, build_method, optimizer;
+            relax_integrality = relax_integrality, kwargs...)
     else
         sol_proc = [_GM.sol_psqr_to_p!, _PM.sol_data_model!]
-        result = run_model(data, model_type, optimizer, build_method; solution_processors = sol_proc, kwargs...)
+        result = run_model(data, model_type, optimizer, build_method; solution_processors = sol_proc,
+            relax_integrality = relax_integrality, kwargs...)
     end
 
     if result["primal_status"] == FEASIBLE_POINT

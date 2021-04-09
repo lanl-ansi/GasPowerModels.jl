@@ -12,7 +12,8 @@
         correct_network_data!(data)
 
         # Solve the gas-power maximum load delivery problem.
-        result = solve_mld(data, gpm_type, build_mld, juniper, 0.0)
+        result = solve_mld(data, gpm_type, build_mld,
+            juniper, 0.0; relax_integrality = true)
 
         # Ensure the problem has been solved to local optimality.
         @test result["termination_status"] == LOCALLY_SOLVED
@@ -27,7 +28,8 @@
         correct_network_data!(data)
 
         # Solve the gas-power maximum load delivery problem.
-        result = solve_mld(data, gpm_type, build_mld_uc, juniper, 0.0)
+        result = solve_mld(data, gpm_type, build_mld_uc,
+            juniper, 0.0; relax_integrality = true)
 
         # Ensure the problem has been solved to local optimality.
         @test result["termination_status"] == LOCALLY_SOLVED
@@ -42,7 +44,8 @@
         correct_network_data!(data)
 
         # Solve the gas-power maximum load delivery problem.
-        result = solve_mld(data, gpm_type, build_mld, juniper, 1.0)
+        result = solve_mld(data, gpm_type, build_mld,
+            juniper, 1.0; relax_integrality = true)
 
         # Ensure the problem has been solved to local optimality.
         @test result["termination_status"] == LOCALLY_SOLVED
@@ -57,7 +60,8 @@
         correct_network_data!(data)
 
         # Solve the gas-power maximum load delivery problem.
-        result = solve_mld(data, gpm_type, build_mld_uc, juniper, 1.0)
+        result = solve_mld(data, gpm_type, build_mld_uc,
+            juniper, 1.0; relax_integrality = true)
 
         # Ensure the problem has been solved to local optimality.
         @test result["termination_status"] == LOCALLY_SOLVED
@@ -72,7 +76,8 @@
         correct_network_data!(data)
 
         # Solve the gas-power maximum load delivery problem.
-        result = solve_mld(data, gpm_type, build_mld, juniper, 0.5)
+        result = solve_mld(data, gpm_type, build_mld,
+            juniper, 0.5; relax_integrality = true)
 
         # Ensure the problem has been solved to local optimality.
         @test result["termination_status"] == LOCALLY_SOLVED
@@ -87,7 +92,8 @@
         correct_network_data!(data)
 
         # Solve the gas-power maximum load delivery problem.
-        result = solve_mld(data, gpm_type, build_mld_uc, juniper, 0.5)
+        result = solve_mld(data, gpm_type, build_mld_uc,
+            juniper, 0.5; relax_integrality = true)
 
         # Ensure the problem has been solved to local optimality.
         @test result["termination_status"] == LOCALLY_SOLVED
