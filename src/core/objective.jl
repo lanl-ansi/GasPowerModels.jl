@@ -219,14 +219,16 @@ end
 """
 Maximizes the normalized sum of active power load delivered in the joint network, i.e.,
 ```math
-\\max \\eta_{P}(z^{d}) := \\left(\\sum_{i \\in \\mathcal{L}} \\beta_{i} z_{i}^{d} \\Re({S}_{i}^{d})\\right)
-\\left(\\sum_{i \\in \\mathcal{L}} \\beta_{i} \\Re({S}_{i}^{d})\\right)^{-1}.
+\\max \\eta_{P}(z^{d}) := \\left(\\sum_{i \\in \\mathcal{L}} \\beta_{i} z_{i}^{d}
+\\lvert \\Re({S}_{i}^{d}) \\rvert \\right) \\left(\\sum_{i \\in
+\\mathcal{L}} \\beta_{i} \\lvert \\Re({S}_{i}^{d}) \\rvert \\right)^{-1}.
 ```
 Here, ``\\mathcal{L}`` is the set of loads in the power network,
 ``\\beta_{i} \\in \\mathbb{R}_{+}`` (equal to the `weight` property of the `load`)
 is the load restoration priority for load
-``i \\in \\mathcal{L}``, and ``z_{i} \\in [0, 1]`` is a variable that scales the maximum
-amount of active power load, ``\\Re({S}_{i}^{d})``, at load ``i \\in \\mathcal{L}``.
+``i \\in \\mathcal{L}``, and ``z_{i} \\in [0, 1]`` is a variable that scales the absolute
+maximum amount of active power load, ``\\lvert \\Re({S}_{i}^{d}) \\rvert``, at load ``i
+\\in \\mathcal{L}``.
 """
 function objective_max_power_load(gpm::AbstractGasPowerModel)
     # Initialize the affine expression for the objective function.

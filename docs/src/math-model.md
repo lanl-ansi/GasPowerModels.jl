@@ -100,9 +100,9 @@ Let the objective term relating to the amount of nongeneration gas load be defin
 where ``\mathcal{D}^{\prime}`` is the set the delivery points in the gas network not connected to interdependent generators in the power network, ``\beta_{i} \in \mathbb{R}_{+}`` (equal to the `priority` property of the `delivery`) is a predefined restoration priority for delivery ``i \in \mathcal{D}^{\prime}``, ``d_{i}`` is the variable mass flow of gas delivered at ``i \in \mathcal{D}^{\prime}`` and ``\overline{d}_{i}`` is the maximum deliverable gas load at ``i \in \mathcal{D}^{\prime}``.
 Next, let the objective term relating to the amount of active power load be defined by
 ```math
-\eta_{P}(z^{d}) := \left(\sum_{i \in \mathcal{L}} \beta_{i} z_{i}^{d} \Re({S}_{i}^{d})\right) \left(\sum_{i \in \mathcal{L}} \beta_{i} \Re({S}_{i}^{d})\right)^{-1}.
+\eta_{P}(z^{d}) := \left(\sum_{i \in \mathcal{L}} \beta_{i} z_{i}^{d} \lvert \Re({S}_{i}^{d}) \rvert \right) \left(\sum_{i \in \mathcal{L}} \beta_{i} \lvert \Re({S}_{i}^{d})\rvert \right)^{-1}.
 ```
-Here, ``\mathcal{L}`` is the set of loads in the power network, ``\beta_{i} \in \mathbb{R}_{+}`` (equal to the `weight` property of the `load`) is the load restoration priority for load ``i \in \mathcal{L}``, and ``z_{i} \in [0, 1]`` is a variable that scales the maximum amount of active power load, ``\Re({S}_{i}^{d})``, at load ``i \in \mathcal{L}``.
+Here, ``\mathcal{L}`` is the set of loads in the power network, ``\beta_{i} \in \mathbb{R}_{+}`` (equal to the `weight` property of the `load`) is the load restoration priority for load ``i \in \mathcal{L}``, and ``z_{i} \in [0, 1]`` is a variable that scales the absolute maximum amount of active power load, ``\lvert \Re({S}_{i}^{d}) \rvert``, at load ``i \in \mathcal{L}``.
 
 Note that these two terms, ``\eta_{G}(d)`` and ``\eta_{P}(z^{d})``, are normalized between zero and one.
 This allows for a more straightforward analysis of the tradeoffs involved in maximal gas and power delivery.
