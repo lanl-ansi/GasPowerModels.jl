@@ -1,0 +1,38 @@
+{
+    "gas_ne_weight": 1.0,
+    "power_ne_weight": 1.0,
+    "it": {
+        "dep": {
+            "delivery_gen": {
+                "1": {
+                    "delivery": {
+                        "id": "4"
+                    },
+                    "gen": {
+                        "id": "2"
+                    },
+                    "heat_rate_curve_coefficients": [
+                        0.0,
+                        1392087.5,
+                        0.0
+                    ],
+                    "status": 1
+                },
+                "2": {
+                    "delivery": {
+                        "id": "10012"
+                    },
+                    "gen": {
+                        "id": "3"
+                    },
+                    "heat_rate_curve_coefficients": [
+                        0.0,
+                        60138.194,
+                        0.0
+                    ],
+                    "status": 1
+                }
+            }
+        }
+    }
+}

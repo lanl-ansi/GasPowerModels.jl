@@ -1,15 +1,19 @@
 module GasPowerModels
     import JSON
     import JuMP
+    import InfrastructureModels
+    import InfrastructureModels: nw_id_default
     import Memento
     import GasModels
-    import PowerModels
+    import PowerModelsRestoration
 
     const _GM = GasModels
-    const _PM = PowerModels
+    const _PMR = PowerModelsRestoration
+    const _PM = _PMR._PM
 
-    const _IM = _GM._IM # InfrastructureModels
+    const _IM = InfrastructureModels
     const _MOI = _IM._MOI # MathOptInterface
+    import InfrastructureModels: optimize_model!, @im_fields, ismultinetwork
 
     # Create our module level logger (this will get precompiled)
     const _LOGGER = Memento.getlogger(@__MODULE__)
@@ -33,21 +37,32 @@ module GasPowerModels
         Memento.config!(Memento.getlogger("GasPowerModels"), level)
     end
 
+    const _gpm_global_keys = union(_GM._gm_global_keys, _PM._pm_global_keys)
+
     include("core/base.jl")
     include("core/variable.jl")
     include("core/constraint.jl")
     include("core/constraint_template.jl")
     include("core/objective.jl")
     include("core/data.jl")
+    include("core/helpers.jl")
     include("core/ref.jl")
+    include("core/solution.jl")
+    include("core/types.jl")
 
-    include("form/relaxed.jl")
+    include("io/common.jl")
+    include("io/json.jl")
+
     include("form/exact.jl")
+    include("form/relaxed.jl")
 
     include("prob/gpf.jl")
-    include("prob/opf.jl")
+    include("prob/mld.jl")
     include("prob/ne.jl")
     include("prob/ne_opf.jl")
+    include("prob/opf.jl")
+
+    include("util/solve_mld.jl")
 
     # This must come last to support automated export.
     include("core/export.jl")

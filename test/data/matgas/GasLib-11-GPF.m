@@ -10,11 +10,12 @@ mgc.units = 'si';
 mgc.standard_density = 0.785;
 
 %% optional global data (that was either provided or computed based on required global data)
-mgc.energy_factor = 2.61590529e-8;
+mgc.energy_factor = 2.3286259e-12;
 mgc.sound_speed = 356.0719;  % m/s
 mgc.R = 8.3140;  % J/(mol K)
 mgc.base_pressure = 4000000.0000;  % Pa
 mgc.base_length = 5000.0000;  % m
+mgc.base_flow = 11233.68623022485
 mgc.is_per_unit = 1;
 
 %% junction data
@@ -54,17 +55,17 @@ mgc.compressor = [
 ];
 
 %% short_pipe data
-% 
+%
 mgc.short_pipe = [
 ];
 
 %% resistor data
-% 
+%
 mgc.resistor = [
 ];
 
 %% regulator data
-% 
+%
 mgc.regulator = [
 ];
 
@@ -90,10 +91,10 @@ mgc.delivery = [
 ];
 
 %% price_zone data
-%column_names% id  cost_q_1  cost_q_2  cost_q_3  cost_p_1  cost_p_2  cost_p_3  min_cost  constant_p
+%column_names% id  cost_q_1  cost_q_2  cost_q_3  cost_p_1  cost_p_2  cost_p_3  min_cost  constant_p  comment
 mgc.price_zone = [
-    1    0.0   0.0    0.0    8.85e-24    -1.35e-10    0.0       0.0    175.0
-    2    0.0   0.0    0.0    0.0          1.05e-12    794.37    0.0    600.0
+    1    0.0   0.0    0.0    8.85e-24    -1.35e-10    0.0       0.0    175.0 'Zone 1'
+    2    0.0   0.0    0.0    0.0          1.05e-12    794.37    0.0    600.0 'Zone 2'
 ];
 
 %% junction data (extended)

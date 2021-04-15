@@ -41,22 +41,32 @@ for status_code_enum in [TerminationStatusCode, ResultStatusCode]
 end
 
 # Export PowerModels modeling types for ease of use.
-gas_models = names(GasModels)
+gas_models = names(_GM)
 gas_models = filter(x -> endswith(string(x), "GasModel"), gas_models)
 gas_models = filter(x -> !occursin("Abstract", string(x)), gas_models)
 
 for x in gas_models
-    @eval import GasModels: $(x)
+    @eval import GasPowerModels._GM: $(x)
     @eval export $(x)
 end
 
 # Export PowerModels modeling types for ease of use.
-power_models = names(PowerModels)
+power_models = names(_PM)
 power_models = filter(x -> endswith(string(x), "PowerModel"), power_models)
 power_models = filter(x -> !occursin("Abstract", string(x)), power_models)
 
 for x in power_models
-    @eval import PowerModels: $(x)
+    @eval import GasPowerModels._PM: $(x)
+    @eval export $(x)
+end
+
+# Export PowerModelsRestoration modeling types for ease of use.
+power_models = names(_PMR)
+power_models = filter(x -> endswith(string(x), "PowerModel"), power_models)
+power_models = filter(x -> !occursin("Abstract", string(x)), power_models)
+
+for x in power_models
+    @eval import GasPowerModels._PMR: $(x)
     @eval export $(x)
 end
 
