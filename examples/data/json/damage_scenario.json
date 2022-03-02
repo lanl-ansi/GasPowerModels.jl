@@ -1,0 +1,504 @@
+{
+    "it": {
+        "gm": {
+            "receipt": {
+                "1": {
+                    "is_dispatchable": 1,
+                    "injection_min": 0.0
+                },
+                "10028": {
+                    "is_dispatchable": 1,
+                    "injection_min": 0.0
+                },
+                "101": {
+                    "is_dispatchable": 1,
+                    "injection_min": 0.0
+                },
+                "2": {
+                    "is_dispatchable": 1,
+                    "injection_min": 0.0
+                },
+                "74": {
+                    "is_dispatchable": 1,
+                    "injection_min": 0.0
+                },
+                "41": {
+                    "is_dispatchable": 1,
+                    "injection_min": 0.0
+                },
+                "10072": {
+                    "is_dispatchable": 1,
+                    "injection_min": 0.0
+                },
+                "10041": {
+                    "is_dispatchable": 1,
+                    "injection_min": 0.0
+                },
+                "5": {
+                    "is_dispatchable": 1,
+                    "injection_min": 0.0
+                },
+                "10101": {
+                    "is_dispatchable": 1,
+                    "injection_min": 0.0
+                },
+                "10001": {
+                    "is_dispatchable": 1,
+                    "injection_min": 0.0
+                },
+                "28": {
+                    "is_dispatchable": 1,
+                    "injection_min": 0.0
+                },
+                "39": {
+                    "is_dispatchable": 1,
+                    "injection_min": 0.0
+                },
+                "40": {
+                    "is_dispatchable": 1,
+                    "injection_min": 0.0
+                },
+                "10005": {
+                    "is_dispatchable": 1,
+                    "injection_min": 0.0
+                },
+                "72": {
+                    "is_dispatchable": 1,
+                    "injection_min": 0.0
+                },
+                "10002": {
+                    "is_dispatchable": 1,
+                    "injection_min": 0.0
+                },
+                "10039": {
+                    "is_dispatchable": 1,
+                    "injection_min": 0.0
+                },
+                "45": {
+                    "is_dispatchable": 1,
+                    "injection_min": 0.0
+                },
+                "10008": {
+                    "is_dispatchable": 1,
+                    "injection_min": 0.0
+                },
+                "10074": {
+                    "is_dispatchable": 1,
+                    "injection_min": 0.0
+                },
+                "8": {
+                    "is_dispatchable": 1,
+                    "injection_min": 0.0
+                },
+                "10040": {
+                    "is_dispatchable": 1,
+                    "injection_min": 0.0
+                },
+                "10045": {
+                    "is_dispatchable": 1,
+                    "injection_min": 0.0
+                }
+            },
+            "pipe": {
+                "2": {
+                    "status": 0
+                },
+                "23": {
+                    "status": 0
+                },
+                "53": {
+                    "status": 0
+                },
+                "67": {
+                    "status": 0
+                },
+                "61": {
+                    "status": 0
+                },
+                "14": {
+                    "status": 0
+                },
+                "34": {
+                    "status": 0
+                },
+                "92": {
+                    "status": 0
+                },
+                "94": {
+                    "status": 0
+                },
+                "105": {
+                    "status": 0
+                },
+                "97": {
+                    "status": 0
+                }
+            },
+            "delivery": {
+                "29": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "10076": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "10044": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "63": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "93": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "10": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "10029": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "10087": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "77": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "24": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "87": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "58": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "25": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "10091": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "89": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "31": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "62": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "43": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "10014": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "34": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "44": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "94": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "55": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "86": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "17": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "71": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "82": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "20": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "10021": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "10062": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "98": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "70": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "10064": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "10066": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "14": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "10086": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "10082": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "7": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "57": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "10100": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "64": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "19": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "91": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "10031": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "10034": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "10093": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "13": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "15": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "61": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "67": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "100": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "10048": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "21": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "10019": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "68": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "10071": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "66": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "76": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "48": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                },
+                "18": {
+                    "is_dispatchable": 1,
+                    "withdrawal_min": 0.0
+                }
+            },
+            "regulator": {
+                "100007": {
+                    "status": 0
+                },
+                "1089": {
+                    "status": 0
+                },
+                "1086": {
+                    "status": 0
+                },
+                "1009": {
+                    "status": 0
+                },
+                "100026": {
+                    "status": 0
+                },
+                "100037": {
+                    "status": 0
+                },
+                "1057": {
+                    "status": 0
+                }
+            },
+            "compressor": {
+                "32": {
+                    "status": 0
+                },
+                "27": {
+                    "status": 0
+                },
+                "47": {
+                    "status": 0
+                },
+                "69": {
+                    "status": 0
+                },
+                "116": {
+                    "status": 0
+                }
+            }
+        },
+        "pm": {
+            "branch": {
+                "1": {
+                    "br_status": 0
+                },
+                "117": {
+                    "br_status": 0
+                },
+                "6": {
+                    "br_status": 0
+                },
+                "22": {
+                    "br_status": 0
+                },
+                "11": {
+                    "br_status": 0
+                },
+                "59": {
+                    "br_status": 0
+                },
+                "61": {
+                    "br_status": 0
+                },
+                "75": {
+                    "br_status": 0
+                },
+                "15": {
+                    "br_status": 0
+                },
+                "108": {
+                    "br_status": 0
+                },
+                "100": {
+                    "br_status": 0
+                },
+                "39": {
+                    "br_status": 0
+                },
+                "96": {
+                    "br_status": 0
+                },
+                "115": {
+                    "br_status": 0
+                },
+                "8": {
+                    "br_status": 0
+                },
+                "95": {
+                    "br_status": 0
+                },
+                "60": {
+                    "br_status": 0
+                }
+            }
+        },
+        "dep": {
+            "delivery_gen": {
+                "12": {
+                    "status": 0
+                },
+                "20": {
+                    "status": 0
+                },
+                "5": {
+                    "status": 0
+                },
+                "27": {
+                    "status": 0
+                },
+                "19": {
+                    "status": 0
+                },
+                "28": {
+                    "status": 0
+                },
+                "18": {
+                    "status": 0
+                },
+                "3": {
+                    "status": 0
+                }
+            }
+        }
+    }
+}

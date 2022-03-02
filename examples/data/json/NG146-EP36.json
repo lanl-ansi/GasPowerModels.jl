@@ -1,0 +1,484 @@
+{
+    "it": {
+        "dep": {
+            "delivery_gen": {
+                "1": {
+                    "delivery": {
+                        "id": "10093"
+                    },
+                    "gen": {
+                        "id": "54"
+                    },
+                    "heat_rate_curve_coefficients": [
+                        0.0,
+                        56269.6455,
+                        0.0
+                    ],
+                    "status": 1
+                },
+                "10": {
+                    "delivery": {
+                        "id": "10066"
+                    },
+                    "gen": {
+                        "id": "87"
+                    },
+                    "heat_rate_curve_coefficients": [
+                        0.0,
+                        56269.6455,
+                        0.0
+                    ],
+                    "status": 1
+                },
+                "11": {
+                    "delivery": {
+                        "id": "10087"
+                    },
+                    "gen": {
+                        "id": "49"
+                    },
+                    "heat_rate_curve_coefficients": [
+                        0.0,
+                        140674.114,
+                        0.0
+                    ],
+                    "status": 1
+                },
+                "12": {
+                    "delivery": {
+                        "id": "10100"
+                    },
+                    "gen": {
+                        "id": "59"
+                    },
+                    "heat_rate_curve_coefficients": [
+                        0.0,
+                        140674.114,
+                        0.0
+                    ],
+                    "status": 1
+                },
+                "13": {
+                    "delivery": {
+                        "id": "10029"
+                    },
+                    "gen": {
+                        "id": "5"
+                    },
+                    "heat_rate_curve_coefficients": [
+                        0.0,
+                        140674.114,
+                        0.0
+                    ],
+                    "status": 1
+                },
+                "14": {
+                    "delivery": {
+                        "id": "10087"
+                    },
+                    "gen": {
+                        "id": "62"
+                    },
+                    "heat_rate_curve_coefficients": [
+                        0.0,
+                        56269.6455,
+                        0.0
+                    ],
+                    "status": 1
+                },
+                "15": {
+                    "delivery": {
+                        "id": "10062"
+                    },
+                    "gen": {
+                        "id": "43"
+                    },
+                    "heat_rate_curve_coefficients": [
+                        0.0,
+                        56269.6455,
+                        0.0
+                    ],
+                    "status": 1
+                },
+                "16": {
+                    "delivery": {
+                        "id": "10071"
+                    },
+                    "gen": {
+                        "id": "39"
+                    },
+                    "heat_rate_curve_coefficients": [
+                        0.0,
+                        140674.114,
+                        0.0
+                    ],
+                    "status": 1
+                },
+                "17": {
+                    "delivery": {
+                        "id": "10066"
+                    },
+                    "gen": {
+                        "id": "17"
+                    },
+                    "heat_rate_curve_coefficients": [
+                        0.0,
+                        140674.114,
+                        0.0
+                    ],
+                    "status": 1
+                },
+                "18": {
+                    "delivery": {
+                        "id": "10086"
+                    },
+                    "gen": {
+                        "id": "37"
+                    },
+                    "heat_rate_curve_coefficients": [
+                        0.0,
+                        140674.114,
+                        0.0
+                    ],
+                    "status": 1
+                },
+                "19": {
+                    "delivery": {
+                        "id": "10048"
+                    },
+                    "gen": {
+                        "id": "47"
+                    },
+                    "heat_rate_curve_coefficients": [
+                        0.0,
+                        140674.114,
+                        0.0
+                    ],
+                    "status": 1
+                },
+                "2": {
+                    "delivery": {
+                        "id": "10086"
+                    },
+                    "gen": {
+                        "id": "74"
+                    },
+                    "heat_rate_curve_coefficients": [
+                        0.0,
+                        56269.6455,
+                        0.0
+                    ],
+                    "status": 1
+                },
+                "20": {
+                    "delivery": {
+                        "id": "10034"
+                    },
+                    "gen": {
+                        "id": "82"
+                    },
+                    "heat_rate_curve_coefficients": [
+                        0.0,
+                        56269.6455,
+                        0.0
+                    ],
+                    "status": 1
+                },
+                "21": {
+                    "delivery": {
+                        "id": "10064"
+                    },
+                    "gen": {
+                        "id": "12"
+                    },
+                    "heat_rate_curve_coefficients": [
+                        0.0,
+                        140674.114,
+                        0.0
+                    ],
+                    "status": 1
+                },
+                "22": {
+                    "delivery": {
+                        "id": "10031"
+                    },
+                    "gen": {
+                        "id": "6"
+                    },
+                    "heat_rate_curve_coefficients": [
+                        0.0,
+                        140674.114,
+                        0.0
+                    ],
+                    "status": 1
+                },
+                "23": {
+                    "delivery": {
+                        "id": "10091"
+                    },
+                    "gen": {
+                        "id": "80"
+                    },
+                    "heat_rate_curve_coefficients": [
+                        0.0,
+                        56269.6455,
+                        0.0
+                    ],
+                    "status": 1
+                },
+                "24": {
+                    "delivery": {
+                        "id": "10014"
+                    },
+                    "gen": {
+                        "id": "14"
+                    },
+                    "heat_rate_curve_coefficients": [
+                        0.0,
+                        140674.114,
+                        0.0
+                    ],
+                    "status": 1
+                },
+                "25": {
+                    "delivery": {
+                        "id": "10064"
+                    },
+                    "gen": {
+                        "id": "8"
+                    },
+                    "heat_rate_curve_coefficients": [
+                        0.0,
+                        56269.6455,
+                        0.0
+                    ],
+                    "status": 1
+                },
+                "26": {
+                    "delivery": {
+                        "id": "10082"
+                    },
+                    "gen": {
+                        "id": "69"
+                    },
+                    "heat_rate_curve_coefficients": [
+                        0.0,
+                        140674.114,
+                        0.0
+                    ],
+                    "status": 1
+                },
+                "27": {
+                    "delivery": {
+                        "id": "10076"
+                    },
+                    "gen": {
+                        "id": "35"
+                    },
+                    "heat_rate_curve_coefficients": [
+                        0.0,
+                        140674.114,
+                        0.0
+                    ],
+                    "status": 1
+                },
+                "28": {
+                    "delivery": {
+                        "id": "10031"
+                    },
+                    "gen": {
+                        "id": "67"
+                    },
+                    "heat_rate_curve_coefficients": [
+                        0.0,
+                        56269.6455,
+                        0.0
+                    ],
+                    "status": 1
+                },
+                "29": {
+                    "delivery": {
+                        "id": "10029"
+                    },
+                    "gen": {
+                        "id": "16"
+                    },
+                    "heat_rate_curve_coefficients": [
+                        0.0,
+                        56269.6455,
+                        0.0
+                    ],
+                    "status": 1
+                },
+                "3": {
+                    "delivery": {
+                        "id": "10021"
+                    },
+                    "gen": {
+                        "id": "75"
+                    },
+                    "heat_rate_curve_coefficients": [
+                        0.0,
+                        140674.114,
+                        0.0
+                    ],
+                    "status": 1
+                },
+                "30": {
+                    "delivery": {
+                        "id": "10091"
+                    },
+                    "gen": {
+                        "id": "38"
+                    },
+                    "heat_rate_curve_coefficients": [
+                        0.0,
+                        140674.114,
+                        0.0
+                    ],
+                    "status": 1
+                },
+                "31": {
+                    "delivery": {
+                        "id": "10019"
+                    },
+                    "gen": {
+                        "id": "46"
+                    },
+                    "heat_rate_curve_coefficients": [
+                        0.0,
+                        140674.114,
+                        0.0
+                    ],
+                    "status": 1
+                },
+                "32": {
+                    "delivery": {
+                        "id": "10066"
+                    },
+                    "gen": {
+                        "id": "83"
+                    },
+                    "heat_rate_curve_coefficients": [
+                        0.0,
+                        140674.114,
+                        0.0
+                    ],
+                    "status": 1
+                },
+                "33": {
+                    "delivery": {
+                        "id": "10034"
+                    },
+                    "gen": {
+                        "id": "85"
+                    },
+                    "heat_rate_curve_coefficients": [
+                        0.0,
+                        140674.114,
+                        0.0
+                    ],
+                    "status": 1
+                },
+                "34": {
+                    "delivery": {
+                        "id": "10071"
+                    },
+                    "gen": {
+                        "id": "48"
+                    },
+                    "heat_rate_curve_coefficients": [
+                        0.0,
+                        56269.6455,
+                        0.0
+                    ],
+                    "status": 1
+                },
+                "4": {
+                    "delivery": {
+                        "id": "10082"
+                    },
+                    "gen": {
+                        "id": "33"
+                    },
+                    "heat_rate_curve_coefficients": [
+                        0.0,
+                        140674.114,
+                        0.0
+                    ],
+                    "status": 1
+                },
+                "5": {
+                    "delivery": {
+                        "id": "10044"
+                    },
+                    "gen": {
+                        "id": "28"
+                    },
+                    "heat_rate_curve_coefficients": [
+                        0.0,
+                        140674.114,
+                        0.0
+                    ],
+                    "status": 1
+                },
+                "6": {
+                    "delivery": {
+                        "id": "10014"
+                    },
+                    "gen": {
+                        "id": "63"
+                    },
+                    "heat_rate_curve_coefficients": [
+                        0.0,
+                        56269.6455,
+                        0.0
+                    ],
+                    "status": 1
+                },
+                "7": {
+                    "delivery": {
+                        "id": "10062"
+                    },
+                    "gen": {
+                        "id": "26"
+                    },
+                    "heat_rate_curve_coefficients": [
+                        0.0,
+                        140674.114,
+                        0.0
+                    ],
+                    "status": 1
+                },
+                "8": {
+                    "delivery": {
+                        "id": "10066"
+                    },
+                    "gen": {
+                        "id": "10"
+                    },
+                    "heat_rate_curve_coefficients": [
+                        0.0,
+                        56269.6455,
+                        0.0
+                    ],
+                    "status": 1
+                },
+                "9": {
+                    "delivery": {
+                        "id": "10093"
+                    },
+                    "gen": {
+                        "id": "24"
+                    },
+                    "heat_rate_curve_coefficients": [
+                        0.0,
+                        140674.114,
+                        0.0
+                    ],
+                    "status": 1
+                }
+            }
+        }
+    }
+}

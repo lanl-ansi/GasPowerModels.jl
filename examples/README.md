@@ -1,6 +1,9 @@
 # GasPowerModels Examples
 
-This folder contains a number of examples using GasPowerModels.  The network expansion case reproduce the results contained in the paper
+This folder contains a number of examples using GasPowerModels.
+
+## Network Expansion
+The network expansion case reproduce the results contained in the paper
 
 [1] Russell Bent, Seth Blumsack, Pascal Van Hentenryck, Conrado Borraz-Sánchez, Mehdi Shahriari. Joint Electricity and Natural Gas Transmission Planning With Endogenous Market Feedbacks. IEEE Transactions on Power Systems. 33 (6):  6397 - 6409, 2018.
 
@@ -21,3 +24,9 @@ This folder contains a number of examples using GasPowerModels.  The network exp
 | belgian-ne-100            | [2] (100% stress case)    |
 
 * results with the CRDWP model on these problems may change due to tightening of the CRDWP relaxation since 2016.
+
+## Maximal Load Delivery
+The example script `mld.jl` solves a series of Maximal Load Delivery (MLD) problems for a single gas-power damage scenario while varying the gas-power delivery tradeoff parameter.
+The script exemplifies the procedure used within the broader proof-of-concept Pareto analysis described in the report
+
+[3] Byron Tasseff, Carleton Coffrin, and Russell Bent. Convex Relaxations of Maximal Load Delivery for Multi-contingency Analysis of Joint Electric Power and Natural Gas Transmission Networks. arXiv preprint arXiv:2108.12361, 2021.
