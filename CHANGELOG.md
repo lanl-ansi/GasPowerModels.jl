@@ -1,6 +1,7 @@
 GasPowerModels.jl Change Log
 =======================
 
+
 ### staged
 - Drop support for JuMP v0.21
 
