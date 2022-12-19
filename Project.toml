@@ -2,7 +2,7 @@ name = "GasPowerModels"
 uuid = "1fcaf345-95e3-5b8b-91d6-2145eb844b9d"
 authors = ["Russell Bent"]
 repo = "https://github.com/lanl-ansi/GasPowerModels.jl"
-version = "0.4.0"
+version = "0.5.0"
 
 [deps]
 GasModels = "5e113713-6c35-5477-b766-e1109486666f"
