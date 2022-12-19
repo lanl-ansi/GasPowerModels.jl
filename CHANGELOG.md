@@ -1,6 +1,13 @@
 GasPowerModels.jl Change Log
 =======================
 
+### staged
+- nothing
+
+### v0.4.0
+- New multi-infrastructure conventions, examples, and documentation
+- Update to GasModels v0.9.
+
 ### v0.3.0
 - Update to GasModels v0.8.
 
