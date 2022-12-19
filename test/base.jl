@@ -19,14 +19,14 @@
     @testset "run_model (with file inputs)" begin
         gpm_type = GasPowerModel{CRDWPGasModel, SOCWRPowerModel}
         result = run_model(g_file, p_file, link_file, gpm_type,
-            juniper, build_gpf; relax_integrality = true)
+            minlp_solver, build_gpf; relax_integrality = true)
         @test result["termination_status"] == LOCALLY_SOLVED
     end
 
     @testset "run_model (with network inputs)" begin
         data = parse_files(g_file, p_file, link_file)
         gpm_type = GasPowerModel{CRDWPGasModel, SOCWRPowerModel}
-        result = run_model(data, gpm_type, juniper, build_gpf; relax_integrality = true)
+        result = run_model(data, gpm_type, minlp_solver, build_gpf; relax_integrality = true)
         @test result["termination_status"] == LOCALLY_SOLVED
     end
 end

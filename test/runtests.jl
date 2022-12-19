@@ -14,7 +14,7 @@ Memento.setlevel!(Memento.getlogger(_PM), "error")
 GasPowerModels.logger_config!("error")
 Logging.disable_logging(Logging.Info)
 
-import Cbc
+import HiGHS
 import Ipopt
 import JuMP
 import Juniper
@@ -22,9 +22,9 @@ import Juniper
 using Test
 
 # Setup for optimizers.
-ipopt = JuMP.optimizer_with_attributes(Ipopt.Optimizer, "acceptable_tol" => 1.0e-8, "print_level" => 0, "sb" => "yes")
-cbc = JuMP.optimizer_with_attributes(Cbc.Optimizer, "logLevel" => 0)
-juniper = JuMP.optimizer_with_attributes(Juniper.Optimizer, "nl_solver" => ipopt, "mip_solver" => cbc, "log_levels" => [])
+nlp_solver = JuMP.optimizer_with_attributes(Ipopt.Optimizer, "acceptable_tol" => 1.0e-8, "print_level" => 0, "sb" => "yes")
+mip_solver = JuMP.optimizer_with_attributes(HiGHS.Optimizer, "output_flag"=>false)
+minlp_solver = JuMP.optimizer_with_attributes(Juniper.Optimizer, "nl_solver" => nlp_solver, "mip_solver" => mip_solver, "log_levels" => [])
 
 @testset "GasPowerModels" begin
 

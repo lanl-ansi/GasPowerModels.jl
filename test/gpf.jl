@@ -8,7 +8,7 @@
 
         # Solve the gas-power flow feasibility problem.
         result = run_gpf(
-            g_file, p_file, link_file, gpm_type, juniper;
+            g_file, p_file, link_file, gpm_type, minlp_solver;
             solution_processors = [_GM.sol_psqr_to_p!, _PM.sol_data_model!],
             relax_integrality = true)
 
@@ -28,7 +28,7 @@
 
         # Solve the gas-power flow feasibility problem.
         result = run_gpf(
-            g_file, p_file, link_file, gpm_type, juniper;
+            g_file, p_file, link_file, gpm_type, minlp_solver;
             solution_processors = [_GM.sol_psqr_to_p!, _PM.sol_data_model!],
             relax_integrality = true)
 
@@ -49,7 +49,7 @@
 
         # Solve the gas-power flow feasibility problem.
         result = run_gpf(
-            data, gpm_type, juniper; solution_processors =
+            data, gpm_type, minlp_solver; solution_processors =
             [_GM.sol_psqr_to_p!, _PM.sol_data_model!],
             relax_integrality = true)
 

@@ -7,7 +7,7 @@
         gpm_type = GasPowerModel{CRDWPGasModel, SOCWRPowerModel}
 
         # Solve the optimal gas-power flow problem.
-        result = run_opf(g_file, p_file, link_file, gpm_type, juniper;
+        result = run_opf(g_file, p_file, link_file, gpm_type, minlp_solver;
             solution_processors = [_GM.sol_psqr_to_p!, _PM.sol_data_model!],
             relax_integrality = true)
 
@@ -25,7 +25,7 @@
         gpm_type = GasPowerModel{DWPGasModel, SOCWRPowerModel}
 
         # Solve the optimal gas-power flow problem.
-        result = run_opf(g_file, p_file, link_file, gpm_type, juniper;
+        result = run_opf(g_file, p_file, link_file, gpm_type, minlp_solver;
             solution_processors = [_GM.sol_psqr_to_p!, _PM.sol_data_model!],
             relax_integrality = true)
 
@@ -44,7 +44,7 @@
         gpm_type = GasPowerModel{CRDWPGasModel, SOCWRPowerModel}
 
         # Solve the optimal gas-power flow problem.
-        result = run_opf(data, gpm_type, juniper; solution_processors =
+        result = run_opf(data, gpm_type, minlp_solver; solution_processors =
             [_GM.sol_psqr_to_p!, _PM.sol_data_model!],
             relax_integrality = true)
 
