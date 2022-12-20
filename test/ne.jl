@@ -7,7 +7,7 @@
         gpm_type = GasPowerModel{CRDWPGasModel, SOCWRPowerModel}
 
         # Solve the joint gas-power network expansion planning problem.
-        result = run_ne(g_file, p_file, link_file, gpm_type, juniper;
+        result = run_ne(g_file, p_file, link_file, gpm_type, minlp_solver;
             solution_processors = [_GM.sol_psqr_to_p!, _PM.sol_data_model!],
             relax_integrality = true)
 
@@ -26,7 +26,7 @@
         gpm_type = GasPowerModel{DWPGasModel, SOCWRPowerModel}
 
         # Solve the joint gas-power network expansion planning problem.
-        result = run_ne(g_file, p_file, link_file, gpm_type, juniper;
+        result = run_ne(g_file, p_file, link_file, gpm_type, minlp_solver;
             solution_processors = [_GM.sol_psqr_to_p!, _PM.sol_data_model!],
             relax_integrality = true)
 
@@ -46,7 +46,7 @@
         gpm_type = GasPowerModel{CRDWPGasModel, SOCWRPowerModel}
 
         # Solve the joint gas-power network expansion planning problem.
-        result = run_ne(data, gpm_type, juniper; solution_processors =
+        result = run_ne(data, gpm_type, minlp_solver; solution_processors =
             [_GM.sol_psqr_to_p!, _PM.sol_data_model!],
             relax_integrality = true)
 

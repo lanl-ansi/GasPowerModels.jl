@@ -12,7 +12,7 @@ module GasPowerModels
     const _PM = _PMR._PM
 
     const _IM = InfrastructureModels
-    const _MOI = _IM._MOI # MathOptInterface
+    const _MOI = JuMP.MOI # MathOptInterface
     import InfrastructureModels: optimize_model!, @im_fields, ismultinetwork
 
     # Create our module level logger (this will get precompiled)

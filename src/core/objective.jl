@@ -113,7 +113,7 @@ function objective_min_opf_cost(gpm::AbstractGasPowerModel; n::Int = nw_id_defau
     gas_price_weight = get(gpm.data, "gas_price_weight", 1.0)
 
     # Set the objective using the objective helper functions.
-    JuMP.@objective(gpm.model, _IM._MOI.MIN_SENSE,
+    JuMP.@objective(gpm.model, _MOI.MIN_SENSE,
         power_opf_weight * objective_expression_opf_cost(gpm; n = n) +
         gas_price_weight * objective_expression_zone_price(gpm; n = n) +
         gas_price_weight * objective_expression_pressure_penalty(gpm; n = n))
@@ -140,7 +140,7 @@ function objective_min_ne_opf_cost(gpm::AbstractGasPowerModel; n::Int = nw_id_de
     power_opf_weight = get(gpm.data, "power_opf_weight", 1.0)
     gas_price_weight = get(gpm.data, "gas_price_weight", 1.0)
 
-    return JuMP.@objective(gpm.model, _IM._MOI.MIN_SENSE,
+    return JuMP.@objective(gpm.model, _MOI.MIN_SENSE,
         gas_ne_weight * objective_expression_ne_pipe_cost(gpm; n = n) +
         gas_ne_weight * objective_expression_ne_compressor_cost(gpm; n = n) +
         power_ne_weight * objective_expression_ne_line_cost(gpm; n = n) +
@@ -162,7 +162,7 @@ function objective_min_ne_cost(gpm::AbstractGasPowerModel; n::Int = nw_id_defaul
     gas_ne_weight = get(gpm.data, "gas_ne_weight", 1.0)
     power_ne_weight = get(gpm.data, "power_ne_weight", 1.0)
 
-    return JuMP.@objective(gpm.model, _IM._MOI.MIN_SENSE,
+    return JuMP.@objective(gpm.model, _MOI.MIN_SENSE,
         gas_ne_weight * objective_expression_ne_compressor_cost(gpm; n = n) +
         gas_ne_weight * objective_expression_ne_pipe_cost(gpm; n = n) +
         power_ne_weight * objective_expression_ne_line_cost(gpm; n = n))
@@ -212,7 +212,7 @@ function objective_max_gas_load(gpm::AbstractGasPowerModel)
     scalar = scalar > 0.0 ? scalar : 1.0
 
     # Return the objective, which maximizes prioritized gas load deliveries.
-    return JuMP.@objective(gpm.model, _IM._MOI.MAX_SENSE, objective / scalar)
+    return JuMP.@objective(gpm.model, _MOI.MAX_SENSE, objective / scalar)
 end
 
 
@@ -248,7 +248,7 @@ function objective_max_power_load(gpm::AbstractGasPowerModel)
     scalar = scalar > 0.0 ? scalar : 1.0
 
     # Return the objective, which maximizes prioritized power load deliveries.
-    return JuMP.@objective(gpm.model, _IM._MOI.MAX_SENSE, objective / scalar)
+    return JuMP.@objective(gpm.model, _MOI.MAX_SENSE, objective / scalar)
 end
 
 
@@ -274,5 +274,5 @@ function objective_max_load(gpm::AbstractGasPowerModel)
 
     # Combine the objective functions (which are affine expressions).
     mld_objective = ng_priority * ng_mld_objective + ep_priority * ep_mld_objective
-    return JuMP.@objective(gpm.model, _IM._MOI.MAX_SENSE, mld_objective)
+    return JuMP.@objective(gpm.model, _MOI.MAX_SENSE, mld_objective)
 end

@@ -13,7 +13,7 @@
 
         # Solve the gas-power maximum load delivery problem.
         result = run_mld(
-            data, gpm_type, juniper;
+            data, gpm_type, minlp_solver;
             solution_processors = [_GM.sol_psqr_to_p!, _PM.sol_data_model!],
             relax_integrality = true)
 
@@ -37,7 +37,7 @@
 
         # Solve the gas-power maximum load delivery problem.
         result = run_mld_uc(
-            data, gpm_type, juniper;
+            data, gpm_type, minlp_solver;
             solution_processors = [_GM.sol_psqr_to_p!, _PM.sol_data_model!],
             relax_integrality = true)
 
@@ -61,7 +61,7 @@
 
         # Solve the gas-power maximum load delivery problem.
         result = run_mld(
-            data, gpm_type, juniper;
+            data, gpm_type, minlp_solver;
             solution_processors = [_GM.sol_psqr_to_p!, _PM.sol_data_model!],
             relax_integrality = true)
 
@@ -85,7 +85,7 @@
 
         # Solve the gas-power maximum load delivery problem.
         result = run_mld_uc(
-            data, gpm_type, juniper;
+            data, gpm_type, minlp_solver;
             solution_processors = [_GM.sol_psqr_to_p!, _PM.sol_data_model!],
             relax_integrality = true)
 
@@ -104,7 +104,7 @@
 
         # Solve the gas-power maximum load delivery problem.
         result = run_mld(
-            g_file, p_file, link_file, gpm_type, juniper;
+            g_file, p_file, link_file, gpm_type, minlp_solver;
             solution_processors = [_GM.sol_psqr_to_p!, _PM.sol_data_model!],
             relax_integrality = true)
 
@@ -123,7 +123,7 @@
 
         # Solve the gas-power maximum load delivery problem.
         result = run_mld_uc(
-            g_file, p_file, link_file, gpm_type, juniper;
+            g_file, p_file, link_file, gpm_type, minlp_solver;
             solution_processors = [_GM.sol_psqr_to_p!, _PM.sol_data_model!],
             relax_integrality = true)
 
