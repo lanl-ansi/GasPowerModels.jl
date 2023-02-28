@@ -11,7 +11,7 @@ end
 
 
 "Function for creating variables associated with zonal demand: ``\\psi``."
-function variable_zone_demand(gpm::AbstractGasPowerModel, n::Int=nw_id_default)
+function variable_zone_demand(gpm::AbstractGasPowerModel, n::Int=nw_id_default, report::Bool=true)
     junctions = filter(x -> haskey(x.second, "price_zone") && x.second["price_zone"] != 0, _IM.ref(gpm, _GM.gm_it_sym, n, :junction))
     fl_max = Dict{Int,Float64}(i => 0.0 for i in _IM.ids(gpm, _GM.gm_it_sym, n, :price_zone))
 
@@ -24,24 +24,28 @@ function variable_zone_demand(gpm::AbstractGasPowerModel, n::Int=nw_id_default)
         end
     end
 
-    _IM.var(gpm, _GM.gm_it_sym, n)[:zone_fl] = JuMP.@variable(
+    zone_fl = _IM.var(gpm, _GM.gm_it_sym, n)[:zone_fl] = JuMP.@variable(
         gpm.model, [i in _IM.ids(gpm, _GM.gm_it_sym, n, :price_zone)], base_name = "$(n)_zone_fl",
         lower_bound = 0.0, upper_bound = max(0.0, fl_max[i]),
         start = getstart(_IM.ref(gpm, _GM.gm_it_sym, n, :price_zone), i, "zone_fl_start", 0.0))
+
+    report && _GM.sol_component_value(_get_gasmodel_from_gaspowermodel(gpm), n, :price_zone, :zone_fl, _IM.ids(gpm, _GM.gm_it_sym, n, :price_zone), zone_fl)
 end
 
 
 "Function for creating variables associated with zonal demand price: ``\\gamma``."
-function variable_zone_demand_price(gpm::AbstractGasPowerModel, n::Int=nw_id_default)
-    _IM.var(gpm, _GM.gm_it_sym, n)[:zone_cost] = JuMP.@variable(gpm.model,
+function variable_zone_demand_price(gpm::AbstractGasPowerModel, n::Int=nw_id_default, report::Bool=true)
+    zone_cost = _IM.var(gpm, _GM.gm_it_sym, n)[:zone_cost] = JuMP.@variable(gpm.model,
         [i in keys(_IM.ref(gpm, _GM.gm_it_sym, n, :price_zone))],
         base_name="$(n)_zone_cost", lower_bound = 0.0, upper_bound = Inf,
         start = getstart(_IM.ref(gpm, _GM.gm_it_sym, n, :price_zone), i, "zone_cost_start", 0.0))
+
+    report && _GM.sol_component_value(_get_gasmodel_from_gaspowermodel(gpm), n, :price_zone, :zone_cost, _IM.ids(gpm, _GM.gm_it_sym, n, :price_zone), zone_cost)
 end
 
 
 "Function for creating variables associated with zonal pressure: ``\\rho``."
-function variable_zone_pressure(gpm::AbstractGasPowerModel, n::Int=nw_id_default)
+function variable_zone_pressure(gpm::AbstractGasPowerModel, n::Int=nw_id_default, report::Bool=true)
     junctions = filter(x -> haskey(x.second, "price_zone") && x.second["price_zone"] != 0, _IM.ref(gpm, _GM.gm_it_sym, n, :junction))
     p_min, p_max = Dict{Int,Any}(), Dict{Int,Any}()
 
@@ -52,15 +56,17 @@ function variable_zone_pressure(gpm::AbstractGasPowerModel, n::Int=nw_id_default
     end
 
     # Variables for normalized zone-based demand pricing.
-    _IM.var(gpm, _GM.gm_it_sym, n)[:zone_p] = JuMP.@variable(
+    zone_p = _IM.var(gpm, _GM.gm_it_sym, n)[:zone_p] = JuMP.@variable(
         gpm.model, [i in _IM.ids(gpm, _GM.gm_it_sym, n, :price_zone)], base_name = "$(n)_zone_p",
         lower_bound = p_min[i], upper_bound = p_max[i],
         start = getstart(_IM.ref(gpm, _GM.gm_it_sym, n, :price_zone), i, "zone_p_start", 0.0))
+
+    report && _GM.sol_component_value(_get_gasmodel_from_gaspowermodel(gpm), n, :price_zone, :zone_p, _IM.ids(gpm, _GM.gm_it_sym, n, :price_zone), zone_p)
 end
 
 
 "Function for creating variables associated with zonal pressure price: ``\\omega``."
-function variable_pressure_price(gpm::AbstractGasPowerModel, n::Int=nw_id_default)
+function variable_pressure_price(gpm::AbstractGasPowerModel, n::Int=nw_id_default, report::Bool=true)
     junctions = filter(x -> haskey(x.second, "price_zone") && x.second["price_zone"] != 0, _IM.ref(gpm, _GM.gm_it_sym, n, :junction))
     p_min, p_max = Dict{Int,Any}(), Dict{Int,Any}()
     c_min, c_max = Dict{Int,Any}(), Dict{Int,Any}()
@@ -73,8 +79,10 @@ function variable_pressure_price(gpm::AbstractGasPowerModel, n::Int=nw_id_defaul
         c_max[i] = sum(price_zone["cost_p"] .* [p_max[i]^2, p_max[i], 1.0])
     end
 
-    _IM.var(gpm, _GM.gm_it_sym, n)[:p_cost] = JuMP.@variable(
+    p_cost = _IM.var(gpm, _GM.gm_it_sym, n)[:p_cost] = JuMP.@variable(
         gpm.model, [i in _IM.ids(gpm, _GM.gm_it_sym, n, :price_zone)], base_name = "$(n)_p_cost",
         lower_bound = max(0.0, c_min[i]), upper_bound = max(0.0, c_max[i]),
         start = getstart(_IM.ref(gpm, _GM.gm_it_sym, n, :price_zone), i, "p_cost_start", 0.0))
+
+    report && _GM.sol_component_value(_get_gasmodel_from_gaspowermodel(gpm), n, :price_zone, :p_cost, _IM.ids(gpm, _GM.gm_it_sym, n, :price_zone), p_cost)
 end
