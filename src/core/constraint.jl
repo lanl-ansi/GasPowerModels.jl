@@ -32,6 +32,7 @@ function constraint_pressure_price(gpm::AbstractGasPowerModel, n::Int, i::Int, c
     rhs = cost_p[1] * zone_p[i]^2 + cost_p[2] * zone_p[i] + cost_p[3]
     c = JuMP.@constraint(gpm.model, p_cost[i] >= rhs)
     _IM.con(gpm, _GM.gm_it_sym, n, :pressure_price)[i] = c
+    JuMP.@constraint(gpm.model, p_cost[i] >= 0)
 end
 
 
