@@ -4,6 +4,10 @@ GasPowerModels.jl Change Log
 ### staged
 - nothing
 
+### v0.5.1
+- Update normalized pressure zone values in matgas data
+- Add missing `report` flags to variables
+
 ### v0.5.0
 - Improve facade pattern implementation
 - Add support for JuMP v0.23, v1.0
