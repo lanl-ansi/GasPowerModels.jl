@@ -4,6 +4,9 @@ GasPowerModels.jl Change Log
 ### staged
 - nothing
 
+### v0.6.0
+- Update to PowerModelsRestoration v0.8 (breaking)
+
 ### v0.5.1
 - Update normalized pressure zone values in matgas data
 - Add missing `report` flags to variables

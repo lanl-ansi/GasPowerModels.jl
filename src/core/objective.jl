@@ -72,8 +72,7 @@ function objective_expression_opf_cost(gpm::AbstractGasPowerModel; n::Int = nw_i
     gen_cost = Dict{Tuple{Int, Int}, Any}()
 
     for (i, gen) in _IM.ref(gpm, _PM.pm_it_sym, n, :gen)
-        conductor_ids = _PM.conductor_ids(_get_powermodel_from_gaspowermodel(gpm), n)
-        pg = sum(_IM.var(gpm, _PM.pm_it_sym, n, :pg, i)[c] for c in conductor_ids)
+        pg = _IM.var(gpm, _PM.pm_it_sym, n, :pg, i)
 
         if length(gen["cost"]) == 1
             gen_cost[(n, i)] = gen["cost"][1]
