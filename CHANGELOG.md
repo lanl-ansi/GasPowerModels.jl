@@ -5,8 +5,8 @@ GasPowerModels.jl Change Log
 - nothing
 
 ### v0.7.0
-- Update to JuMP's new nonlinear interface (breaking)
-- Update to GasModels v0.10 and PowerModelsRestoration v0.9 (breaking)
+- Update to JuMP's new nonlinear interface
+- Update to GasModels v0.10 and PowerModelsRestoration v0.9
 - Drop support for JuMP v0.23 (breaking)
 
 ### v0.6.0
